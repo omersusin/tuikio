@@ -1,0 +1,123 @@
+game                      idle B/s idle wk/s  idle cpu  play B/s play wk/s  play cpu
+lantern_tide                   894       1.8       4ms      5941      11.6      13ms
+2048                             0       0.0       2ms     19386       7.0      14ms
+vitetris                         0       0.0       3ms      2083       4.8       8ms
+robotfindskitten                 0       0.0      18ms       843       5.8      28ms
+moonbuggy                        0       0.0       3ms       449      15.0      22ms
+freesweep                        0       0.0       4ms       220       6.8      14ms
+ninvaders                      733       7.0      30ms     68775      50.0     214ms
+greed                            0       0.0       8ms       169       2.2      12ms
+nsnake                        7126      24.8     110ms      1101       2.6      67ms
+{
+  "seconds": 5.0,
+  "results": {
+    "game_lantern_tide": {
+      "idle": {
+        "bytes_per_s": 894,
+        "wakeups_per_s": 1.8,
+        "cpu_ms_total": 4
+      },
+      "active": {
+        "bytes_per_s": 5941,
+        "wakeups_per_s": 11.6,
+        "cpu_ms_total": 13
+      }
+    },
+    "game_2048": {
+      "idle": {
+        "bytes_per_s": 0,
+        "wakeups_per_s": 0.0,
+        "cpu_ms_total": 2
+      },
+      "active": {
+        "bytes_per_s": 19386,
+        "wakeups_per_s": 7.0,
+        "cpu_ms_total": 14
+      }
+    },
+    "game_vitetris": {
+      "idle": {
+        "bytes_per_s": 0,
+        "wakeups_per_s": 0.0,
+        "cpu_ms_total": 3
+      },
+      "active": {
+        "bytes_per_s": 2083,
+        "wakeups_per_s": 4.8,
+        "cpu_ms_total": 8
+      }
+    },
+    "game_robotfindskitten": {
+      "idle": {
+        "bytes_per_s": 0,
+        "wakeups_per_s": 0.0,
+        "cpu_ms_total": 18
+      },
+      "active": {
+        "bytes_per_s": 843,
+        "wakeups_per_s": 5.8,
+        "cpu_ms_total": 28
+      }
+    },
+    "game_moonbuggy": {
+      "idle": {
+        "bytes_per_s": 0,
+        "wakeups_per_s": 0.0,
+        "cpu_ms_total": 3
+      },
+      "active": {
+        "bytes_per_s": 449,
+        "wakeups_per_s": 15.0,
+        "cpu_ms_total": 22
+      }
+    },
+    "game_freesweep": {
+      "idle": {
+        "bytes_per_s": 0,
+        "wakeups_per_s": 0.0,
+        "cpu_ms_total": 4
+      },
+      "active": {
+        "bytes_per_s": 220,
+        "wakeups_per_s": 6.8,
+        "cpu_ms_total": 14
+      }
+    },
+    "game_ninvaders": {
+      "idle": {
+        "bytes_per_s": 733,
+        "wakeups_per_s": 7.0,
+        "cpu_ms_total": 30
+      },
+      "active": {
+        "bytes_per_s": 68775,
+        "wakeups_per_s": 50.0,
+        "cpu_ms_total": 214
+      }
+    },
+    "game_greed": {
+      "idle": {
+        "bytes_per_s": 0,
+        "wakeups_per_s": 0.0,
+        "cpu_ms_total": 8
+      },
+      "active": {
+        "bytes_per_s": 169,
+        "wakeups_per_s": 2.2,
+        "cpu_ms_total": 12
+      }
+    },
+    "game_nsnake": {
+      "idle": {
+        "bytes_per_s": 7126,
+        "wakeups_per_s": 24.8,
+        "cpu_ms_total": 110
+      },
+      "active": {
+        "bytes_per_s": 1101,
+        "wakeups_per_s": 2.6,
+        "cpu_ms_total": 67
+      }
+    }
+  }
+}

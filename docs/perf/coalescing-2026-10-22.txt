@@ -1,0 +1,27 @@
+# PTY helper output coalescing window vs. app wakeups (writes the app must read), x86_64 host,
+# tools/perf/measure_games.py --seconds 5, helper built with -DCOALESCE_MS=<n>, same game binaries.
+# Columns: idle B/s, idle wakeups/s, idle cpu, active B/s, active wakeups/s, active cpu (helper+game).
+== window 0ms (previous behaviour)
+lantern_tide                   894       1.8       4ms      5860      11.2      12ms
+2048                             0       0.0       3ms     19384      10.0      12ms
+moonbuggy                        0       0.0       3ms       437      16.0      21ms
+ninvaders                      733       7.0      26ms     68816     339.2     219ms
+nsnake                        7046      30.3     112ms      1100       5.0      70ms
+== window 2ms
+lantern_tide                   894       1.8       4ms      5959      11.6      14ms
+2048                             0       0.0       2ms     18809       6.8      13ms
+moonbuggy                        0       0.0       4ms       448      16.0      22ms
+ninvaders                      733       7.0      29ms     68493      50.2     221ms
+nsnake                        6816      25.0     105ms      1142       2.8      65ms
+== window 4ms (shipped)
+lantern_tide                   894       1.8       4ms      5872      11.6      14ms
+2048                             0       0.0       3ms     19367       7.0      13ms
+moonbuggy                        0       0.0       4ms       447      15.0      23ms
+ninvaders                      733       7.0      29ms     68790      50.0     220ms
+nsnake                        7176      24.8     112ms      1195       2.8      67ms
+== window 8ms
+lantern_tide                   894       1.8       4ms      5699      10.4      12ms
+2048                             0       0.0       2ms     19386       7.2      13ms
+moonbuggy                        0       0.0       4ms       428      14.8      21ms
+ninvaders                      733       7.0      34ms     68791      50.0     226ms
+nsnake                        6915      24.8     110ms      1167       2.8      75ms

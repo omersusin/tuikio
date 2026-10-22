@@ -1,0 +1,12 @@
+# ./gradlew :core:terminal:bench -Pcaptures=native/build/perf  (host JVM 21, 4 vCPU, 2026-10-22)
+stream                            bytes   MB/s (JVM)
+game_2048                         96959        138.2
+game_freesweep                     1101        150.1
+game_greed                          847        117.3
+game_lantern_tide                 29758        129.0
+game_moonbuggy                     2249         70.0
+game_ninvaders                   343904         63.9
+game_nsnake                        5510         73.0
+game_robotfindskitten              4222         89.3
+game_vitetris                     10417         93.2
+synthetic truecolor repaint      371590         98.4
