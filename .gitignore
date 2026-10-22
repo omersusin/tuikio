@@ -1,8 +1,11 @@
-# Build outputs
-build/
+# Build outputs (anchored to module roots: a bare "build/" would also hide source
+# packages such as build-logic/src/main/kotlin/dev/tuikio/build/)
+/build/
+/*/build/
+/*/*/build/
 .gradle/
 .kotlin/
-out/
+/out/
 *.apk
 *.aab
 *.idsig
