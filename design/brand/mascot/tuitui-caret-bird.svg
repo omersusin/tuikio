@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <title>Tuitui, the caret bird (alternative concept)</title>
+  <ellipse cx="100" cy="186" rx="56" ry="7" fill="#1E1A3A" opacity="0.12"/>
+  <!-- caret crest ^^ -->
+  <path d="M74 50 L86 30 L98 50 M98 44 L110 24 L122 44" fill="none" stroke="#FF6B4A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- tail -->
+  <path d="M150 128 L182 116 L174 140 Z" fill="#5B4FD9" stroke="#1E1A3A" stroke-width="6" stroke-linejoin="round"/>
+  <!-- body -->
+  <circle cx="100" cy="112" r="60" fill="#5B4FD9" stroke="#1E1A3A" stroke-width="6"/>
+  <!-- belly -->
+  <path d="M60 128 C66 156 134 156 140 128 C128 138 72 138 60 128 Z" fill="#8F85F0"/>
+  <!-- white throat tufts (a nod to the tui bird) -->
+  <circle cx="93" cy="134" r="6" fill="#FFFFFF" stroke="#1E1A3A" stroke-width="3.5"/>
+  <circle cx="105" cy="134" r="6" fill="#FFFFFF" stroke="#1E1A3A" stroke-width="3.5"/>
+  <!-- bracket wing } -->
+  <path d="M138 86 C150 86 150 100 146 108 C142 116 152 118 156 118 C152 118 142 120 146 128 C150 136 150 150 138 150" fill="none" stroke="#2BD9A0" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- eyes -->
+  <circle cx="80" cy="100" r="12" fill="#FFFFFF" stroke="#1E1A3A" stroke-width="5"/>
+  <circle cx="114" cy="100" r="12" fill="#FFFFFF" stroke="#1E1A3A" stroke-width="5"/>
+  <circle cx="83" cy="101" r="5.5" fill="#1E1A3A"/>
+  <circle cx="117" cy="101" r="5.5" fill="#1E1A3A"/>
+  <!-- beak -->
+  <path d="M90 112 L106 112 L98 123 Z" fill="#FFC93C" stroke="#1E1A3A" stroke-width="5" stroke-linejoin="round"/>
+  <!-- feet -->
+  <path d="M84 170 L80 184 M116 170 L120 184" fill="none" stroke="#1E1A3A" stroke-width="6" stroke-linecap="round"/>
+</svg>
