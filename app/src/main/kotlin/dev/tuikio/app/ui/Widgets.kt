@@ -25,6 +25,16 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 
+/** System bar insets, published by MainActivity so screens can pad edge-to-edge content. */
+object Insets {
+    var top = 0
+    var bottom = 0
+    private val listeners = LinkedHashSet<() -> Unit>()
+    fun addListener(l: () -> Unit) = listeners.add(l)
+    fun removeListener(l: () -> Unit) = listeners.remove(l)
+    fun notifyChanged() = listeners.toList().forEach { it() }
+}
+
 /** Announces the view as a heading to TalkBack (API 28+; a no-op before). */
 fun View.markHeading() {
     if (android.os.Build.VERSION.SDK_INT >= 28) isAccessibilityHeading = true
@@ -552,6 +562,8 @@ class Sheet(private val root: FrameLayout, content: View) {
             addView(content)
         }
         scrim.addView(panel, FrameLayout.LayoutParams(MATCH, WRAP, Gravity.BOTTOM))
+        scrim.setTag(dev.tuikio.app.R.id.tag_sheet, this)
+        panel.setPadding(panel.paddingLeft, panel.paddingTop, panel.paddingRight, panel.paddingBottom + Insets.bottom)
     }
 
     val isShowing: Boolean get() = scrim.parent != null

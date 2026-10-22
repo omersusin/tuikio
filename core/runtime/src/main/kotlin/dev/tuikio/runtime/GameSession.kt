@@ -22,6 +22,9 @@ object PtyFrames {
     const val SIG_TERM = 3
     const val SIG_CONT = 4
 
+    /** Freezes the game (and its timers) while the app is in the background. */
+    const val SIG_STOP = 5
+
     fun frame(type: Int, payload: ByteArray, off: Int = 0, len: Int = payload.size): ByteArray {
         require(len <= MAX_PAYLOAD)
         val out = ByteArray(3 + len)

@@ -12,7 +12,7 @@
  * stdin carries frames from the app, each: [type u8][length u16 big-endian][payload]
  *   T_INPUT  0x01  payload = bytes typed into the terminal
  *   T_RESIZE 0x02  payload = cols u16be, rows u16be
- *   T_SIGNAL 0x03  payload = one byte: 1 = SIGINT, 2 = SIGHUP, 3 = SIGTERM, 4 = SIGCONT
+ *   T_SIGNAL 0x03  payload = one byte: 1 = SIGINT, 2 = SIGHUP, 3 = SIGTERM, 4 = SIGCONT, 5 = SIGSTOP
  * EOF on stdin means the app went away: the game is sent SIGHUP, then killed.
  * The helper exits with the game's exit status (128+signal if it was killed).
  */
@@ -179,7 +179,8 @@ int main(int argc, char **argv) {
                     }
                 } else if (type == T_SIGNAL && len == 1) {
                     int sig = payload[0] == 1 ? SIGINT : payload[0] == 2 ? SIGHUP
-                            : payload[0] == 3 ? SIGTERM : payload[0] == 4 ? SIGCONT : 0;
+                            : payload[0] == 3 ? SIGTERM : payload[0] == 4 ? SIGCONT
+                            : payload[0] == 5 ? SIGSTOP : 0;
                     if (sig) kill(-child, sig);
                 }
                 off += 3 + len;

@@ -1,0 +1,417 @@
+package dev.tuikio.app.game
+
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.RectF
+import android.graphics.Typeface
+import android.os.SystemClock
+import android.text.InputType
+import android.view.Choreographer
+import android.view.GestureDetector
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import android.view.accessibility.AccessibilityNodeInfo
+import android.view.inputmethod.BaseInputConnection
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputConnection
+import dev.tuikio.app.ui.Palette
+import dev.tuikio.terminal.CellStyle
+import dev.tuikio.terminal.TermColor
+import dev.tuikio.terminal.TerminalEmulator
+
+/**
+ * Draws a [TerminalEmulator] screen. Rendering is incremental: rows the emulator marked dirty
+ * are repainted into an offscreen bitmap (style runs drawn with one drawText each), and each
+ * frame blits that bitmap. Frames are only requested when output arrived or the cursor blinks,
+ * and blinking stops after a few seconds of inactivity, so an idle game costs almost nothing.
+ */
+class TerminalView(context: Context) : View(context), Choreographer.FrameCallback {
+    var emulator: TerminalEmulator? = null
+        set(v) {
+            field = v
+            fullRedraw = true
+            requestFrame()
+        }
+
+    var palette: Palette? = null
+        set(v) {
+            field = v
+            fullRedraw = true
+            requestFrame()
+        }
+
+    /** Terminal font, scaled so that [cols]×[rows] fit (set by GameActivity). */
+    var typeface: Typeface = Typeface.MONOSPACE
+    var onTap: ((col: Int, row: Int) -> Unit)? = null
+    var onSwipe: ((dir: String) -> Unit)? = null
+    var onKey: ((KeyEvent) -> Boolean)? = null
+    var onText: ((String) -> Unit)? = null
+
+    var cellW = 10f
+        private set
+    var cellH = 20f
+        private set
+    private var baseline = 16f
+    private var originX = 0f
+    private var originY = 0f
+
+    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
+    private val fillPaint = Paint()
+    private var buffer: Bitmap? = null
+    private var bufferCanvas: Canvas? = null
+    private var fullRedraw = true
+    private var dirty = BooleanArray(0)
+    private var frameRequested = false
+    private var lastActivity = 0L
+    private var cursorOn = true
+    private var lastBlink = 0L
+    private var lastCursorRow = -1
+    private val sb = StringBuilder()
+    private val blinkTick = Runnable { requestFrame() }
+
+    /** Measured redraw cost, shown in Settings › Diagnostics. */
+    var lastFrameMicros = 0L
+        private set
+    var framesDrawn = 0L
+        private set
+
+    init {
+        isFocusable = true
+        isFocusableInTouchMode = true
+        setLayerType(LAYER_TYPE_HARDWARE, null)
+        importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_YES
+    }
+
+    /** Picks a font size so the grid fills this view; returns the size in px. */
+    fun fitGrid(cols: Int, rows: Int, maxCellH: Float, minCellH: Float = 6f): Float {
+        if (width == 0 || height == 0) return 0f
+        textPaint.typeface = typeface
+        textPaint.textSize = 100f
+        val advance = textPaint.measureText("M")
+        val fm = textPaint.fontMetrics
+        val lineH = fm.descent - fm.ascent
+        val sizeForW = width / cols.toFloat() / advance * 100f
+        val sizeForH = height / rows.toFloat() / lineH * 100f
+        var size = minOf(sizeForW, sizeForH)
+        size = size.coerceAtMost(maxCellH / lineH * 100f).coerceAtLeast(minCellH / lineH * 100f)
+        applyFontSize(size)
+        return size
+    }
+
+    /** How many columns/rows fit at a given font size (for games that adapt to any size). */
+    fun gridFor(textSizePx: Float): Pair<Int, Int> {
+        textPaint.typeface = typeface
+        textPaint.textSize = textSizePx
+        val w = textPaint.measureText("M")
+        val fm = textPaint.fontMetrics
+        val h = fm.descent - fm.ascent
+        return (width / w).toInt().coerceAtLeast(2) to (height / h).toInt().coerceAtLeast(2)
+    }
+
+    fun applyFontSize(sizePx: Float) {
+        textPaint.typeface = typeface
+        textPaint.textSize = sizePx
+        cellW = textPaint.measureText("M")
+        val fm = textPaint.fontMetrics
+        cellH = Math.ceil((fm.descent - fm.ascent).toDouble()).toFloat()
+        baseline = -fm.ascent
+        fullRedraw = true
+        requestFrame()
+    }
+
+    /** Called (from any thread) when the emulator changed. */
+    fun onOutput() {
+        lastActivity = SystemClock.uptimeMillis()
+        post { requestFrame() }
+    }
+
+    fun requestFrame() {
+        if (!frameRequested && isAttachedToWindow) {
+            frameRequested = true
+            Choreographer.getInstance().postFrameCallback(this)
+        }
+    }
+
+    override fun doFrame(frameTimeNanos: Long) {
+        frameRequested = false
+        invalidate()
+    }
+
+    override fun onDetachedFromWindow() {
+        Choreographer.getInstance().removeFrameCallback(this)
+        frameRequested = false
+        buffer?.recycle()
+        buffer = null
+        super.onDetachedFromWindow()
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        fullRedraw = true
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        val emu = emulator ?: return
+        val pal = palette ?: return
+        val t0 = System.nanoTime()
+        var cursorRow: Int
+        var cursorCol: Int
+        var cursorVisible: Boolean
+        synchronized(emu.lock) {
+            val cols = emu.cols
+            val rows = emu.rows
+            val bw = Math.ceil((cols * cellW).toDouble()).toInt().coerceAtLeast(1)
+            val bh = Math.ceil((rows * cellH).toDouble()).toInt().coerceAtLeast(1)
+            var bmp = buffer
+            if (bmp == null || bmp.width != bw || bmp.height != bh) {
+                bmp?.recycle()
+                bmp = Bitmap.createBitmap(bw, bh, Bitmap.Config.ARGB_8888)
+                buffer = bmp
+                bufferCanvas = Canvas(bmp)
+                fullRedraw = true
+            }
+            if (dirty.size != rows) dirty = BooleanArray(rows)
+            val anyDamage = emu.screen.collectDamage(dirty)
+            val c = bufferCanvas!!
+            if (fullRedraw || anyDamage) {
+                for (r in 0 until rows) {
+                    if (fullRedraw || dirty[r]) drawRow(c, emu, r, cols, pal)
+                }
+                fullRedraw = false
+            }
+            cursorRow = emu.cursorRow
+            cursorCol = emu.cursorCol
+            cursorVisible = emu.cursorVisible
+        }
+        val bmp = buffer ?: return
+        originX = ((width - bmp.width) / 2f).coerceAtLeast(0f)
+        originY = ((height - bmp.height) / 2f).coerceAtLeast(0f)
+        canvas.drawColor(pal.screen)
+        canvas.drawBitmap(bmp, originX, originY, null)
+
+        // Cursor: blink only while the game is active, to avoid waking the GPU forever.
+        val now = SystemClock.uptimeMillis()
+        val active = now - lastActivity < 5000
+        if (cursorVisible) {
+            if (active && now - lastBlink > 530) {
+                cursorOn = !cursorOn
+                lastBlink = now
+            }
+            if (!active) cursorOn = true
+            if (cursorOn) {
+                fillPaint.color = pal.cursor
+                fillPaint.alpha = 200
+                val x = originX + cursorCol * cellW
+                val y = originY + cursorRow * cellH
+                canvas.drawRect(x, y + cellH - Math.max(2f, cellH / 7f), x + cellW, y + cellH, fillPaint)
+                fillPaint.alpha = 255
+            }
+            if (active) {
+                removeCallbacks(blinkTick)
+                postDelayed(blinkTick, 540)
+            }
+        }
+        if (lastCursorRow != cursorRow) {
+            lastCursorRow = cursorRow
+        }
+        lastFrameMicros = (System.nanoTime() - t0) / 1000
+        framesDrawn++
+    }
+
+    private fun color(c: Int, pal: Palette, fg: Boolean): Int = when {
+        c == TermColor.DEFAULT -> if (fg) pal.screenInk else pal.screen
+        TermColor.isRgb(c) -> 0xFF000000.toInt() or TermColor.rgbValue(c)
+        c < 16 -> 0xFF000000.toInt() or pal.ansi[c]
+        else -> 0xFF000000.toInt() or TermColor.xterm256(c)
+    }
+
+    private val rowRect = RectF()
+
+    private fun drawRow(c: Canvas, emu: TerminalEmulator, r: Int, cols: Int, pal: Palette) {
+        val line = emu.screen[r]
+        val y = r * cellH
+        rowRect.set(0f, y, cols * cellW, y + cellH)
+        fillPaint.color = pal.screen
+        c.drawRect(rowRect, fillPaint)
+        val reverse = emu.reverseVideo
+        var col = 0
+        while (col < cols) {
+            val style = line.styles[col]
+            // Gather a run of cells sharing this style.
+            var end = col + 1
+            while (end < cols && (line.styles[end] and CellStyle.CELL_FLAGS.inv()) == (style and CellStyle.CELL_FLAGS.inv())) end++
+            var fg = color(CellStyle.fg(style), pal, true)
+            var bg = color(CellStyle.bg(style), pal, false)
+            if (CellStyle.has(style, CellStyle.INVERSE) xor reverse) {
+                val t = fg; fg = bg; bg = t
+            }
+            if (bg != pal.screen) {
+                fillPaint.color = bg
+                c.drawRect(col * cellW, y, end * cellW, y + cellH, fillPaint)
+            }
+            if (!CellStyle.has(style, CellStyle.INVISIBLE)) {
+                textPaint.color = if (CellStyle.has(style, CellStyle.FAINT)) (fg and 0x00FFFFFF) or (0x99 shl 24) else fg
+                textPaint.isFakeBoldText = CellStyle.has(style, CellStyle.BOLD)
+                textPaint.textSkewX = if (CellStyle.has(style, CellStyle.ITALIC)) -0.2f else 0f
+                textPaint.isUnderlineText = CellStyle.has(style, CellStyle.UNDERLINE) || CellStyle.has(style, CellStyle.DOUBLE_UNDERLINE)
+                textPaint.isStrikeThruText = CellStyle.has(style, CellStyle.STRIKETHROUGH)
+                // Draw glyph by glyph at exact cell positions: fonts' fallback glyphs (box drawing,
+                // CJK) may have different advances, and terminal games rely on a strict grid.
+                for (i in col until end) {
+                    val cp = line.chars[i]
+                    if (cp == 0 || cp == ' '.code || CellStyle.has(line.styles[i], CellStyle.WIDE_TAIL)) continue
+                    sb.setLength(0)
+                    sb.appendCodePoint(cp)
+                    line.combiningAt(i)?.let { sb.append(it) }
+                    val x = i * cellW
+                    if (cp in 0x2500..0x259F && drawBoxGlyph(c, cp, x, y, textPaint.color)) continue
+                    if (CellStyle.has(line.styles[i], CellStyle.WIDE)) {
+                        val w = textPaint.measureText(sb, 0, sb.length)
+                        c.save()
+                        c.clipRect(x, y, x + 2 * cellW, y + cellH)
+                        c.drawText(sb, 0, sb.length, x + (2 * cellW - w) / 2, y + baseline, textPaint)
+                        c.restore()
+                    } else {
+                        val w = textPaint.measureText(sb, 0, sb.length)
+                        if (w > cellW * 1.05f) {
+                            c.save()
+                            c.scale(cellW / w, 1f, x, y)
+                            c.drawText(sb, 0, sb.length, x, y + baseline, textPaint)
+                            c.restore()
+                        } else {
+                            c.drawText(sb, 0, sb.length, x + (cellW - w) / 2, y + baseline, textPaint)
+                        }
+                    }
+                }
+            }
+            col = end
+        }
+    }
+
+    private val boxPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.SQUARE }
+
+    /**
+     * Draws common box-drawing and block characters geometrically so borders connect
+     * seamlessly regardless of the font. Returns false for glyphs it doesn't handle.
+     */
+    private fun drawBoxGlyph(c: Canvas, cp: Int, x: Float, y: Float, color: Int): Boolean {
+        val w = cellW
+        val h = cellH
+        val cx = x + w / 2
+        val cy = y + h / 2
+        boxPaint.color = color
+        val light = Math.max(1f, w / 8f)
+        val heavy = light * 2
+        boxPaint.strokeWidth = light
+        boxPaint.style = Paint.Style.STROKE
+        fun lines(up: Float, down: Float, left: Float, right: Float) {
+            if (up > 0) { boxPaint.strokeWidth = up; c.drawLine(cx, y, cx, cy, boxPaint) }
+            if (down > 0) { boxPaint.strokeWidth = down; c.drawLine(cx, cy, cx, y + h, boxPaint) }
+            if (left > 0) { boxPaint.strokeWidth = left; c.drawLine(x, cy, cx, cy, boxPaint) }
+            if (right > 0) { boxPaint.strokeWidth = right; c.drawLine(cx, cy, x + w, cy, boxPaint) }
+        }
+        val l = light
+        val H = heavy
+        when (cp) {
+            0x2500 -> lines(0f, 0f, l, l)
+            0x2501 -> lines(0f, 0f, H, H)
+            0x2502 -> lines(l, l, 0f, 0f)
+            0x2503 -> lines(H, H, 0f, 0f)
+            0x250C, 0x256D -> lines(0f, l, 0f, l)
+            0x2510, 0x256E -> lines(0f, l, l, 0f)
+            0x2514, 0x2570 -> lines(l, 0f, 0f, l)
+            0x2518, 0x256F -> lines(l, 0f, l, 0f)
+            0x251C -> lines(l, l, 0f, l)
+            0x2524 -> lines(l, l, l, 0f)
+            0x252C -> lines(0f, l, l, l)
+            0x2534 -> lines(l, 0f, l, l)
+            0x253C -> lines(l, l, l, l)
+            0x2580 -> { boxPaint.style = Paint.Style.FILL; c.drawRect(x, y, x + w, cy, boxPaint) }
+            0x2584 -> { boxPaint.style = Paint.Style.FILL; c.drawRect(x, cy, x + w, y + h, boxPaint) }
+            0x2588 -> { boxPaint.style = Paint.Style.FILL; c.drawRect(x, y, x + w, y + h, boxPaint) }
+            0x258C -> { boxPaint.style = Paint.Style.FILL; c.drawRect(x, y, cx, y + h, boxPaint) }
+            0x2590 -> { boxPaint.style = Paint.Style.FILL; c.drawRect(cx, y, x + w, y + h, boxPaint) }
+            0x2591, 0x2592, 0x2593 -> {
+                boxPaint.style = Paint.Style.FILL
+                boxPaint.alpha = when (cp) { 0x2591 -> 64; 0x2592 -> 128; else -> 192 }
+                c.drawRect(x, y, x + w, y + h, boxPaint)
+                boxPaint.alpha = 255
+            }
+            else -> return false
+        }
+        return true
+    }
+
+    // ------------------------------------------------------------------ input
+
+    private val gestures = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+        override fun onDown(e: MotionEvent) = true
+
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            val emu = emulator ?: return false
+            val col = ((e.x - originX) / cellW).toInt()
+            val row = ((e.y - originY) / cellH).toInt()
+            if (col in 0 until emu.cols && row in 0 until emu.rows) onTap?.invoke(col, row)
+            return true
+        }
+
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent, vx: Float, vy: Float): Boolean {
+            val start = e1 ?: return false
+            val dx = e2.x - start.x
+            val dy = e2.y - start.y
+            val min = resources.displayMetrics.density * 36
+            if (Math.abs(dx) < min && Math.abs(dy) < min) return false
+            val dir = if (Math.abs(dx) > Math.abs(dy)) (if (dx > 0) "swipe_right" else "swipe_left") else (if (dy > 0) "swipe_down" else "swipe_up")
+            onSwipe?.invoke(dir)
+            return true
+        }
+    })
+
+    override fun onTouchEvent(event: MotionEvent): Boolean = gestures.onTouchEvent(event)
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean = onKey?.invoke(event) == true || super.onKeyDown(keyCode, event)
+
+    override fun onCheckIsTextEditor() = true
+
+    override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection {
+        outAttrs.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        outAttrs.imeOptions = EditorInfo.IME_FLAG_NO_FULLSCREEN or EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_ACTION_NONE
+        return object : BaseInputConnection(this, false) {
+            override fun commitText(text: CharSequence, newCursorPosition: Int): Boolean {
+                onText?.invoke(text.toString())
+                return true
+            }
+
+            override fun deleteSurroundingText(beforeLength: Int, afterLength: Int): Boolean {
+                repeat(beforeLength.coerceAtMost(8)) {
+                    onKey?.invoke(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
+                }
+                return true
+            }
+
+            override fun sendKeyEvent(event: KeyEvent): Boolean {
+                if (event.action == KeyEvent.ACTION_DOWN) onKey?.invoke(event)
+                return true
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------ accessibility
+
+    override fun onInitializeAccessibilityNodeInfo(info: AccessibilityNodeInfo) {
+        super.onInitializeAccessibilityNodeInfo(info)
+        val emu = emulator ?: return
+        val text = synchronized(emu.lock) { emu.screen.text().filter { it.isNotBlank() }.joinToString("\n") }
+        info.text = text
+        info.contentDescription = "Game screen"
+    }
+
+    fun screenRect(out: Rect) {
+        val b = buffer ?: return out.setEmpty()
+        out.set(originX.toInt(), originY.toInt(), (originX + b.width).toInt(), (originY + b.height).toInt())
+    }
+}

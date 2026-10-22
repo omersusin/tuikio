@@ -15,6 +15,7 @@ tuikioAndroid {
 dependencies {
     implementation(project(":core:runtime"))
     implementation(project(":core:controls"))
+    implementation(project(":core:community"))
 }
 
 // Catalog snapshot shipped in the APK: validated and assembled by the same tool CI runs.
