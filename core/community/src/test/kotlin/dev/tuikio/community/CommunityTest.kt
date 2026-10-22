@@ -126,4 +126,25 @@ class CommunityTest {
         val parsed = SubmissionRequest.fromJson(JsonReader(Json.parse(ok.toJson().write()) as Json.Obj))
         assertEquals(ok, parsed)
     }
+
+    @Test
+    fun publishDraftValidation() {
+        val url = "https://github.com/alice/her-game"
+        val draft = Json.obj(
+            "title" to "Her game", "summary" to "Dodge things.", "category" to "arcade", "license" to "GPL-3.0-or-later",
+            "controls_description" to "Arrows", "ownership" to "verified_owner", "source_url" to url,
+        )
+        val req = SubmissionRequest(SubmissionKind.GAME, url, "Her game", "", Attribution.GITHUB, "alice", draft, SubmissionRequest.Proof("c", 1))
+        assertTrue(req.problems().isEmpty(), req.problems().toString())
+        val parsed = SubmissionRequest.fromJson(JsonReader(Json.parse(req.toJson().write()) as Json.Obj))
+        assertEquals(req, parsed)
+        fun with(key: String, v: Any?) = Json.Obj(LinkedHashMap(draft.fields).apply { put(key, Json.of(v)) })
+        assertFalse(req.copy(manifestDraft = null).problems().isEmpty(), "game needs details")
+        assertFalse(req.copy(kind = SubmissionKind.SOURCE).problems().isEmpty(), "sources carry no game details")
+        assertFalse(req.copy(manifestDraft = with("license", "All rights reserved")).problems().isEmpty())
+        assertFalse(req.copy(manifestDraft = with("ownership", "trust me")).problems().isEmpty())
+        assertFalse(req.copy(manifestDraft = with("source_url", "https://github.com/someone/else")).problems().isEmpty())
+        assertFalse(req.copy(manifestDraft = with("executable", "rm -rf /")).problems().isEmpty(), "unknown fields rejected")
+        assertFalse(req.copy(manifestDraft = with("summary", 42)).problems().isEmpty())
+    }
 }

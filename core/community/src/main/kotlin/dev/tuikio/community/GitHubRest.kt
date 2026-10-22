@@ -44,7 +44,20 @@ class GitHubRest(
         )
     }
 
-    fun userLogin(token: String): String = JsonReader(call("GET", "/user", token) as Json.Obj).string("login")
+    data class User(val id: Long, val login: String) {
+        /** GitHub's private commit e-mail, which attributes a Co-authored-by trailer to this account. */
+        val noreplyEmail: String get() = "$id+$login@users.noreply.github.com"
+    }
+
+    fun user(token: String): User {
+        val r = JsonReader(call("GET", "/user", token) as Json.Obj)
+        val id = r.int("id").toLong()
+        val login = r.string("login")
+        require(Regex("^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$").matches(login)) { "unexpected login" }
+        return User(id, login)
+    }
+
+    fun userLogin(token: String): String = user(token).login
 
     /** Whether [login] can administer the repository (used to verify "this game is mine"). */
     fun canAdmin(owner: String, repo: String, token: String): Boolean = try {

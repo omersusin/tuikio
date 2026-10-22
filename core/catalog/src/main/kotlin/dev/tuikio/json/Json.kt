@@ -299,6 +299,9 @@ class JsonReader(private val node: Json.Obj, private val path: String = "$") {
 
     fun keys(): Set<String> = node.fields.keys
 
+    /** The untyped value under [key], or null when absent or JSON null. */
+    fun raw(key: String): Json? = node[key]?.takeIf { it !is Json.Null }
+
     /** Rejects fields that the schema does not know, so typos never pass silently. */
     fun requireOnly(vararg allowed: String) {
         val extra = node.fields.keys - allowed.toSet()

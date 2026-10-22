@@ -11,6 +11,7 @@ import android.util.Base64
 import dev.tuikio.app.MainActivity
 import dev.tuikio.app.TuikioApp
 import dev.tuikio.app.data.AppConfig
+import dev.tuikio.community.Attribution
 import dev.tuikio.community.GitHubRest
 import dev.tuikio.community.Pkce
 import dev.tuikio.community.ProofOfWork
@@ -114,13 +115,14 @@ object GitHubAuth {
         return gen.generateKey()
     }
 
-    internal fun post(url: String, body: Json): JsonReader {
+    internal fun post(url: String, body: Json, bearer: String? = null): JsonReader {
         val conn = (URL(url).openConnection() as HttpURLConnection).apply {
             requestMethod = "POST"
             connectTimeout = 10_000
             readTimeout = 30_000
             doOutput = true
             setRequestProperty("Content-Type", "application/json")
+            if (bearer != null) setRequestProperty("Authorization", "Bearer $bearer")
             outputStream.use { it.write(body.write().toByteArray(Charsets.UTF_8)) }
         }
         val code = conn.responseCode
@@ -143,7 +145,10 @@ object CommunityClient {
         val req = request(proof)
         val problems = req.problems()
         if (problems.isNotEmpty()) throw IllegalArgumentException(problems.joinToString(" "))
-        val res = GitHubAuth.post("$server/v1/submissions", req.toJson())
+        // Credited submissions carry the GitHub token once so the server can confirm the
+        // login (and repository ownership for official uploads). The server doesn't keep it.
+        val bearer = if (req.attribution == Attribution.GITHUB) GitHubAuth.token(context) ?: throw IllegalStateException("Sign in to GitHub again to be credited.") else null
+        val res = GitHubAuth.post("$server/v1/submissions", req.toJson(), bearer)
         return res.string("receipt_secret") to SubmissionStatus.fromJson(res.obj("status"))
     }
 

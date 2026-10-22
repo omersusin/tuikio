@@ -69,6 +69,11 @@ data class SubmissionRequest(
         if (attribution == Attribution.ANONYMOUS && credit != ANONYMOUS_CREDIT) out += "Anonymous submissions use the anonymous credit."
         if (attribution == Attribution.GITHUB && !Regex("^@?[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$").matches(credit)) out += "GitHub credit must be a GitHub login."
         if (listOf(title, note, credit).any { s -> s.any { it < ' ' && it != '\n' } }) out += "Text may not contain control characters."
+        when {
+            kind == SubmissionKind.GAME && manifestDraft == null -> out += "Publishing a game needs the game details."
+            kind != SubmissionKind.GAME && manifestDraft != null -> out += "Only game submissions carry game details."
+            manifestDraft != null -> out += PublishDraft.problems(manifestDraft, sourceUrl)
+        }
         return out
     }
 
@@ -86,10 +91,47 @@ data class SubmissionRequest(
                 note = r.stringOrNull("note").orEmpty(),
                 attribution = Attribution.parse(r.string("attribution")),
                 credit = r.string("credit"),
-                manifestDraft = null,
+                manifestDraft = when (val d = r.raw("manifest_draft")) {
+                    null -> null
+                    is Json.Obj -> d
+                    else -> r.fail("manifest_draft must be an object")
+                },
                 proof = Proof(proof.string("challenge"), proof.string("nonce").toLongOrNull() ?: r.fail("bad nonce")),
             )
         }
+    }
+}
+
+/**
+ * The "publish a game" form as sent for review. It is a description for reviewers, not an
+ * installable manifest: reviewers build the game in an isolated worker, write the real
+ * manifest and only then can it reach STORE_READY.
+ */
+object PublishDraft {
+    val FIELDS = arrayOf("title", "summary", "category", "license", "controls_description", "ownership", "source_url")
+
+    /** verified_owner is re-checked server-side against the contributor's GitHub permissions. */
+    val OWNERSHIP = setOf("verified_owner", "unverified", "port")
+    private val CATEGORY = Regex("^[a-z][a-z-]{1,23}$")
+
+    fun problems(draft: Json.Obj, sourceUrl: String): List<String> {
+        val out = ArrayList<String>()
+        val extra = draft.fields.keys - FIELDS.toSet()
+        if (extra.isNotEmpty()) out += "Unknown game detail field(s): ${extra.sorted().joinToString()}."
+        fun str(key: String): String? = (draft[key] as? Json.Str)?.value
+        val title = str("title")
+        val summary = str("summary")
+        if (title.isNullOrBlank() || title.length > 80) out += "Game title must be 1–80 characters."
+        if (summary.isNullOrBlank() || summary.length > 400) out += "Summary must be 1–400 characters."
+        if ((str("controls_description")?.length ?: 0) > 600) out += "Controls description is limited to 600 characters."
+        if (str("category")?.let { CATEGORY.matches(it) } != true) out += "Pick a category."
+        val license = str("license")
+        if (license == null || !dev.tuikio.catalog.Spdx.isValid(license)) out += "License must be an SPDX identifier, like MIT or GPL-3.0-or-later."
+        if (str("ownership") !in OWNERSHIP) out += "Say whether this is your game or a port."
+        if (str("source_url") != sourceUrl) out += "Game details must name the same repository."
+        if (draft.fields.values.any { v -> v is Json.Str && v.value.any { it < ' ' && it != '\n' } }) out += "Text may not contain control characters."
+        if (draft.fields.values.any { it !is Json.Str }) out += "Game details must be text."
+        return out
     }
 }
 
