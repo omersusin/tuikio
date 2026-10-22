@@ -43,6 +43,7 @@ import dev.tuikio.app.ui.vstack
 import dev.tuikio.runtime.GameEnvironment
 import dev.tuikio.runtime.GameSession
 import dev.tuikio.runtime.LaunchSpec
+import dev.tuikio.json.JsonReader
 import dev.tuikio.terminal.TermKey
 import java.io.File
 
@@ -330,25 +331,70 @@ class AboutScreen(private val privacy: Boolean = false) : Screen() {
             val v = runCatching { ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName }.getOrNull()
             addView(T.title(ctx, Theme.displayName, 22f))
             addView(T.soft(ctx, "Version $v · ${ctx.packageName}"))
-            addView(T.soft(ctx, "Tuikio is free software under the GNU GPL v3 or later. Each game keeps its own license, listed below with its source."))
+            addView(T.soft(ctx, "Tuikio is free software under the GNU GPL v3 or later. Every game keeps its own license and credits its authors first."))
             addView(linkRow(ctx, "Tuikio source code", "https://github.com/omersusin/tuikio"))
         })
-        sectionHeader("Games and their authors")
-        app.catalog.games.forEach { g ->
+        val credits = runCatching { JsonReader.parse(ctx.assets.open("catalog/credits.json").use { it.readBytes().toString(Charsets.UTF_8) }) }.getOrNull()
+        val licenseFiles = (ctx.assets.list("licenses") ?: emptyArray()).toSet()
+
+        fun person(o: JsonReader) = ctx.vstack(2) {
+            addView(T.body(ctx, o.string("name") + (o.stringOrNull("login")?.let { "  @$it" } ?: ""), 15f, Theme.palette.ink, 800))
+            o.stringOrNull("role")?.let { addView(T.soft(ctx, it, 13f)) }
+            o.stringOrNull("url")?.let { addView(linkRow(ctx, it.removePrefix("https://"), it)) }
+        }
+
+        fun licenseButton(file: String?, label: String) = TButton(ctx, label, ButtonStyle.GHOST).apply {
+            minHeight = ctx.dp(40)
+            isEnabled = file != null && file in licenseFiles
+            setOnClickListener { if (file != null) nav.push(LicensesScreen(file)) }
+        }
+
+        if (credits != null) {
+            sectionHeader("Made by")
+            credits.objects("people").forEach { addView(person(it)) }
+            sectionHeader("Community contributors")
+            val contributors = credits.objects("contributors")
+            if (contributors.isEmpty()) addView(T.soft(ctx, credits.stringOrNull("contributors_note").orEmpty() + " Be the first: suggest a game from the Create tab."))
+            else contributors.forEach { addView(person(it)) }
+        }
+
+        sectionHeader("Games and their authors", "${app.catalog.games.size}")
+        app.catalog.games.sortedBy { it.title.lowercase() }.forEach { g ->
             addView(ctx.vstack(2) {
                 addView(T.body(ctx, g.title, 15f, Theme.palette.ink, 800))
                 addView(T.soft(ctx, "${g.upstream.authors.joinToString(", ")} · ${g.upstream.license}", 13f))
-                addView(linkRow(ctx, "Source", g.upstream.sourceUrl))
+                addView(ctx.hstack(8) {
+                    addView(linkRow(ctx, "Source", g.upstream.sourceUrl), lp(0, WRAP, 1f))
+                    val file = if (g.origin == dev.tuikio.catalog.Origin.TUIKIO_ORIGINAL) "tuikio-GPL-3.0.txt" else "${g.id}.txt"
+                    addView(licenseButton(file, "License"))
+                })
             })
         }
-        sectionHeader("Built with")
-        listOf(
-            "ncurses 6.4 (X11/MIT-style license) — terminal handling for ported games",
-            "musl libc (MIT) — the C library linked into each game",
-            "Unbounded, Figtree and JetBrains Mono fonts (SIL Open Font License 1.1)",
-            "Kotlin standard library (Apache-2.0)",
-        ).forEach { addView(T.soft(ctx, "•  $it")) }
-        addView(TButton(ctx, "License texts and game sources", ButtonStyle.SECONDARY).apply { setOnClickListener { nav.push(LicensesScreen()) } }, lp(MATCH, WRAP))
+
+        if (credits != null) {
+            sectionHeader("Inside the app")
+            credits.objects("components").forEach { c ->
+                addView(ctx.vstack(2) {
+                    addView(T.body(ctx, c.string("name"), 15f, Theme.palette.ink, 800))
+                    addView(T.soft(ctx, "${c.string("what")} · ${c.string("by")} · ${c.string("license")}", 13f))
+                    addView(ctx.hstack(8) {
+                        addView(linkRow(ctx, "Website", c.string("url")), lp(0, WRAP, 1f))
+                        addView(licenseButton(c.string("license_file"), "License"))
+                    })
+                })
+            }
+            sectionHeader("Built and tested with")
+            credits.objects("tools").forEach { t -> addView(T.soft(ctx, "•  ${t.string("name")}: ${t.stringOrNull("what").orEmpty()}")) }
+            sectionHeader("Where the catalog comes from")
+            credits.objects("sources").forEach { src ->
+                addView(ctx.vstack(2) {
+                    addView(T.body(ctx, src.string("name"), 15f, Theme.palette.ink, 800))
+                    src.stringOrNull("by")?.let { addView(T.soft(ctx, it, 13f)) }
+                    addView(linkRow(ctx, src.string("url").removePrefix("https://"), src.string("url")))
+                })
+            }
+        }
+        addView(TButton(ctx, "All license texts and game sources", ButtonStyle.SECONDARY).apply { setOnClickListener { nav.push(LicensesScreen()) } }, lp(MATCH, WRAP))
     }
 }
 

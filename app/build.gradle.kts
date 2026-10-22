@@ -44,7 +44,15 @@ val nativeAssets by tasks.registering(Sync::class) {
     into(layout.buildDirectory.dir("generated/assets/native-root"))
 }
 
+// Every license text and the game source listing: LICENSES/ at the repository root.
+val licenseAssets by tasks.registering(Sync::class) {
+    group = "android"
+    from(rootProject.file("LICENSES")) { into("licenses") }
+    into(layout.buildDirectory.dir("generated/assets/licenses-root"))
+}
+
 tuikioAndroid {
+    assetDirs.from(files(licenseAssets.map { it.destinationDir }).builtBy(licenseAssets))
     assetDirs.from(files(generatedCatalog).builtBy(assembleCatalog))
     assetDirs.from(files(nativeAssets.map { it.destinationDir }).builtBy(nativeAssets))
 }

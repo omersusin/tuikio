@@ -383,10 +383,14 @@ def tar_text(name, rel):
     sys.exit(f"[native] {rel} not found in {name}")
 
 
+LICENSES = os.path.normpath(os.path.join(HERE, "..", "LICENSES"))
+
+
 def write_notices(games):
-    """assets/licenses/: each component's license text plus where its exact source lives
-    (GPL section 3/6: the corresponding source for every binary in the APK)."""
-    dst = os.path.join(OUT, "assets", "licenses")
+    """LICENSES/ (in the repository, bundled into the APK as assets/licenses): each component's
+    license text plus where its exact source lives (GPL sections 3/6: the corresponding source
+    for every binary in the APK)."""
+    dst = LICENSES
     os.makedirs(dst, exist_ok=True)
     for comp in [g for g in games if g in NOTICES] + ["ncurses"]:
         name, rel = NOTICES[comp]

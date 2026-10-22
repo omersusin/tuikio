@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "people": [
+    {
+      "name": "Ömer SÜSİN",
+      "login": "omersusin",
+      "role": "Creator and owner",
+      "url": "https://github.com/omersusin"
+    },
+    {
+      "name": "Claude Code",
+      "role": "AI pair programmer (Anthropic): engineering, ports, design",
+      "url": "https://claude.com/claude-code"
+    }
+  ],
+  "contributors_note": "Everyone whose suggestion, port or correction is accepted through the app or a pull request is listed here, by GitHub login or as an anonymous community contributor.",
+  "contributors": [],
+  "components": [
+    {
+      "name": "ncurses",
+      "by": "Thomas E. Dickey and the ncurses contributors",
+      "license": "X11 (MIT-style)",
+      "license_file": "ncurses.txt",
+      "url": "https://invisible-island.net/ncurses/",
+      "what": "Terminal handling for most ported games"
+    },
+    {
+      "name": "musl libc",
+      "by": "Rich Felker and the musl contributors",
+      "license": "MIT",
+      "license_file": "musl.txt",
+      "url": "https://musl.libc.org/",
+      "what": "The C library linked into every game"
+    },
+    {
+      "name": "Kotlin standard library",
+      "by": "JetBrains and the Kotlin contributors",
+      "license": "Apache-2.0",
+      "license_file": "Apache-2.0-kotlin-stdlib.txt",
+      "url": "https://kotlinlang.org/",
+      "what": "The app's language runtime"
+    },
+    {
+      "name": "Unbounded",
+      "by": "The Unbounded Project Authors",
+      "license": "OFL-1.1",
+      "license_file": "OFL-Unbounded.txt",
+      "url": "https://github.com/googlefonts/unbounded",
+      "what": "Display typeface and the wordmark"
+    },
+    {
+      "name": "Figtree",
+      "by": "Erik Kennedy and the Figtree Project Authors",
+      "license": "OFL-1.1",
+      "license_file": "OFL-Figtree.txt",
+      "url": "https://github.com/erikdkennedy/figtree",
+      "what": "Interface typeface"
+    },
+    {
+      "name": "JetBrains Mono",
+      "by": "JetBrains and the JetBrains Mono Project Authors",
+      "license": "OFL-1.1",
+      "license_file": "OFL-JetBrainsMono.txt",
+      "url": "https://github.com/JetBrains/JetBrainsMono",
+      "what": "Terminal typeface"
+    }
+  ],
+  "tools": [
+    { "name": "Zig (clang + musl)", "url": "https://ziglang.org/", "what": "Cross-compiles every game for arm64, armv7 and x86_64" },
+    { "name": "ProGuard", "url": "https://www.guardsquare.com/proguard", "what": "Shrinks and optimizes release builds" },
+    { "name": "Gradle", "url": "https://gradle.org/", "what": "Builds everything" },
+    { "name": "Robolectric", "url": "https://robolectric.org/", "what": "Runs the app's UI tests on the JVM" },
+    { "name": "AndroidX Test", "url": "https://github.com/android/android-test", "what": "Test monitor used by Robolectric (built from source)" },
+    { "name": "JUnit", "url": "https://junit.org/", "what": "Tests" },
+    { "name": "QEMU", "url": "https://www.qemu.org/", "what": "Runs the ARM builds in tests" }
+  ],
+  "sources": [
+    { "name": "awesome-ttygames", "by": "Sergey Bronnikov (ligurio) and contributors", "url": "https://github.com/ligurio/awesome-ttygames" },
+    { "name": "Awesome TUI", "by": "alvinunreal and contributors", "url": "https://awesometui.com/" },
+    { "name": "cli-apps", "by": "Toolleeo and contributors", "url": "https://github.com/toolleeo/cli-apps" },
+    { "name": "awesome-tuis", "by": "Justin Garrison (rothgar) and contributors", "url": "https://github.com/rothgar/awesome-tuis" },
+    { "name": "Termux packages", "by": "The Termux maintainers", "url": "https://github.com/termux/termux-packages" },
+    { "name": "Debian and Ubuntu archives", "by": "The Debian and Ubuntu maintainers", "url": "https://packages.debian.org/" }
+  ]
+}

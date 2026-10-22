@@ -29,6 +29,8 @@ jobs:
         run: ./gradlew --no-daemon :core:terminal:test :core:controls:test :core:catalog:test :core:community:test :backend:test
       - name: Validate catalog
         run: ./gradlew --no-daemon :tools:catalog-cli:run --args="validate $GITHUB_WORKSPACE/catalog"
+      - name: README credits match the catalog
+        run: python3 tools/catalog/gen_credits.py --check
 
   native:
     name: Native games (3 ABIs) + runtime tests

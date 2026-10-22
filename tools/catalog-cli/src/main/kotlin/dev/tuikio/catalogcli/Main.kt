@@ -106,6 +106,7 @@ private fun load(dir: File, problems: MutableList<String>): Loaded {
             list.all { it.startsWith("awesome-ttygames") }
         if (!allowed) problems += "possible duplicates for $url: $list"
     }
+    checkCredits(File(dir, "credits.json"), problems)
     return Loaded(games, discovery, profiles)
 }
 
@@ -123,6 +124,7 @@ private fun assemble(dir: File, out: File, version: Int, games: List<GameManifes
     val bytes = doc.write(pretty = false).toByteArray(Charsets.UTF_8)
     CatalogDocument.parse(String(bytes, Charsets.UTF_8)) // the output must round-trip through the app's parser
     File(out, "catalog.json").writeBytes(bytes)
+    File(dir, "credits.json").takeIf { it.isFile }?.copyTo(File(out, "credits.json"), overwrite = true)
     val profilesOut = File(out, "profiles").apply { mkdirs() }
     File(dir, "profiles").listFiles { f -> f.name.endsWith(".json") }.orEmpty().forEach { it.copyTo(File(profilesOut, it.name), overwrite = true) }
     val key = System.getenv("TUIKIO_CATALOG_SIGNING_KEY")
@@ -133,4 +135,29 @@ private fun assemble(dir: File, out: File, version: Int, games: List<GameManifes
         println("signed catalog.json")
     }
     println("assembled ${games.size} games into ${out.path} (sha256 ${CatalogSignature.sha256Hex(bytes)})")
+}
+
+/** credits.json: people, contributors, bundled components (with their license files), tools, sources. */
+private fun checkCredits(f: File, problems: MutableList<String>) {
+    if (!f.isFile) return
+    try {
+        val r = JsonReader.parse(f.readText())
+        r.requireOnly("schema_version", "people", "contributors_note", "contributors", "components", "tools", "sources")
+        if (r.int("schema_version") != 1) problems += "credits.json: unsupported schema_version"
+        val licenses = File(f.parentFile.parentFile, "LICENSES")
+        for (c in r.objects("components")) {
+            c.requireOnly("name", "by", "license", "license_file", "url", "what")
+            val lf = c.string("license_file")
+            if (!File(licenses, lf).isFile) problems += "credits.json: ${c.string("name")}: LICENSES/$lf is missing"
+        }
+        for (key in listOf("people", "contributors", "tools", "sources")) {
+            for (o in r.objects(key)) {
+                o.requireOnly("name", "login", "role", "url", "by", "what", "kind")
+                o.string("name")
+                o.stringOrNull("url")?.let { SourceUrl.requireDisplayable(it) }
+            }
+        }
+    } catch (e: Exception) {
+        problems += "credits.json: ${e.message}"
+    }
 }
