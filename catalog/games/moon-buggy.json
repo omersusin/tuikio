@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "moon-buggy",
+  "title": "Moon Buggy",
+  "summary": "Drive across the moon, jump the craters, laser the meteors.",
+  "description": "A side-scrolling terminal arcade game: your buggy races over the lunar surface. Time your jumps and keep your laser busy.",
+  "category": "arcade",
+  "tags": [
+    "arcade",
+    "real-time",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Jochen Voss"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://www.seehuhn.de/pages/moon-buggy",
+    "version": "1.0.51"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#moon-buggy",
+    "source_archive": "moon-buggy_1.0.51.orig.tar.gz",
+    "source_sha256": "352dc16ccae4c66f1e87ab071e6a4ebeb94ff4e4f744ce1b12a769d02fe5d23f"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_moonbuggy",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        50,
+        15
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "buggy.v1",
+  "saves": {
+    "paths": [
+      "mbscore"
+    ],
+    "notes": "High score table"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: title screen. COPYING is GPLv2; the source names no version, so any GPL version may apply."
+  }
+}

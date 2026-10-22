@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "ninvaders",
+  "title": "nInvaders",
+  "summary": "Defend the planet from rows of descending aliens.",
+  "description": "A faithful terminal take on the classic fixed shooter: slide your cannon, fire, and clear each wave before it lands.",
+  "category": "arcade",
+  "tags": [
+    "shooter",
+    "real-time",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Dettus"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://ninvaders.sourceforge.net/",
+    "version": "0.1.1"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#ninvaders",
+    "source_archive": "ninvaders_0.1.1.orig.tar.gz",
+    "source_sha256": "bfbc5c378704d9cf5e7fed288dac88859149bee5ed0850175759d310b61fd30b"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ninvaders",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "invaders.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: title, start, playfield, movement and fire."
+  }
+}

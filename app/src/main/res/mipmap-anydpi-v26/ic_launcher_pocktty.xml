@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/brand_pocktty_icon_bg" />
+    <foreground android:drawable="@drawable/ic_brand_pocktty_fg" />
+    <monochrome android:drawable="@drawable/ic_brand_pocktty_mono" />
+</adaptive-icon>

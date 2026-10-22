@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "greed",
+  "title": "Greed",
+  "summary": "Eat your way across a board of numbers without trapping yourself.",
+  "description": "Move in eight directions; the first number you eat decides how far you go. Plan ahead to clear as much of the board as you can.",
+  "category": "puzzle",
+  "tags": [
+    "numbers",
+    "strategy",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Matthew Day",
+      "Eric S. Raymond"
+    ],
+    "license": "BSD-2-Clause",
+    "source_url": "http://www.catb.org/~esr/greed/",
+    "version": "4.2"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#greed",
+    "source_archive": "greed_4.2.orig.tar.gz",
+    "source_sha256": "702bc0314ddedb2ba17d4b55d873384a1606886e8d69f35ce67f6e3024a8d3fd"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_greed",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "greed.v1",
+  "saves": {
+    "paths": [
+      ".greedscores"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: board and score line."
+  }
+}

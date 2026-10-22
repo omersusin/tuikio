@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "profile_id": "mines.v1",
+  "title": "Minefield",
+  "help": "Move the cursor with the pad, then Reveal or Flag. New starts a fresh board.",
+  "orientation": "portrait",
+  "actions": [
+    {"id": "up", "label": "Up", "output": {"key": "UP"}, "repeat": {"delay_ms": 220, "interval_ms": 70}},
+    {"id": "down", "label": "Down", "output": {"key": "DOWN"}, "repeat": {"delay_ms": 220, "interval_ms": 70}},
+    {"id": "left", "label": "Left", "output": {"key": "LEFT"}, "repeat": {"delay_ms": 220, "interval_ms": 70}},
+    {"id": "right", "label": "Right", "output": {"key": "RIGHT"}, "repeat": {"delay_ms": 220, "interval_ms": 70}},
+    {"id": "reveal", "label": "Reveal", "icon": "search", "output": {"text": " "}, "haptic": "click"},
+    {"id": "flag", "label": "Flag", "icon": "flag", "output": {"text": "f"}},
+    {"id": "new", "label": "New", "icon": "refresh", "output": {"text": "n"}, "confirm": true},
+    {"id": "help", "label": "Help", "icon": "info", "output": {"text": "?"}},
+    {"id": "quit", "label": "Quit", "icon": "close", "output": {"text": "q"}, "confirm": true}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "dpad4", "anchor": "bottom_start", "size": 184, "bind": {"up": "up", "down": "down", "left": "left", "right": "right"}},
+      {"type": "button", "anchor": "bottom_end", "size": 92, "bind": {"press": "reveal"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_end", "offset": [0, -104], "size": 72, "bind": {"press": "flag"}},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "new"}}
+    ],
+    "landscape": [
+      {"type": "dpad4", "anchor": "center_start", "size": 176, "bind": {"up": "up", "down": "down", "left": "left", "right": "right"}},
+      {"type": "button", "anchor": "center_end", "offset": [0, 40], "size": 88, "bind": {"press": "reveal"}, "style": "primary"},
+      {"type": "button", "anchor": "center_end", "offset": [0, -60], "size": 68, "bind": {"press": "flag"}},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "new"}}
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

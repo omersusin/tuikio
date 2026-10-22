@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "freesweep",
+  "title": "Freesweep",
+  "summary": "Minesweeper for the terminal, with flags and chords.",
+  "description": "Clear a minefield using the numbers as clues. Move the cursor, reveal squares and flag the mines you are sure about.",
+  "category": "puzzle",
+  "tags": [
+    "logic",
+    "mines",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Gus Hartmann",
+      "Peter Keller"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://github.com/rwestlund/freesweep",
+    "version": "1.0.2"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#freesweep",
+    "source_archive": "freesweep_1.0.2.orig.tar.gz",
+    "source_sha256": "ec9318eec04f8a7ce20c230620f830a17bcf02d8e161866750dfb0c89ff8fe72"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_freesweep",
+    "args": [
+      "--fast",
+      "--alt-charset"
+    ],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        60,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "mines.v1",
+  "saves": {
+    "paths": [
+      ".sweeprc",
+      ".sweeptimes"
+    ],
+    "notes": "Preferences and best times"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: board renders in fast-start mode."
+  }
+}

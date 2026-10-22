@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+ splash icon: 240dp canvas, content inside the central 160dp circle. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/kio"
+    android:inset="56dp" />

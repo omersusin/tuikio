@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "blocks.v1",
+  "title": "Falling blocks",
+  "help": "Hold left or right to slide at the game's repeat speed. Swipe down to drop, swipe up to rotate. OK and Back drive the menus.",
+  "orientation": "portrait",
+  "actions": [
+    {"id": "left", "label": "Left", "icon": "arrow_left", "output": {"key": "LEFT"}, "repeat": {"delay_ms": 170, "interval_ms": 55}},
+    {"id": "right", "label": "Right", "icon": "arrow_right", "output": {"key": "RIGHT"}, "repeat": {"delay_ms": 170, "interval_ms": 55}},
+    {"id": "rotate", "label": "Rotate", "icon": "rotate", "output": {"key": "UP"}},
+    {"id": "soft", "label": "Soft drop", "icon": "arrow_down", "output": {"key": "DOWN"}, "repeat": {"delay_ms": 120, "interval_ms": 45}},
+    {"id": "drop", "label": "Drop", "icon": "drop", "output": {"text": " "}, "haptic": "heavy"},
+    {"id": "ok", "label": "OK", "output": {"key": "ENTER"}},
+    {"id": "back", "label": "Back", "icon": "back", "output": {"key": "ESCAPE"}},
+    {"id": "pause", "label": "Pause", "icon": "pause", "output": {"text": "p"}},
+    {"id": "quit", "label": "Quit", "icon": "close", "output": {"text": "q"}, "confirm": true}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "dpad4", "anchor": "bottom_start", "size": 184, "bind": {"up": "rotate", "down": "soft", "left": "left", "right": "right"}},
+      {"type": "button", "anchor": "bottom_end", "size": 96, "bind": {"press": "drop"}, "style": "primary"},
+      {"type": "button", "anchor": "center_end", "offset": [0, -20], "size": 64, "bind": {"press": "ok"}},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "back"}}
+    ],
+    "landscape": [
+      {"type": "dpad4", "anchor": "center_start", "size": 176, "bind": {"up": "rotate", "down": "soft", "left": "left", "right": "right"}},
+      {"type": "button", "anchor": "center_end", "size": 92, "bind": {"press": "drop"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_end", "size": 56, "bind": {"press": "ok"}},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "back"}}
+    ]
+  },
+  "gestures": {"swipe_up": "rotate", "swipe_down": "drop", "swipe_left": "left", "swipe_right": "right"},
+  "pointer": "none",
+  "keyboard": true
+}

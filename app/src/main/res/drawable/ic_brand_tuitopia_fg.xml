@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from brand/marks/tuitopia-foreground.svg by tools/brand/svg_to_vector.py -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+  <path android:pathData="M62,28 h12 a4,4 0 0,1 4,4 v8 a4,4 0 0,1 -4,4 h-12 a4,4 0 0,1 -4,-4 v-8 a4,4 0 0,1 4,-4 Z" android:fillColor="#FF8A3D" />
+  <path android:pathData="M62 33.5 L65 36 L62 38.5 M68 39.5 H73" android:strokeColor="#12303A" android:strokeWidth="2" android:strokeLineCap="round" />
+  <path android:pathData="M28 72 C36 62 72 62 80 72 Z" android:fillColor="#F3D9A4" />
+  <path android:pathData="M46 68 C46 58 48 50 52 46" android:strokeColor="#6B4A2A" android:strokeWidth="3" android:strokeLineCap="round" />
+  <path android:pathData="M52 46 C46 42 38 44 36 48 C42 47 46 48 52 46 Z" android:fillColor="#6BBF59" />
+  <path android:pathData="M52 46 C56 40 64 40 66 44 C60 44 57 44 52 46 Z" android:fillColor="#6BBF59" />
+  <path android:pathData="M30 78 Q36 75 42 78 T54 78 T66 78 T78 78" android:strokeColor="#7FD3D3" android:strokeWidth="2.4" android:strokeLineCap="round" />
+</vector>

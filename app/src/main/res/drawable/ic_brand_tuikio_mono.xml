@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from brand/icons/tuikio-foreground.svg by tools/brand/svg_to_vector.py -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+  <group android:translateX="12" android:translateY="11">
+    <group android:scaleX="0.42" android:scaleY="0.42">
+      <group android:translateX="12" android:translateY="-2">
+        <group android:rotation="-7" android:pivotX="124" android:pivotY="86">
+          <path android:pathData="M100,30 h54 a28,28 0 0,1 28,28 v46 a28,28 0 0,1 -28,28 h-54 a28,28 0 0,1 -28,-28 v-46 a28,28 0 0,1 28,-28 Z" android:strokeColor="#000000" android:strokeWidth="6" />
+          <path android:pathData="M100,45 h54 a13,13 0 0,1 13,13 v32 a13,13 0 0,1 -13,13 h-54 a13,13 0 0,1 -13,-13 v-32 a13,13 0 0,1 13,-13 Z" android:fillColor="#000000" />
+          <path android:pathData="M100 62 L112 73 L100 84" android:strokeColor="#000000" android:strokeWidth="6.5" android:strokeLineCap="round" android:strokeLineJoin="round" />
+          <path android:pathData="M119 84 H139" android:strokeColor="#000000" android:strokeWidth="6.5" android:strokeLineCap="round" />
+          <path android:pathData="M145,117 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 Z" android:fillColor="#000000" />
+          <path android:pathData="M129,117 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 Z" android:fillColor="#000000" />
+        </group>
+      </group>
+      <path android:pathData="M58 168 L50 184 M78 170 L76 186 M100 170 L106 185" android:strokeColor="#000000" android:strokeWidth="6" android:strokeLineCap="round" />
+      <path android:pathData="M50 140 L34 122" android:strokeColor="#000000" android:strokeWidth="6" android:strokeLineCap="round" />
+      <path android:pathData="M30 120 L41 104 A17 17 0 1 0 46 117 Z" android:fillColor="#000000" android:strokeColor="#000000" android:strokeWidth="6" android:strokeLineJoin="round" />
+      <path android:pathData="M38 152 C38 120 60 104 86 104 C110 104 124 118 124 136 L124 160 C124 168 118 174 110 174 L52 174 C44 174 38 168 38 160 Z" android:fillColor="#000000" android:strokeColor="#000000" android:strokeWidth="6" android:strokeLineJoin="round" />
+      <path android:pathData="M120 158 L134 160" android:strokeColor="#000000" android:strokeWidth="6" android:strokeLineCap="round" />
+      <path android:pathData="M134 162 L141 152 A11 11 0 1 1 145 164 Z" android:fillColor="#000000" android:strokeColor="#000000" android:strokeWidth="5.5" android:strokeLineJoin="round" />
+      <path android:pathData="M66 108 L58 80 M88 106 L90 74" android:strokeColor="#000000" android:strokeWidth="6" android:strokeLineCap="round" />
+      <path android:pathData="M41,68 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0 Z" android:strokeColor="#000000" android:strokeWidth="6" />
+      <path android:pathData="M75,62 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0 Z" android:strokeColor="#000000" android:strokeWidth="6" />
+      <path android:pathData="M53.5,69 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z" android:fillColor="#000000" />
+      <path android:pathData="M87.5,63 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z" android:fillColor="#000000" />
+      <path android:pathData="M48.5,146 a7.5,4.5 0 1,0 15,0 a7.5,4.5 0 1,0 -15,0 Z" android:fillColor="#000000" />
+      <path android:pathData="M98.5,146 a7.5,4.5 0 1,0 15,0 a7.5,4.5 0 1,0 -15,0 Z" android:fillColor="#000000" />
+      <path android:pathData="M72 140 Q81 149 90 140" android:strokeColor="#000000" android:strokeWidth="5" android:strokeLineCap="round" />
+    </group>
+  </group>
+</vector>

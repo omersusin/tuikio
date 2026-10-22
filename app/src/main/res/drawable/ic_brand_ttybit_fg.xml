@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from brand/marks/ttybit-foreground.svg by tools/brand/svg_to_vector.py -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+  <path android:pathData="M44 34 H36 V74 H44 M64 34 H72 V74 H64" android:strokeColor="#E8E6E1" android:strokeWidth="4" />
+  <path android:pathData="M47,43 h14 v22 h-14 Z" android:fillColor="#FFB000" />
+</vector>

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "nsnake",
+  "title": "nSnake",
+  "summary": "The classic snake, with arcade mode, levels and settings.",
+  "description": "Guide the snake to the fruit and don't bite yourself. Arcade mode, borders on or off, speed settings and a high-score file.",
+  "category": "arcade",
+  "tags": [
+    "snake",
+    "real-time",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Alexandre Dantas"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://github.com/alexdantas/nSnake",
+    "version": "3.0.1"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#nsnake",
+    "source_archive": "nsnake_3.0.1.orig.tar.gz",
+    "source_sha256": "7240dafe35e17b01134591d7ae8f09f5a375cded8b01e43ba97ca3610a09ea61"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_nsnake",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "snake.v1",
+  "saves": {
+    "paths": [
+      ".local/share/nsnake"
+    ],
+    "notes": "Settings and high scores"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: main menu and arcade start."
+  }
+}

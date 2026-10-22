@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "2048",
+  "title": "2048",
+  "summary": "Slide and merge numbered tiles until you reach 2048.",
+  "description": "A tiny, colorful take on the sliding-tile puzzle written in plain C with ANSI colors. Every swipe slides the whole board; equal tiles merge and double.",
+  "category": "puzzle",
+  "tags": [
+    "numbers",
+    "swipe",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Maurits van der Schee"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/mevdschee/2048.c",
+    "version": "main (sha256-pinned)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#2048",
+    "source_archive": "2048.c",
+    "source_sha256": "90f794c675a696aa10980dd120d1f0503ee4ed33a61fef92c7df8f443f5b18a8"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_2048",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        30,
+        15
+      ],
+      "preferred": [
+        40,
+        20
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "grid4.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves; each run starts fresh."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: board renders, arrows move tiles, quit prompt and clean exit."
+  }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from brand/marks/bitiko-foreground.svg by tools/brand/svg_to_vector.py -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+  <path android:pathData="M40 36 H68 V40 H72 V68 H68 V72 H40 V68 H36 V40 H40 Z" android:fillColor="#3CF2FF" />
+  <path android:pathData="M44 48 H51 V55 H44 Z M57 48 H64 V55 H57 Z" android:fillColor="#0B0B12" />
+  <path android:pathData="M47 62 H61 V65 H47 Z" android:fillColor="#FF3CAC" />
+  <path android:pathData="M51 28 H57 V36 H51 Z" android:fillColor="#FFE14D" />
+</vector>

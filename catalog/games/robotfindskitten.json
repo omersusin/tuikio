@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "robotfindskitten",
+  "title": "robotfindskitten",
+  "summary": "A Zen simulation: you are robot, and you must find kitten.",
+  "description": "Wander a field of mysterious objects. Each one is described when you bump into it; one of them is kitten. There is no way to lose.",
+  "category": "adventure",
+  "tags": [
+    "zen",
+    "exploration",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Leonard Richardson"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "http://robotfindskitten.org/",
+    "version": "2.8284271.702"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#robotfindskitten",
+    "source_archive": "robotfindskitten_2.8284271.702.orig.tar.gz",
+    "source_sha256": "020172e4f4630f7c4f62c03b6ffe2eeeba5637b60374d3e6952ae5816a9f99af"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_robotfindskitten",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        20
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "kitten.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/robotfindskitten/vanilla.nki",
+      "dest": ".robotfindskitten/vanilla.nki",
+      "sha256": "d6684fd024c87851e230df2f974a5a263fd8fdf0fe5dcc7b1d054495d31f366c"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: reads its message file, intro and playfield."
+  }
+}

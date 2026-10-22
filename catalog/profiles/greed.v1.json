@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "profile_id": "greed.v1",
+  "title": "Eight-way eater",
+  "help": "Pick a direction: you move as many squares as the first number you eat. Hints shows which moves are legal.",
+  "orientation": "landscape",
+  "actions": [
+    {"id": "n", "label": "North", "output": {"text": "k"}},
+    {"id": "s", "label": "South", "output": {"text": "j"}},
+    {"id": "w", "label": "West", "output": {"text": "h"}},
+    {"id": "e", "label": "East", "output": {"text": "l"}},
+    {"id": "nw", "label": "North-west", "output": {"text": "y"}},
+    {"id": "ne", "label": "North-east", "output": {"text": "u"}},
+    {"id": "sw", "label": "South-west", "output": {"text": "b"}},
+    {"id": "se", "label": "South-east", "output": {"text": "n"}},
+    {"id": "hints", "label": "Hints", "icon": "spark", "output": {"text": "p"}},
+    {"id": "help", "label": "Help", "icon": "info", "output": {"text": "?"}},
+    {"id": "yes", "label": "Yes", "output": {"text": "y"}},
+    {"id": "quit", "label": "Quit", "icon": "close", "output": {"sequence": [{"text": "q"}, {"text": "y"}]}, "confirm": true}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "dpad8", "anchor": "bottom_center", "size": 220, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "bottom_start", "size": 64, "bind": {"press": "hints"}},
+      {"type": "button", "anchor": "bottom_end", "size": 64, "bind": {"press": "quit"}}
+    ],
+    "landscape": [
+      {"type": "dpad8", "anchor": "center_start", "size": 190, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "center_end", "size": 64, "bind": {"press": "hints"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_end", "size": 52, "bind": {"press": "yes"}},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "quit"}}
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

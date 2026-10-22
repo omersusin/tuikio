@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <title>PockTTY handheld mark (adaptive icon foreground)</title>
+  <rect x="34" y="24" width="40" height="60" rx="7" fill="#3A3A44"/>
+  <rect x="39" y="30" width="30" height="21" rx="2.5" fill="#B6C77A"/>
+  <path d="M43 36 L47 39.5 L43 43 M50 44 H57" fill="none" stroke="#2F3D19" stroke-width="2.6" stroke-linecap="square"/>
+  <path d="M41 64 H51 M46 59 V69" fill="none" stroke="#D9D4C7" stroke-width="3.6"/>
+  <circle cx="60" cy="62" r="3.4" fill="#D6336C"/>
+  <circle cx="66" cy="68" r="3.4" fill="#D6336C"/>
+  <path d="M45 77 H53 M57 77 H63" fill="none" stroke="#6E6E78" stroke-width="2" stroke-linecap="round"/>
+</svg>

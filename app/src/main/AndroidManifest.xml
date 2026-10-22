@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.tuikio.app">
+
+    <!-- Only for user-initiated actions: catalog refresh, source previews, submissions. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".TuikioApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
+        android:extractNativeLibs="true"
+        android:icon="@mipmap/ic_launcher_tuikio"
+        android:label="@string/brand_tuikio"
+        android:roundIcon="@mipmap/ic_launcher_tuikio"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Tuikio">
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Launcher identities. Exactly one is enabled; Brand Studio switches them.
+             The package name and signing key never change with branding. -->
+        <activity-alias
+            android:name=".LauncherTuikio"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_tuikio"
+            android:label="@string/brand_tuikio"
+            android:roundIcon="@mipmap/ic_launcher_tuikio"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherTuiko"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_tuiko"
+            android:label="@string/brand_tuiko"
+            android:roundIcon="@mipmap/ic_launcher_tuiko"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherPockTTY"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_pocktty"
+            android:label="@string/brand_pocktty"
+            android:roundIcon="@mipmap/ic_launcher_pocktty"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherTuitopia"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_tuitopia"
+            android:label="@string/brand_tuitopia"
+            android:roundIcon="@mipmap/ic_launcher_tuitopia"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherBitiko"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bitiko"
+            android:label="@string/brand_bitiko"
+            android:roundIcon="@mipmap/ic_launcher_bitiko"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherTtybit"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_ttybit"
+            android:label="@string/brand_ttybit"
+            android:roundIcon="@mipmap/ic_launcher_ttybit"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name=".game.GameActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden|navigation|uiMode|density"
+            android:exported="false"
+            android:theme="@style/Theme.Tuikio.Game"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- GitHub sign-in returns here (RFC 8252 private-use scheme; PKCE protects the code). -->
+        <activity
+            android:name=".community.OAuthCallbackActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.Tuikio.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dev.tuikio.app" android:host="oauth" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Launcher names. Product names, never translated. -->
+    <string name="brand_tuikio" translatable="false">Tuikio</string>
+    <string name="brand_tuiko" translatable="false">Tuiko</string>
+    <string name="brand_pocktty" translatable="false">PockTTY</string>
+    <string name="brand_tuitopia" translatable="false">Tuitopia</string>
+    <string name="brand_bitiko" translatable="false">Bitiko</string>
+    <string name="brand_ttybit" translatable="false">Ttybit</string>
+</resources>

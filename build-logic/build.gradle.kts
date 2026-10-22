@@ -4,5 +4,13 @@ plugins {
 
 dependencies {
     implementation(libs.kotlin.gradle.plugin)
-    implementation(libs.proguard.base)
+}
+
+gradlePlugin {
+    plugins {
+        register("androidApp") {
+            id = "tuikio.android-app"
+            implementationClass = "dev.tuikio.build.AndroidAppPlugin"
+        }
+    }
 }

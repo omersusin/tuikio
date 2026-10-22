@@ -273,6 +273,9 @@ def build_robotfindskitten(abi):
     src = unpack("robotfindskitten_2.8284271.702.orig.tar.gz", os.path.join(w, "src"))
     # Messages ship as data (assets/games/robotfindskitten/), installed to ~/.robotfindskitten.
     autotools(abi, src, cflags='-DSYSTEM_NKI_DIR=\\".robotfindskitten\\"')
+    data = os.path.join(OUT, "assets", "games", "robotfindskitten")
+    os.makedirs(data, exist_ok=True)
+    shutil.copyfile(os.path.join(src, "nki", "vanilla.nki"), os.path.join(data, "vanilla.nki"))
     return abi.install(os.path.join(src, "src", "robotfindskitten"), "game_robotfindskitten")
 
 
@@ -336,7 +339,15 @@ def build_nsnake(abi):
     return abi.install(exe, "game_nsnake")
 
 
+def build_lantern_tide(abi):
+    w = abi.work("lantern-tide")
+    exe = os.path.join(w, "lantern_tide")
+    cc(abi, [os.path.join(HERE, "original", "lantern-tide", "lantern_tide.c")], exe, "-std=c11 -Wall -Wextra -Werror")
+    return abi.install(exe, "game_lantern_tide")
+
+
 GAMES = {
+    "lantern-tide": build_lantern_tide,
     "2048": build_2048,
     "vitetris": build_vitetris,
     "robotfindskitten": build_robotfindskitten,

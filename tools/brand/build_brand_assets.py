@@ -42,7 +42,7 @@ def wordmark(text="tuıkıo", weight=800, fill=INK, dot=CORAL):
     for ch in text:
         name = cmap[ord(ch)]
         g = glyphs[name]
-        pen = SVGPathPen(glyphs)
+        pen = SVGPathPen(glyphs, ntos=lambda v: ("%.1f" % v).rstrip("0").rstrip("."))
         g.draw(TransformPen(pen, (1, 0, 0, -1, x, 0)))
         paths.append(pen.getCommands())
         if ch == "ı":

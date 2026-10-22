@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_tuitopia_icon_bg">#FF0F6E7A</color>
+    <color name="brand_tuikio_icon_bg">#FF2BD9A0</color>
+    <color name="brand_tuiko_icon_bg">#FFFFB4A2</color>
+    <color name="brand_bitiko_icon_bg">#FF0B0B12</color>
+    <color name="brand_ttybit_icon_bg">#FF16181C</color>
+    <color name="brand_pocktty_icon_bg">#FFD9D4C7</color>
+</resources>

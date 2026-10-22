@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <title>Tuitopia island mark (adaptive icon foreground)</title>
+  <rect x="58" y="28" width="20" height="16" rx="4" fill="#FF8A3D"/>
+  <path d="M62 33.5 L65 36 L62 38.5 M68 39.5 H73" fill="none" stroke="#12303A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M28 72 C36 62 72 62 80 72 Z" fill="#F3D9A4"/>
+  <path d="M46 68 C46 58 48 50 52 46" fill="none" stroke="#6B4A2A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M52 46 C46 42 38 44 36 48 C42 47 46 48 52 46 Z" fill="#6BBF59"/>
+  <path d="M52 46 C56 40 64 40 66 44 C60 44 57 44 52 46 Z" fill="#6BBF59"/>
+  <path d="M30 78 Q36 75 42 78 T54 78 T66 78 T78 78" fill="none" stroke="#7FD3D3" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

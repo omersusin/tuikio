@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "id": "lantern-tide",
+  "title": "Kio: Lantern Tide",
+  "summary": "Help Kio gather glowing lantern shells before the tide comes in.",
+  "description": "An original Tuikio game. Kio the hermit crab scuttles across a night beach collecting lantern shells while the sea rises row by row and gulls patrol the sand. Gather every lantern, then hurry home. Each tide is faster than the last; your best score is saved on your phone.",
+  "category": "arcade",
+  "tags": [
+    "original",
+    "kio",
+    "real-time"
+  ],
+  "players": "1",
+  "origin": "tuikio_original",
+  "upstream": {
+    "authors": [
+      "The Tuikio authors"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://github.com/omersusin/tuikio/tree/main/native/original/lantern-tide",
+    "version": "1.0"
+  },
+  "port": null,
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_lantern_tide",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        34,
+        21
+      ],
+      "preferred": [
+        40,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "lantern.v1",
+  "saves": {
+    "paths": [
+      ".lantern-tide"
+    ],
+    "notes": "Best score"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "End-to-end host test drives title, movement, pause and quit through the Tuikio runtime."
+  }
+}

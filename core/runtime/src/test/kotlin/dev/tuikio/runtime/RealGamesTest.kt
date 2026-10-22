@@ -39,6 +39,23 @@ class RealGamesTest {
     private fun GameSession.type(s: String) = send(keys.text(s))
 
     @Test
+    fun lanternTidePlaysSavesAndQuits() {
+        val home = arrayOf<File?>(null)
+        val s = session("game_lantern_tide") { home[0] = it }
+        s.expect("title screen") { it.contains("L A N T E R N") }
+        s.type(" ")
+        s.expect("board with score and lanterns") { it.contains("Score") && it.contains("Lanterns") && it.contains("K") }
+        val before = s.screenText().joinToString("\n")
+        repeat(3) { s.key(TermKey.UP) }
+        s.expect("Kio moved") { it != before }
+        s.type("p")
+        s.expect("pause message") { it.contains("Paused") }
+        s.type("q")
+        assertEquals(0, s.awaitExit(3000), "quits cleanly and restores the terminal")
+        assertTrue(!s.terminal.isAltScreen, "left the alternate screen")
+    }
+
+    @Test
     fun game2048MovesTilesAndQuits() {
         val s = session("game_2048")
         s.expect("2048 board with score") { it.contains("pts") }

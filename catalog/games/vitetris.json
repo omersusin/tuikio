@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "vitetris",
+  "title": "Vitetris",
+  "summary": "Fast, classic falling-blocks with a proper rule set.",
+  "description": "Vitetris is a full-featured terminal block game: levels, adjustable rotation, soft and hard drop, and high scores. This port runs the original terminal interface.",
+  "category": "puzzle",
+  "tags": [
+    "blocks",
+    "classic",
+    "real-time"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Victor Geraldsson"
+    ],
+    "license": "BSD-2-Clause",
+    "source_url": "https://github.com/vicgeralds/vitetris",
+    "version": "0.59.1"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/build.py#vitetris",
+    "source_archive": "vitetris_0.59.1.orig.tar.gz",
+    "source_sha256": "699443df03c8d4bf2051838c1015da72039bbbdd0ab0eede891c59c840bdf58d"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_vitetris",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        22
+      ],
+      "preferred": [
+        48,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "blocks.v1",
+  "saves": {
+    "paths": [
+      ".vitetris"
+    ],
+    "notes": "Options and high scores"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-22",
+    "android_tested": null,
+    "notes": "Host test: menu, level select, playfield, piece movement."
+  }
+}

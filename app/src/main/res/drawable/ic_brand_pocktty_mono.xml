@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from brand/marks/pocktty-foreground.svg by tools/brand/svg_to_vector.py -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+  <path android:pathData="M41,24 h26 a7,7 0 0,1 7,7 v46 a7,7 0 0,1 -7,7 h-26 a7,7 0 0,1 -7,-7 v-46 a7,7 0 0,1 7,-7 Z" android:fillColor="#000000" />
+  <path android:pathData="M41.5,30 h25 a2.5,2.5 0 0,1 2.5,2.5 v16 a2.5,2.5 0 0,1 -2.5,2.5 h-25 a2.5,2.5 0 0,1 -2.5,-2.5 v-16 a2.5,2.5 0 0,1 2.5,-2.5 Z" android:fillColor="#000000" />
+  <path android:pathData="M43 36 L47 39.5 L43 43 M50 44 H57" android:strokeColor="#000000" android:strokeWidth="2.6" android:strokeLineCap="square" />
+  <path android:pathData="M56.6,62 a3.4,3.4 0 1,0 6.8,0 a3.4,3.4 0 1,0 -6.8,0 Z" android:fillColor="#000000" />
+  <path android:pathData="M62.6,68 a3.4,3.4 0 1,0 6.8,0 a3.4,3.4 0 1,0 -6.8,0 Z" android:fillColor="#000000" />
+  <path android:pathData="M45 77 H53 M57 77 H63" android:strokeColor="#000000" android:strokeWidth="2" android:strokeLineCap="round" />
+</vector>

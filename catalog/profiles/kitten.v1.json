@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "kitten.v1",
+  "title": "Eight-way explorer",
+  "help": "Walk into things to find out what they are. The pad moves in eight directions.",
+  "orientation": "landscape",
+  "actions": [
+    {"id": "n", "label": "North", "output": {"key": "UP"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "s", "label": "South", "output": {"key": "DOWN"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "w", "label": "West", "output": {"key": "LEFT"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "e", "label": "East", "output": {"key": "RIGHT"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "nw", "label": "North-west", "output": {"text": "y"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "ne", "label": "North-east", "output": {"text": "u"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "sw", "label": "South-west", "output": {"text": "b"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "se", "label": "South-east", "output": {"text": "n"}, "repeat": {"delay_ms": 260, "interval_ms": 110}},
+    {"id": "go", "label": "Continue", "output": {"text": " "}},
+    {"id": "quit", "label": "Quit", "icon": "close", "output": {"text": "q"}, "confirm": true}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "dpad8", "anchor": "bottom_center", "size": 220, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "bottom_start", "size": 64, "bind": {"press": "go"}},
+      {"type": "button", "anchor": "bottom_end", "size": 64, "bind": {"press": "quit"}}
+    ],
+    "landscape": [
+      {"type": "dpad8", "anchor": "center_start", "size": 190, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "center_end", "size": 72, "bind": {"press": "go"}, "style": "primary"},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "quit"}}
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}
