@@ -1,4 +1,4 @@
-# Status report: Tuikio 0.1.0 (2026-10-22)
+# Status report: Tuikio 0.1.1 (2026-10-22)
 
 Statuses:
 - **IMPLEMENTED_AND_TESTED**: built, and an automated or manual test was actually run.
@@ -18,7 +18,7 @@ repository.
 | Terminal emulator (xterm/VT500, UTF-8, wide chars, 256/truecolor, mouse, alt screen) | IMPLEMENTED_AND_TESTED | 37 unit tests; parse benchmark | — |
 | Control profiles (dpad4/8, buttons, gestures, repeat, confirm) + dispatcher | IMPLEMENTED_AND_TESTED (engine) | 8 unit tests; 9 profiles validate against the parser and the JSON Schema | Tune layouts on real screens |
 | On-screen controls, keyboard/IME, gamepad (D-pad, hat, stick), mouse taps | IMPLEMENTED_UNTESTED | Compiles; in the APK | Device test with a touch screen and a Bluetooth gamepad |
-| App screens: Discover, Search, Details, Library, Create/My Sources, Publish, You, About/Licenses, Diagnostics | IMPLEMENTED_UNTESTED | Debug and release APKs build; manifest components survive shrinking (`check_apk.py`) | First launch on a device; fix whatever the first run shows |
+| App screens: Discover, Search, Details, Library, Create/My Sources, Publish, You, About/Licenses, Diagnostics | PARTIAL (first device run) | First device run on a POCO F5 (Android 17, arm64): the app launches, browsing works, and installing a game succeeds (binary hash checked on device). Opening the game screen crashed in 0.1.0 (`GameActivity` used the insets controller before `setContentView`); fixed in 0.1.1, not yet re-run | Re-run 0.1.1 on the phone; then Diagnostics and one game per profile |
 | Original design language (no Material/AndroidX), light/dark/high-contrast, reduced motion | IMPLEMENTED_UNTESTED | Code + design canvas | Device screenshots; TalkBack pass |
 | Visual direction approval (owner review gate) | BLOCKED | Design canvas with 11 artboards and a playable prototype was published and shared; no owner feedback received | Owner reviews the canvas and approves or redirects |
 | Mascot Kio in launcher icon (adaptive + monochrome) | IMPLEMENTED_UNTESTED | Vector icons in the APK; rendered in the canvas | Check on Pixel and Samsung launchers, including themed icons |
