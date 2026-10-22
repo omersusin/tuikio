@@ -13,6 +13,7 @@ import android.os.SystemClock
 import android.view.Gravity
 import android.view.InputDevice
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
@@ -344,6 +345,31 @@ class GameActivity : Activity() {
         } ?: return false
         if (e.action == KeyEvent.ACTION_DOWN && e.repeatCount == 0) dispatcher.press(action)
         if (e.action == KeyEvent.ACTION_UP) dispatcher.release(action)
+        return true
+    }
+
+    /** Pad direction currently held by a hat switch or the left stick. */
+    private var stickDirection: String? = null
+
+    /** Many controllers report their D-pad as a hat axis, and the left stick moves too. */
+    override fun onGenericMotionEvent(event: MotionEvent): Boolean {
+        if (event.source and InputDevice.SOURCE_JOYSTICK != InputDevice.SOURCE_JOYSTICK || event.action != MotionEvent.ACTION_MOVE) {
+            return super.onGenericMotionEvent(event)
+        }
+        val hatX = event.getAxisValue(MotionEvent.AXIS_HAT_X)
+        val hatY = event.getAxisValue(MotionEvent.AXIS_HAT_Y)
+        val x = if (Math.abs(hatX) > 0.5f) hatX else event.getAxisValue(MotionEvent.AXIS_X)
+        val y = if (Math.abs(hatY) > 0.5f) hatY else event.getAxisValue(MotionEvent.AXIS_Y)
+        val dir = when {
+            Math.abs(x) < 0.5f && Math.abs(y) < 0.5f -> null
+            Math.abs(x) > Math.abs(y) -> if (x > 0) "right" else "left"
+            else -> if (y > 0) "down" else "up"
+        }
+        if (dir != stickDirection) {
+            stickDirection?.let { controls.padAction(it) }?.let { dispatcher.release(it) }
+            stickDirection = dir
+            dir?.let { controls.padAction(it) }?.let { dispatcher.press(it) }
+        }
         return true
     }
 

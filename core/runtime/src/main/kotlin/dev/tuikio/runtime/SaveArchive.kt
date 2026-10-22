@@ -67,7 +67,16 @@ object SaveArchive {
                     val name = e.name
                     if (e.isDirectory) continue
                     if (name == MARKER) {
-                        val meta = zip.readBytes().toString(Charsets.UTF_8)
+                        // Bounded read: the marker is tiny; anything bigger is not ours.
+                        val buf = ByteArray(4096)
+                        var n = 0
+                        while (n < buf.size) {
+                            val r = zip.read(buf, n, buf.size - n)
+                            if (r < 0) break
+                            n += r
+                        }
+                        if (n == buf.size && zip.read() >= 0) throw RejectedException("not a Tuikio save archive")
+                        val meta = String(buf, 0, n, Charsets.UTF_8)
                         if (!meta.lines().contains("game=$gameId")) throw RejectedException("these saves belong to a different game")
                         sawMarker = true
                         continue

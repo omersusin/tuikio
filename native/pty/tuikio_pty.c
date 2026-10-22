@@ -36,6 +36,16 @@
 enum { T_INPUT = 1, T_RESIZE = 2, T_SIGNAL = 3 };
 enum { MAX_FRAME = 4096 };
 
+#ifndef COALESCE_MS
+#define COALESCE_MS 4
+#endif
+
+static long long now_ms(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (long long)ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+}
+
 static volatile sig_atomic_t got_term;
 static pid_t child = -1;
 
@@ -146,7 +156,21 @@ int main(int argc, char **argv) {
         if (r > 0 && (pf[0].revents & (POLLIN | POLLHUP | POLLERR))) {
             ssize_t got = read(master, out, sizeof out);
             if (got > 0) {
-                if (write_all(1, out, (size_t)got) < 0) break; /* app stopped reading */
+                /* Many games draw a frame as a burst of tiny writes. Collect what follows within
+                 * COALESCE_MS and hand the app one chunk: one wakeup, one parse, one redraw
+                 * request instead of dozens. Added latency is bounded well under a 60 Hz frame. */
+                size_t used = (size_t)got;
+                long long deadline = now_ms() + COALESCE_MS;
+                while (used < sizeof out) {
+                    long long left = deadline - now_ms();
+                    if (left <= 0) break;
+                    struct pollfd m = { .fd = master, .events = POLLIN, .revents = 0 };
+                    if (poll(&m, 1, (int)left) <= 0 || !(m.revents & POLLIN)) break;
+                    ssize_t more = read(master, out + used, sizeof out - used);
+                    if (more <= 0) break;
+                    used += (size_t)more;
+                }
+                if (write_all(1, out, used) < 0) break; /* app stopped reading */
             } else if (got == 0 || (got < 0 && errno != EAGAIN && errno != EINTR)) {
                 /* EIO: every slave fd is closed, the game has exited. */
                 break;

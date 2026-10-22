@@ -157,6 +157,21 @@ object CommunityClient {
         return SubmissionStatus.fromJson(get("$server/v1/submissions/$secret"))
     }
 
+    /** Title and description of a non-GitHub page, fetched by the server's SSRF-safe previewer. */
+    fun preview(context: Context, link: String): GitHubRest.RepoInfo {
+        val server = AppConfig.load(context).submissionsUrl ?: throw NotConfigured()
+        val r = get("$server/v1/preview?url=" + java.net.URLEncoder.encode(link, "UTF-8"))
+        return GitHubRest.RepoInfo(
+            fullName = r.stringOrNull("title") ?: link.substringAfter("://"),
+            description = r.stringOrNull("description").orEmpty(),
+            license = r.stringOrNull("license"),
+            pushedAt = r.stringOrNull("pushed_at"),
+            archived = r.bool("archived", false),
+            defaultBranch = "",
+            htmlUrl = r.stringOrNull("url") ?: link,
+        )
+    }
+
     private fun get(url: String): JsonReader {
         val conn = (URL(url).openConnection() as HttpURLConnection).apply {
             connectTimeout = 10_000

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and older (API 26-30); newer versions use data_extraction_rules.xml. -->
+<full-backup-content>
+    <exclude domain="file" path="staging" />
+    <exclude domain="file" path="cache" />
+    <exclude domain="sharedpref" path="github.xml" />
+</full-backup-content>

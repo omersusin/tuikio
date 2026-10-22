@@ -10,6 +10,6 @@ dependencies {
 // Host-side end-to-end tests run the real game executables built by native/build.py.
 tasks.withType<Test>().configureEach {
     systemProperty("tuikio.nativeOut", rootProject.file("native/build/out").absolutePath)
-    systemProperty("tuikio.nativeCache", rootProject.file("native/.cache").absolutePath)
+    systemProperty("tuikio.requireNative", providers.gradleProperty("requireNative").isPresent.toString())
     inputs.dir(rootProject.file("native/build/out")).optional().withPropertyName("nativeOut")
 }

@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/omersusin/tuikio/catalog/schema/control-profile.schema.json",
+  "title": "Tuikio control profile (schema_version 1)",
+  "description": "Editor aid. The normative validator is ControlProfile.parse in core/controls.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "title",
+    "actions",
+    "layout"
+  ],
+  "$defs": {
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "TermKey name: UP, DOWN, LEFT, RIGHT, ENTER, ESCAPE, TAB, BACKSPACE, HOME, END, PAGE_UP, PAGE_DOWN, INSERT, DELETE, F1..F12, KP_0..KP_9, KP_ENTER, KP_PLUS, KP_MINUS, KP_MULTIPLY, KP_DIVIDE, KP_DECIMAL"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "mods": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "shift",
+              "alt",
+              "ctrl"
+            ]
+          }
+        },
+        "sequence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/output"
+          }
+        }
+      },
+      "description": "Exactly one of key, text or sequence; sequences nest at most two levels."
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_.-]{1,47}$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "help": {
+      "type": "string"
+    },
+    "orientation": {
+      "enum": [
+        "portrait",
+        "landscape",
+        "any"
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "output"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,32}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16
+          },
+          "icon": {
+            "type": "string"
+          },
+          "output": {
+            "$ref": "#/$defs/output"
+          },
+          "repeat": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "delay_ms",
+              "interval_ms"
+            ],
+            "properties": {
+              "delay_ms": {
+                "type": "integer",
+                "minimum": 50,
+                "maximum": 2000
+              },
+              "interval_ms": {
+                "type": "integer",
+                "minimum": 16,
+                "maximum": 1000
+              }
+            }
+          },
+          "haptic": {
+            "enum": [
+              "none",
+              "tick",
+              "click",
+              "heavy"
+            ]
+          },
+          "confirm": {
+            "type": "boolean",
+            "description": "Ask before sending (quit, restart)."
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "portrait": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "anchor",
+              "bind"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "dpad4",
+                  "dpad8",
+                  "button",
+                  "keyboard"
+                ]
+              },
+              "anchor": {
+                "enum": [
+                  "top_start",
+                  "top_end",
+                  "center_start",
+                  "center_end",
+                  "bottom_start",
+                  "bottom_center",
+                  "bottom_end"
+                ]
+              },
+              "offset": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "[x, y] in dp from the anchor"
+              },
+              "size": {
+                "type": "integer",
+                "description": "dp"
+              },
+              "bind": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "dpad4: up/down/left/right; dpad8 adds up_left, up_right, down_left, down_right, center; button: press. Values are action ids."
+              },
+              "style": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "landscape": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "anchor",
+              "bind"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "dpad4",
+                  "dpad8",
+                  "button",
+                  "keyboard"
+                ]
+              },
+              "anchor": {
+                "enum": [
+                  "top_start",
+                  "top_end",
+                  "center_start",
+                  "center_end",
+                  "bottom_start",
+                  "bottom_center",
+                  "bottom_end"
+                ]
+              },
+              "offset": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "[x, y] in dp from the anchor"
+              },
+              "size": {
+                "type": "integer",
+                "description": "dp"
+              },
+              "bind": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "dpad4: up/down/left/right; dpad8 adds up_left, up_right, down_left, down_right, center; button: press. Values are action ids."
+              },
+              "style": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "gestures": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "swipe_up": {
+          "type": "string"
+        },
+        "swipe_down": {
+          "type": "string"
+        },
+        "swipe_left": {
+          "type": "string"
+        },
+        "swipe_right": {
+          "type": "string"
+        },
+        "double_tap": {
+          "type": "string"
+        },
+        "long_press": {
+          "type": "string"
+        }
+      }
+    },
+    "pointer": {
+      "enum": [
+        "mouse",
+        "none"
+      ]
+    },
+    "keyboard": {
+      "type": "boolean"
+    }
+  }
+}

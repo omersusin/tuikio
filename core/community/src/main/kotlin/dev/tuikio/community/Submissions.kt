@@ -14,7 +14,7 @@ enum class Attribution(val id: String) {
     /** Shown as "Anonymous community contributor"; a bot opens the pull request. */
     ANONYMOUS("anonymous"),
 
-    /** Credited by GitHub login; the contributor's own account opens the pull request when possible. */
+    /** Credited by a verified GitHub login, as Co-authored-by on the review bot's pull request. */
     GITHUB("github");
 
     companion object {

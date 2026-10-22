@@ -1,0 +1,341 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/omersusin/tuikio/catalog/schema/game-manifest.schema.json",
+  "title": "Tuikio game manifest (schema_version 1)",
+  "description": "Editor aid. The normative validator is GameManifest.fromJson in core/catalog; run ./gradlew :tools:catalog-cli:run --args=\"validate $PWD/catalog\".",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "title",
+    "summary",
+    "description",
+    "category",
+    "tags",
+    "origin",
+    "upstream",
+    "runtime",
+    "controls",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,47}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 140
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "category": {
+      "enum": [
+        "arcade",
+        "puzzle",
+        "roguelike",
+        "adventure",
+        "strategy",
+        "cards",
+        "words",
+        "simulation"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "string",
+        "maxLength": 24
+      }
+    },
+    "players": {
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "official_upload",
+        "verified_port",
+        "community_submitted",
+        "tuikio_original"
+      ]
+    },
+    "upstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authors",
+        "license",
+        "source_url"
+      ],
+      "properties": {
+        "authors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "license": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9.+()\\- ]{2,200}$",
+          "description": "SPDX license expression (e.g. MIT, GPL-2.0-or-later, MIT OR Apache-2.0)"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://"
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "port": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "maintainer",
+        "recipe"
+      ],
+      "properties": {
+        "maintainer": {
+          "type": "string"
+        },
+        "recipe": {
+          "type": "string"
+        },
+        "source_archive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_sha256": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "backend",
+        "executable",
+        "terminal",
+        "orientation"
+      ],
+      "properties": {
+        "backend": {
+          "const": "native_pty"
+        },
+        "executable": {
+          "type": "string",
+          "pattern": "^game_[a-z0-9_]{1,40}$",
+          "description": "Packaged as lib<executable>.so in the APK's native library directory; never downloaded."
+        },
+        "args": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          }
+        },
+        "env": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "propertyNames": {
+            "pattern": "^[A-Z][A-Z0-9_]{0,31}$",
+            "not": {
+              "pattern": "^LD_"
+            }
+          },
+          "description": "HOME, PATH, TERM, SHELL, TMPDIR, LANG, USER and LD_* are reserved."
+        },
+        "terminal": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "preferred"
+          ],
+          "properties": {
+            "min": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "preferred": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        },
+        "orientation": {
+          "enum": [
+            "portrait",
+            "landscape",
+            "any"
+          ]
+        }
+      }
+    },
+    "controls": {
+      "type": "string",
+      "description": "profile_id of a control profile in catalog/profiles"
+    },
+    "saves": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Relative path without '..', backslashes or a leading '/'"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "data_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset",
+          "dest",
+          "sha256"
+        ],
+        "properties": {
+          "asset": {
+            "type": "string",
+            "description": "Relative path without '..', backslashes or a leading '/'"
+          },
+          "dest": {
+            "type": "string",
+            "description": "Relative path without '..', backslashes or a leading '/'"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "network": {
+      "enum": [
+        "none",
+        "optional",
+        "required"
+      ]
+    },
+    "status": {
+      "enum": [
+        "CANDIDATE",
+        "INVESTIGATING",
+        "PORTABLE",
+        "ANDROID_TESTED",
+        "STORE_READY"
+      ]
+    },
+    "verification": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "host_tested": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "android_tested": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Required (non-null) for ANDROID_TESTED and STORE_READY: date plus device/emulator evidence reference."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "ANDROID_TESTED",
+              "STORE_READY"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "verification"
+        ],
+        "properties": {
+          "verification": {
+            "required": [
+              "android_tested"
+            ],
+            "properties": {
+              "android_tested": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

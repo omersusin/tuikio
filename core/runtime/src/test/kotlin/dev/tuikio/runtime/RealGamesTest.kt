@@ -12,16 +12,19 @@ import kotlin.test.fail
 /**
  * Runs the real, cross-compiled game executables (x86_64 build of native/build.py) through the
  * same PTY helper, frame protocol, GameSession and TerminalEmulator the Android app uses, and
- * checks what each game draws and how it reacts to input. Skipped when the native build is absent.
+ * checks what each game draws and how it reacts to input. Skipped when the native build is absent,
+ * unless -PrequireNative is set (CI's native job), where a missing binary is a failure.
  */
 class RealGamesTest {
     private val out = File(System.getProperty("tuikio.nativeOut", "native/build/out"), "x86_64")
-    private val cache = File(System.getProperty("tuikio.nativeCache", "native/.cache"))
+
+    private fun need(condition: Boolean, message: String) =
+        if (System.getProperty("tuikio.requireNative") == "true") assertTrue(condition, message) else assumeTrue(condition, message)
 
     private fun session(exe: String, cols: Int = 80, rows: Int = 24, args: List<String> = emptyList(), setup: (File) -> Unit = {}): GameSession {
         val helper = File(out, "libtuikio_pty.so")
         val game = File(out, "lib$exe.so")
-        assumeTrue(helper.canExecute() && game.canExecute(), "native build missing: run python3 native/build.py --abi x86_64")
+        need(helper.canExecute() && game.canExecute(), "native build missing: run python3 native/build.py --abi x86_64")
         val home = Files.createTempDirectory("tuikio-$exe-").toFile()
         setup(home)
         val s = GameSession(LaunchSpec(helper, game, args, home, GameEnvironment.build(home)), cols, rows)
@@ -86,8 +89,9 @@ class RealGamesTest {
 
     @Test
     fun robotFindsKittenReadsItsMessagesAndMoves() {
-        val nki = File(cache, "src/robotfindskitten-2.8284271.702/nki/vanilla.nki")
-        assumeTrue(nki.isFile, "robotfindskitten sources not unpacked")
+        // The same message file the app installs from its assets.
+        val nki = File(out.parentFile, "assets/games/robotfindskitten/vanilla.nki")
+        need(nki.isFile, "native build missing: run python3 native/build.py")
         val s = session("game_robotfindskitten") { home ->
             File(home, ".robotfindskitten").mkdirs()
             nki.copyTo(File(home, ".robotfindskitten/vanilla.nki"))

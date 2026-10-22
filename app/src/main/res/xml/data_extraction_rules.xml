@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Saves and settings may be backed up by Android; caches and downloads in progress are not. -->
+<!-- Saves and settings may be backed up by Android; caches, downloads in progress and the
+     GitHub sign-in are not. (The token is encrypted with a Keystore key that never leaves the
+     device, so a copy would be useless anyway; it is simply not copied.) -->
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="file" path="staging" />
         <exclude domain="file" path="cache" />
+        <exclude domain="sharedpref" path="github.xml" />
     </cloud-backup>
     <device-transfer>
         <exclude domain="file" path="staging" />
+        <exclude domain="sharedpref" path="github.xml" />
     </device-transfer>
 </data-extraction-rules>

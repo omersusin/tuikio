@@ -359,6 +359,60 @@ GAMES = {
 }
 
 
+# License texts that ship with the binaries, taken from the pinned sources themselves.
+NOTICES = {
+    "2048": ("2048-LICENSE", None),
+    "vitetris": ("vitetris_0.59.1.orig.tar.gz", "licence.txt"),
+    "robotfindskitten": ("robotfindskitten_2.8284271.702.orig.tar.gz", "COPYING"),
+    "moon-buggy": ("moon-buggy_1.0.51.orig.tar.gz", "COPYING"),
+    "freesweep": ("freesweep_1.0.2.orig.tar.gz", "COPYING"),
+    "ninvaders": ("ninvaders_0.1.1.orig.tar.gz", "gpl.txt"),
+    "greed": ("greed_4.2.orig.tar.gz", "COPYING"),
+    "nsnake": ("nsnake_3.0.1.orig.tar.gz", "COPYING"),
+    "ncurses": ("ncurses_6.4+20240113.orig.tar.gz", "COPYING"),
+}
+
+
+def tar_text(name, rel):
+    """Reads <top>/<rel> from a verified source archive without unpacking it."""
+    with tarfile.open(fetch(name)) as tf:
+        for m in tf.getmembers():
+            parts = m.name.split("/")
+            if m.isfile() and len(parts) == 2 and parts[1] == rel:
+                return tf.extractfile(m).read().decode("utf-8", "replace")
+    sys.exit(f"[native] {rel} not found in {name}")
+
+
+def write_notices(games):
+    """assets/licenses/: each component's license text plus where its exact source lives
+    (GPL section 3/6: the corresponding source for every binary in the APK)."""
+    dst = os.path.join(OUT, "assets", "licenses")
+    os.makedirs(dst, exist_ok=True)
+    for comp in [g for g in games if g in NOTICES] + ["ncurses"]:
+        name, rel = NOTICES[comp]
+        text = open(fetch(name), encoding="utf-8").read() if rel is None else tar_text(name, rel)
+        with open(os.path.join(dst, f"{comp}.txt"), "w") as fh:
+            fh.write(text)
+    musl = os.path.join(os.path.dirname(os.path.realpath(zig())), "lib", "libc", "musl", "COPYRIGHT")
+    shutil.copyfile(musl, os.path.join(dst, "musl.txt"))
+    shutil.copyfile(os.path.join(HERE, "..", "LICENSE"), os.path.join(dst, "tuikio-GPL-3.0.txt"))
+    lock = lockfile()
+    lines = [
+        "Sources of the native programs in this app",
+        "",
+        "Every game binary is built from the exact archives below (checked by SHA-256) with the",
+        "scripts and patches in the native/ directory of https://github.com/omersusin/tuikio",
+        "(build: python3 native/build.py). The Tuikio PTY helper and Lantern Tide are original",
+        "Tuikio code in that repository (GPL-3.0-or-later). Release pages also attach these",
+        "archives, so the corresponding source stays available even if a mirror disappears.",
+        "",
+    ]
+    for fname in sorted(lock):
+        lines += [fname, f"  {lock[fname]['url']}", f"  sha256 {lock[fname]['sha256']}", ""]
+    with open(os.path.join(dst, "SOURCES.txt"), "w") as fh:
+        fh.write("\n".join(lines))
+
+
 def build_abi(abi_name, games):
     abi = Abi(abi_name)
     results = {"tuikio_pty": build_pty(abi)}
@@ -383,6 +437,7 @@ def main():
     games = args.game or list(GAMES)
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(abis)) as pool:
         done = dict(pool.map(lambda a: build_abi(a, games), abis))
+    write_notices(games)
     manifest_path = os.path.join(OUT, "manifest.json")
     manifest = {}
     if os.path.exists(manifest_path):

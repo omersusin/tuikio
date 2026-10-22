@@ -137,12 +137,11 @@ fun brandHeader(ctx: Context, onSearch: () -> Unit): View = ctx.hstack(10) {
     }, LinearLayout.LayoutParams(ctx.dp(42), ctx.dp(42)))
     if (custom == null && Theme.pack == Brands.TUIKIO && !Theme.phosphor) {
         addView(ImageView(ctx).apply {
-            setImageResource(dev.tuikio.app.R.drawable.wordmark_tuikio)
-            setColorFilter(Theme.palette.ink, android.graphics.PorterDuff.Mode.SRC_IN)
+            // Two drawn variants rather than a tint, so the coral cursor dots keep their color.
+            setImageResource(if (Theme.palette.isDark) dev.tuikio.app.R.drawable.wordmark_tuikio_light else dev.tuikio.app.R.drawable.wordmark_tuikio)
             contentDescription = "Tuikio"
             adjustViewBounds = true
         }, LinearLayout.LayoutParams(WRAP, ctx.dp(26)))
-        // Re-tint the cursor dots back to coral on top of the ink wordmark.
     } else {
         addView(T.title(ctx, Theme.displayName, 22f).apply { maxLines = 1; ellipsize = TextUtils.TruncateAt.END }, lp(WRAP, WRAP))
     }

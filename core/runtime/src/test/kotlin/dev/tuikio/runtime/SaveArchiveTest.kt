@@ -73,5 +73,9 @@ class SaveArchiveTest {
         assertFailsWith<SaveArchive.RejectedException> {
             SaveArchive.import(ByteArrayInputStream(zip("a" to ByteArray(10), "b" to ByteArray(10))), "vitetris", home, SaveArchive.Limits(maxEntries = 2))
         }
+        // An oversized marker must not be read into memory whole.
+        assertFailsWith<SaveArchive.RejectedException> {
+            SaveArchive.import(ByteArrayInputStream(zip("ok" to "x".toByteArray(), marker = "game=vitetris\n" + " ".repeat(50_000_000))), "vitetris", home)
+        }
     }
 }

@@ -2,12 +2,14 @@ package dev.tuikio.app.screens
 
 import android.content.Context
 import android.content.Intent
+import android.os.SystemClock
 import android.text.InputType
 import android.view.View
 import android.widget.LinearLayout
 import dev.tuikio.app.MainActivity
 import dev.tuikio.app.community.CommunityClient
 import dev.tuikio.app.community.GitHubAuth
+import dev.tuikio.app.data.AppConfig
 import dev.tuikio.app.data.Sources
 import dev.tuikio.app.nav.Screen
 import dev.tuikio.app.nav.Tab
@@ -59,6 +61,7 @@ class CreateScreen : Screen() {
         })
 
         val sources = app.sources.all
+        refreshReceipts(ctx, sources)
         sectionHeader("My sources", if (sources.isNotEmpty()) "${sources.size}" else null)
         if (sources.isEmpty()) addView(T.soft(ctx, "Links you save appear here. They stay on this phone unless you suggest them."))
         sources.forEach { s -> addView(sourceRow(ctx, s)) }
@@ -66,9 +69,33 @@ class CreateScreen : Screen() {
         addView(ctx.card(dashed = true, shadow = false, gapDp = 8) {
             val login = GitHubAuth.login(ctx)
             addView(T.body(ctx, "Creator profile", 15f, p.ink, 800))
-            addView(T.soft(ctx, if (login != null) "GitHub connected as @$login" else "Optional. Connect GitHub to be credited by name and open pull requests from your own account."))
+            addView(T.soft(ctx, if (login != null) "GitHub connected as @$login" else "Optional. Connect GitHub to be credited by name, as a co-author on the review pull request."))
             addView(TButton(ctx, "Open creator profile", ButtonStyle.SECONDARY, Icon.PERSON).apply { setOnClickListener { nav.push(CreatorProfileScreen()) } }, lp(MATCH, WRAP))
         })
+    }
+
+    /** Follows suggestions still under review: at most once a minute, only while this tab is open. */
+    private fun refreshReceipts(ctx: Context, sources: List<Sources.Source>) {
+        val open = sources.filter { s ->
+            s.submission?.state.let { it != null && it != ReviewState.REJECTED && it != ReviewState.STORE_READY && it != ReviewState.DELISTED }
+        }
+        val now = SystemClock.elapsedRealtime()
+        if (open.isEmpty() || now - lastRefresh < 60_000 || AppConfig.load(ctx).submissionsUrl == null) return
+        lastRefresh = now
+        app.background({ open.mapNotNull { s -> runCatching { s to CommunityClient.status(ctx, s.submission!!.receipt) }.getOrNull() } }) { r ->
+            var changed = false
+            r.getOrNull()?.forEach { (s, st) ->
+                val sub = s.submission!!
+                if (sub.state != st.state || sub.prUrl != st.prUrl || sub.reason != st.reason) {
+                    sub.state = st.state
+                    sub.prUrl = st.prUrl
+                    sub.reason = st.reason
+                    app.sources.update(s)
+                    changed = true
+                }
+            }
+            if (changed) nav.rebuild()
+        }
     }
 
     private fun sourceRow(ctx: Context, s: Sources.Source): View = ctx.vstack(6) {
@@ -103,6 +130,8 @@ class CreateScreen : Screen() {
     }
 
     companion object {
+        private var lastRefresh = -60_000L
+
         fun stateLabel(s: ReviewState) = when (s) {
             ReviewState.PERSONAL_SOURCE -> "On this phone"
             ReviewState.SUBMITTED -> "Submitted"
@@ -193,11 +222,14 @@ class AddSourceScreen(private val prefill: String = "", private val startAtCredi
 
     private fun fetchPreview(ctx: Context) {
         val src = checked ?: return
-        if (src.host != SourceHost.GITHUB) return
+        val github = src.host == SourceHost.GITHUB
+        // GitHub links are read from GitHub's API directly; other sites only through Tuikio's
+        // server, which refuses private addresses. The phone never fetches arbitrary pages.
+        if (!github && AppConfig.load(ctx).submissionsUrl == null) return
         busy = true
-        app.background({ GitHubRest().repo(src.owner!!, src.repo!!) }) { r ->
+        app.background({ if (github) GitHubRest().repo(src.owner!!, src.repo!!) else CommunityClient.preview(ctx, src.canonicalUrl) }) { r ->
             busy = false
-            r.onSuccess { info = it; title = it.fullName.substringAfter('/') }.onFailure { infoError = it.message }
+            r.onSuccess { info = it; title = if (github) it.fullName.substringAfter('/') else it.fullName.take(80) }.onFailure { infoError = it.message }
             if (step == 1) nav.rebuild()
         }
     }
@@ -270,7 +302,7 @@ class AddSourceScreen(private val prefill: String = "", private val startAtCredi
         parent.addView(option(Attribution.ANONYMOUS, "Submit anonymously",
             "Shown as \"${SubmissionRequest.ANONYMOUS_CREDIT}\". No account needed. Our server still sees your network address to stop spam, and keeps it only as a short-lived hash."))
         parent.addView(option(Attribution.GITHUB, "Submit with my GitHub identity",
-            if (login != null) "As @$login. We open the pull request from your own fork when we can; if our bot opens it, it says so." else "Sign in through your browser first. We never see your password."))
+            if (login != null) "As @$login. Tuikio's review bot opens the pull request and adds you as a co-author, so it shows on your GitHub profile." else "Sign in through your browser first. We never see your password."))
         if (attribution == Attribution.GITHUB && login == null) {
             parent.addView(TButton(ctx, "Connect GitHub", ButtonStyle.SECONDARY, Icon.BRANCH).apply {
                 isEnabled = GitHubAuth.isConfigured(ctx)

@@ -348,7 +348,27 @@ class AboutScreen(private val privacy: Boolean = false) : Screen() {
             "Unbounded, Figtree and JetBrains Mono fonts (SIL Open Font License 1.1)",
             "Kotlin standard library (Apache-2.0)",
         ).forEach { addView(T.soft(ctx, "•  $it")) }
-        addView(T.soft(ctx, "Full license texts ship inside the app (assets/licenses) and in the source repository."))
+        addView(TButton(ctx, "License texts and game sources", ButtonStyle.SECONDARY).apply { setOnClickListener { nav.push(LicensesScreen()) } }, lp(MATCH, WRAP))
+    }
+}
+
+/** The full license texts and the source listing that ship inside the APK (assets/licenses). */
+class LicensesScreen(private val file: String? = null) : Screen() {
+    override fun build(ctx: Context): View = ctx.page(withDock = false) {
+        if (file != null) {
+            topBar(nav, file.removeSuffix(".txt"))
+            val text = runCatching { ctx.assets.open("licenses/$file").use { it.readBytes().toString(Charsets.UTF_8) } }.getOrElse { "Couldn't open $file." }
+            addView(T.mono(ctx, text, 11f, Theme.palette.ink).apply { setHorizontallyScrolling(false); setTextIsSelectable(true) })
+            return@page
+        }
+        topBar(nav, "Licenses")
+        addView(T.soft(ctx, "Where each game's exact source code comes from, and every license that applies to what's inside this app."))
+        val files = (ctx.assets.list("licenses") ?: emptyArray()).filter { it.endsWith(".txt") }.sortedWith(compareBy({ it != "SOURCES.txt" }, { it.lowercase() }))
+        files.forEach { f ->
+            addView(TButton(ctx, if (f == "SOURCES.txt") "Game source archives" else f.removeSuffix(".txt"), ButtonStyle.SECONDARY).apply {
+                setOnClickListener { nav.push(LicensesScreen(f)) }
+            }, lp(MATCH, WRAP))
+        }
     }
 }
 
