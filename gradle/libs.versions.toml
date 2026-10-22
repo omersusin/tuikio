@@ -1,0 +1,12 @@
+[versions]
+kotlin = "2.3.21"
+junit = "5.13.4"
+proguard = "7.7.0"
+apksig = "8.7.3"
+
+[libraries]
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+proguard-base = { module = "com.guardsquare:proguard-base", version.ref = "proguard" }

@@ -1,0 +1,45 @@
+{
+  "comment": "Every third-party source Tuikio builds, pinned by SHA-256. Debian/Ubuntu pool files are the upstream release tarballs as signed into the Ubuntu 24.04 (noble) archive; the hashes below were checked against that archive's signed Sources index on 2026-10-22.",
+  "files": {
+    "ncurses_6.4+20240113.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/main/n/ncurses/ncurses_6.4+20240113.orig.tar.gz",
+      "sha256": "37a12a0f8ae2605012c9a164dd286b0cfa02b51b5055836d09eb3d597fc351b1"
+    },
+    "2048.c": {
+      "url": "https://raw.githubusercontent.com/mevdschee/2048.c/main/2048.c",
+      "sha256": "90f794c675a696aa10980dd120d1f0503ee4ed33a61fef92c7df8f443f5b18a8"
+    },
+    "2048-LICENSE": {
+      "url": "https://raw.githubusercontent.com/mevdschee/2048.c/main/LICENSE",
+      "sha256": "593783abd95546a2817d104b2656dd985a979a9e90da895729f211fc844b6402"
+    },
+    "vitetris_0.59.1.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/v/vitetris/vitetris_0.59.1.orig.tar.gz",
+      "sha256": "699443df03c8d4bf2051838c1015da72039bbbdd0ab0eede891c59c840bdf58d"
+    },
+    "robotfindskitten_2.8284271.702.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/r/robotfindskitten/robotfindskitten_2.8284271.702.orig.tar.gz",
+      "sha256": "020172e4f4630f7c4f62c03b6ffe2eeeba5637b60374d3e6952ae5816a9f99af"
+    },
+    "moon-buggy_1.0.51.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/m/moon-buggy/moon-buggy_1.0.51.orig.tar.gz",
+      "sha256": "352dc16ccae4c66f1e87ab071e6a4ebeb94ff4e4f744ce1b12a769d02fe5d23f"
+    },
+    "freesweep_1.0.2.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/f/freesweep/freesweep_1.0.2.orig.tar.gz",
+      "sha256": "ec9318eec04f8a7ce20c230620f830a17bcf02d8e161866750dfb0c89ff8fe72"
+    },
+    "ninvaders_0.1.1.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/ninvaders/ninvaders_0.1.1.orig.tar.gz",
+      "sha256": "bfbc5c378704d9cf5e7fed288dac88859149bee5ed0850175759d310b61fd30b"
+    },
+    "greed_4.2.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/g/greed/greed_4.2.orig.tar.gz",
+      "sha256": "702bc0314ddedb2ba17d4b55d873384a1606886e8d69f35ce67f6e3024a8d3fd"
+    },
+    "nsnake_3.0.1.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/nsnake/nsnake_3.0.1.orig.tar.gz",
+      "sha256": "7240dafe35e17b01134591d7ae8f09f5a375cded8b01e43ba97ca3610a09ea61"
+    }
+  }
+}
