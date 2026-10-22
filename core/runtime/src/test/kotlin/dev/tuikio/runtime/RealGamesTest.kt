@@ -47,7 +47,7 @@ class RealGamesTest {
         val s = session("game_lantern_tide") { home[0] = it }
         s.expect("title screen") { it.contains("L A N T E R N") }
         s.type(" ")
-        s.expect("board with score and lanterns") { it.contains("Score") && it.contains("Lanterns") && it.contains("K") }
+        s.expect("board with score, tide and lanterns") { it.contains("Score") && it.contains("Tide") && it.contains("\u2726") && it.contains("K") }
         val before = s.screenText().joinToString("\n")
         repeat(3) { s.key(TermKey.UP) }
         s.expect("Kio moved") { it != before }

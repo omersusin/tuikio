@@ -25,6 +25,9 @@ object PtyFrames {
     /** Freezes the game (and its timers) while the app is in the background. */
     const val SIG_STOP = 5
 
+    /** Terminal stop request: lets games that handle it save state before [SIG_STOP]. */
+    const val SIG_TSTP = 6
+
     fun frame(type: Int, payload: ByteArray, off: Int = 0, len: Int = payload.size): ByteArray {
         require(len <= MAX_PAYLOAD)
         val out = ByteArray(3 + len)
@@ -213,6 +216,43 @@ class GameSession(
 
     fun signal(sig: Int) = writeFrame(PtyFrames.frame(PtyFrames.SIGNAL, byteArrayOf(sig.toByte())))
 
+    private val suspendLock = Any()
+    private var suspended = false
+    private var suspendGeneration = 0
+
+    /**
+     * Pauses the game the way terminal job control does: SIGTSTP first, so games that handle
+     * it can save their state and restore the terminal, then SIGSTOP after [graceMs] so every
+     * game is frozen for certain. (The game leads its own session, so the kernel would discard
+     * a default-action SIGTSTP; that's why the SIGSTOP follows.)
+     */
+    fun suspend(graceMs: Long = 250) {
+        synchronized(suspendLock) {
+            if (suspended || process == null) return
+            suspended = true
+            val token = ++suspendGeneration
+            signal(PtyFrames.SIG_TSTP)
+            scheduler.schedule({
+                synchronized(suspendLock) { if (suspended && suspendGeneration == token) signal(PtyFrames.SIG_STOP) }
+            }, graceMs, TimeUnit.MILLISECONDS)
+        }
+    }
+
+    /**
+     * Undoes [suspend]. Does nothing when the game wasn't suspended: some games (moon-buggy)
+     * assume every SIGCONT follows their own SIGTSTP handling and crash otherwise.
+     */
+    fun resume() {
+        synchronized(suspendLock) {
+            if (!suspended) return
+            suspended = false
+            suspendGeneration++
+            signal(PtyFrames.SIG_CONT)
+        }
+    }
+
+    val isSuspended: Boolean get() = synchronized(suspendLock) { suspended }
+
     private fun writeFrame(frame: ByteArray) {
         synchronized(writeLock) {
             try {
@@ -265,6 +305,10 @@ class GameSession(
     fun screenText(): List<String> = synchronized(terminal.lock) { terminal.screen.text() }
 
     companion object {
+        private val scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor { r ->
+            Thread(r, "tuikio-game-suspend").apply { isDaemon = true }
+        }
+
         fun defaultStart(command: List<String>, env: Map<String, String>, cwd: File): Process {
             val pb = ProcessBuilder(command).directory(cwd)
             pb.environment().clear()

@@ -33,8 +33,19 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     var emulator: TerminalEmulator? = null
         set(v) {
             field = v
+            resetFraming()
             fullRedraw = true
             requestFrame()
+        }
+
+    /**
+     * Largest cell height in px (the player's "Game text size"). Within that limit the font is
+     * chosen so that what the game actually draws fills the view: see [refit].
+     */
+    var maxCellPx = 0f
+        set(v) {
+            field = v
+            refit()
         }
 
     var palette: Palette? = null
@@ -102,6 +113,78 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         return size
     }
 
+    // ------------------------------------------------------------------ content framing
+    //
+    // Many games draw into only part of the terminal (2048 uses 28 of 40 columns, starting
+    // at the left). The view tracks the union of every cell the game has drawn this session
+    // and sizes and centers *that*, so the game fills the phone instead of hugging a corner.
+    // The box only grows (reset when the grid changes size), so it settles within the first
+    // frames instead of jumping around during play.
+
+    private var boxC0 = Int.MAX_VALUE
+    private var boxR0 = Int.MAX_VALUE
+    private var boxC1 = -1
+    private var boxR1 = -1
+    private var boxCols = 0
+    private var boxRows = 0
+    private var refitPending = false
+
+    private fun resetFraming() {
+        boxC0 = Int.MAX_VALUE; boxR0 = Int.MAX_VALUE; boxC1 = -1; boxR1 = -1
+        boxCols = 0; boxRows = 0
+    }
+
+    /** Grows the box with row [r]'s drawn cells; returns true if it changed. */
+    private fun frameRow(emu: TerminalEmulator, r: Int, cols: Int): Boolean {
+        val line = emu.screen[r]
+        var first = -1
+        var last = -1
+        for (c in 0 until cols) {
+            val cp = line.chars[c]
+            val st = line.styles[c]
+            val ink = (cp != 0 && cp != ' '.code) || CellStyle.bg(st) != TermColor.DEFAULT || CellStyle.has(st, CellStyle.INVERSE)
+            if (ink) {
+                if (first < 0) first = c
+                last = c
+            }
+        }
+        if (first < 0) return false
+        var changed = false
+        if (first < boxC0) { boxC0 = first; changed = true }
+        if (last > boxC1) { boxC1 = last; changed = true }
+        if (r < boxR0) { boxR0 = r; changed = true }
+        if (r > boxR1) { boxR1 = r; changed = true }
+        return changed
+    }
+
+    /** Cells to fit and center: what the game drew so far, or the whole grid before that. */
+    private fun frameBox(cols: Int, rows: Int): IntArray =
+        if (boxC1 < 0 || boxCols != cols || boxRows != rows) intArrayOf(0, 0, cols - 1, rows - 1)
+        else intArrayOf(boxC0, boxR0, boxC1, boxR1)
+
+    /** Picks the font size for the current box and view size. */
+    fun refit() {
+        refitPending = false
+        val emu = emulator ?: return
+        if (width == 0 || height == 0 || maxCellPx <= 0f) return
+        val box = synchronized(emu.lock) { frameBox(emu.cols, emu.rows) }
+        val bc = box[2] - box[0] + 1
+        val br = box[3] - box[1] + 1
+        textPaint.typeface = typeface
+        textPaint.textSize = 100f
+        val advance = textPaint.measureText("M")
+        val fm = textPaint.fontMetrics
+        val lineH = fm.descent - fm.ascent
+        val forW = width / bc.toFloat() / advance * 100f
+        // Cell height is rounded up to whole pixels, so fit against the floor of the share.
+        val forH = Math.floor(height / br.toDouble()).toFloat() / lineH * 100f
+        val forMax = Math.floor(maxCellPx.toDouble()).toFloat() / lineH * 100f
+        val size = minOf(forW, forH, forMax).coerceAtLeast(6f / lineH * 100f)
+        if (Math.abs(size - currentSize) > 0.25f) applyFontSize(size) else requestFrame()
+    }
+
+    private var currentSize = 0f
+
     /** How many columns/rows fit at a given font size (for games that adapt to any size). */
     fun gridFor(textSizePx: Float): Pair<Int, Int> {
         textPaint.typeface = typeface
@@ -113,6 +196,7 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     }
 
     fun applyFontSize(sizePx: Float) {
+        currentSize = sizePx
         textPaint.typeface = typeface
         textPaint.textSize = sizePx
         cellW = textPaint.measureText("M")
@@ -152,6 +236,7 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         fullRedraw = true
+        refit()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -161,6 +246,7 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         var cursorRow: Int
         var cursorCol: Int
         var cursorVisible: Boolean
+        var box: IntArray
         synchronized(emu.lock) {
             val cols = emu.cols
             val rows = emu.rows
@@ -177,19 +263,37 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
             if (dirty.size != rows) dirty = BooleanArray(rows)
             val anyDamage = emu.screen.collectDamage(dirty)
             val c = bufferCanvas!!
+            if (boxCols != cols || boxRows != rows) {
+                resetFraming()
+                boxCols = cols
+                boxRows = rows
+            }
+            var boxGrew = false
             if (fullRedraw || anyDamage) {
                 for (r in 0 until rows) {
-                    if (fullRedraw || dirty[r]) drawRow(c, emu, r, cols, pal)
+                    if (fullRedraw || dirty[r]) {
+                        drawRow(c, emu, r, cols, pal)
+                        if (frameRow(emu, r, cols)) boxGrew = true
+                    }
                 }
                 fullRedraw = false
             }
+            if (boxGrew && !refitPending) {
+                refitPending = true
+                post { refit() }
+            }
+            box = frameBox(cols, rows)
             cursorRow = emu.cursorRow
             cursorCol = emu.cursorCol
             cursorVisible = emu.cursorVisible
         }
         val bmp = buffer ?: return
-        originX = ((width - bmp.width) / 2f).coerceAtLeast(0f)
-        originY = ((height - bmp.height) / 2f).coerceAtLeast(0f)
+        // Center the drawn content, on whole pixels: a fractional offset makes the GPU pick
+        // pixels from neighbouring rows unevenly, which showed as ragged lines along edges.
+        val contentW = (box[2] - box[0] + 1) * cellW
+        val contentH = (box[3] - box[1] + 1) * cellH
+        originX = Math.floor(((width - contentW) / 2f - box[0] * cellW).toDouble()).toFloat()
+        originY = Math.floor(((height - contentH) / 2f - box[1] * cellH).toDouble()).toFloat()
         canvas.drawColor(pal.screen)
         canvas.drawBitmap(bmp, originX, originY, null)
 

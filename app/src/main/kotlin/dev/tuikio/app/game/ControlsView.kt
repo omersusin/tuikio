@@ -13,12 +13,13 @@ import android.view.accessibility.AccessibilityNodeInfo
 import dev.tuikio.app.ui.Icon
 import dev.tuikio.app.ui.IconDrawable
 import dev.tuikio.app.ui.Theme
-import dev.tuikio.controls.Anchor
 import dev.tuikio.controls.ControlElement
 import dev.tuikio.controls.ControlProfile
 import dev.tuikio.controls.ElementType
 import dev.tuikio.controls.Haptic
+import dev.tuikio.controls.ControlLayout
 import dev.tuikio.controls.PadGeometry
+import dev.tuikio.controls.PlacedControl
 
 /**
  * Draws a game's control profile and turns multitouch into action presses/releases. Pads
@@ -29,6 +30,11 @@ import dev.tuikio.controls.PadGeometry
  */
 @SuppressLint("ViewConstructor")
 class ControlsView(context: Context, private val profile: ControlProfile) : View(context) {
+    companion object {
+        /** Height of the pause/title/keyboard bar that shares the left column in landscape. */
+        const val TOP_BAR_DP = 72f
+    }
+
     var landscape = false
         set(v) {
             field = v
@@ -59,49 +65,57 @@ class ControlsView(context: Context, private val profile: ControlProfile) : View
         contentDescription = "Game controls: ${profile.title}"
     }
 
-    /** Space needed on each side in landscape so the terminal isn't covered (px). */
-    fun sideInsetPx(): Int {
-        val d = resources.displayMetrics.density
-        val widest = profile.layout(true).maxOfOrNull { it.sizeDp + Math.abs(it.offsetDp.first) } ?: 0
-        return ((widest * scale + 32) * d).toInt()
+    private val density get() = resources.displayMetrics.density
+
+    /** Pads that print their "up" action above themselves (e.g. "Rotate") need a little headroom. */
+    private val labelled: (ControlElement) -> Boolean = { e ->
+        (e.type == ElementType.DPAD4 || e.type == ElementType.DPAD8) &&
+            e.bindings["up"]?.let { profile.actions[it]?.label } !in setOf(null, "Up", "North")
     }
 
-    /** Height needed below the terminal in portrait (px). */
+    private fun screenDp(): Pair<Float, Float> = resources.displayMetrics.let { it.widthPixels / it.density to it.heightPixels / it.density }
+
+    /** Landscape: the player's scale, shrunk if needed so each side column stays under 30% of the width. */
+    private fun landscapeScale(w: Float, h: Float) =
+        ControlLayout.fittedLandscapeScale(profile.layout(true), w, h, TOP_BAR_DP, scale, labelled, reserveOnEnd = leftHanded)
+
+    private fun portraitScale(w: Float, screenH: Float) = ControlLayout.fittedPortraitScale(profile.layout(false), w, screenH, scale, labelled)
+
+    /** Width of each landscape side column, so the terminal isn't covered (px). */
+    fun sideInsetPx(): Int {
+        val (w, h) = screenDp()
+        val els = profile.layout(true)
+        return (ControlLayout.requiredSide(els, w, h, TOP_BAR_DP, landscapeScale(w, h), labelled, leftHanded) * density).toInt()
+    }
+
+    /** Height of the controls area below the terminal in portrait (px). */
     fun portraitHeightPx(): Int {
-        val d = resources.displayMetrics.density
-        var need = 0f
-        for (e in profile.layout(false)) {
-            val extra = when (e.anchor) {
-                Anchor.BOTTOM_START, Anchor.BOTTOM_CENTER, Anchor.BOTTOM_END -> e.sizeDp - e.offsetDp.second
-                else -> e.sizeDp * 2f
-            }
-            need = maxOf(need, extra.toFloat())
-        }
-        return ((need * scale + 40) * d).toInt()
+        val (w, h) = screenDp()
+        return (ControlLayout.requiredHeight(profile.layout(false), w, portraitScale(w, h), labelled) * density).toInt()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) = layoutElements()
 
     private fun layoutElements() {
         if (width == 0 || height == 0) return
-        val d = resources.displayMetrics.density
-        val pad = 16 * d
-        placed = profile.layout(landscape).map { e ->
-            val size = e.sizeDp * scale * d
-            val r = size / 2
-            var x = when (e.anchor) {
-                Anchor.TOP_START, Anchor.CENTER_START, Anchor.BOTTOM_START -> pad + r
-                Anchor.TOP_END, Anchor.CENTER_END, Anchor.BOTTOM_END -> width - pad - r
-                Anchor.BOTTOM_CENTER -> width / 2f
-            } + e.offsetDp.first * d * scale
-            val y = when (e.anchor) {
-                Anchor.TOP_START, Anchor.TOP_END -> pad + r
-                Anchor.CENTER_START, Anchor.CENTER_END -> height / 2f
-                Anchor.BOTTOM_START, Anchor.BOTTOM_CENTER, Anchor.BOTTOM_END -> height - pad - r
-            } + e.offsetDp.second * d * scale
-            if (leftHanded) x = width - x
-            Placed(e, x, y, r)
+        val d = density
+        val w = width / d
+        val h = height / d
+        val els = profile.layout(landscape)
+        var s = if (landscape) landscapeScale(w, h) else portraitScale(w, screenDp().second)
+        var result: List<PlacedControl>? = null
+        // The area is sized from the same rules, so this normally succeeds first time; shrink
+        // a little if rounding or an unusual window size leaves too little room.
+        while (result == null && s >= 0.5f) {
+            result = if (landscape) {
+                val side = ControlLayout.requiredSide(els, w, h, TOP_BAR_DP, s, labelled, leftHanded)
+                ControlLayout.place(els, w, h, s, leftHanded, labelled, ControlLayout.sideRegions(w, h, side, TOP_BAR_DP, leftHanded))
+            } else {
+                ControlLayout.place(els, w, h, s, leftHanded, labelled)
+            }
+            s -= 0.05f
         }
+        placed = result.orEmpty().map { Placed(it.element, it.cx * d, it.cy * d, it.radius * d) }
     }
 
     override fun onDraw(canvas: Canvas) {

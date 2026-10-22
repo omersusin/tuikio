@@ -57,7 +57,9 @@ object Theme {
                 logoPath = prefs.getString("custom_logo", null),
             )
         }
-        resolve()
+        // Initial resolution is silent: listeners belong to screens of a running app, and the
+        // app's other state (catalog, library) isn't ready yet at this point.
+        resolve(notify = false)
     }
 
     /** The pack whose palette, type and shapes are in use (a custom brand builds on one). */
@@ -69,7 +71,7 @@ object Theme {
     fun systemIsDark(): Boolean =
         (appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
-    fun resolve() {
+    fun resolve(notify: Boolean = true) {
         val base = activePack
         val dark = when (darkMode) {
             DarkMode.SYSTEM -> systemIsDark()
@@ -80,7 +82,7 @@ object Theme {
         val accent = custom?.accent
         if (accent != null && !phosphor) p = withAccent(p, accent)
         palette = p
-        listeners.toList().forEach { it() }
+        if (notify) listeners.toList().forEach { it() }
     }
 
     fun setPack(next: BrandPack) {

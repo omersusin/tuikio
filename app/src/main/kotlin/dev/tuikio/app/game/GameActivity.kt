@@ -70,7 +70,11 @@ class GameActivity : Activity() {
     private lateinit var controls: ControlsView
     private lateinit var dispatcher: ControlDispatcher
     private lateinit var root: FrameLayout
-    private val handler = Handler(Looper.getMainLooper())
+    /**
+     * Named uiHandler, not handler: inside `someView.apply { … }` a bare `handler` resolves to
+     * View.getHandler(), which is null once the view is detached (crash seen on device).
+     */
+    private val uiHandler = Handler(Looper.getMainLooper())
     private var startedAt = 0L
     private var exited = false
     private var cols = 80
@@ -129,7 +133,7 @@ class GameActivity : Activity() {
         val s = GameSession(spec, cols, rows)
         session = s
         terminal.emulator = s.terminal
-        dispatcher = ControlDispatcher(profile, s.keys, HandlerScheduler(handler)) { bytes -> s.send(bytes) }
+        dispatcher = ControlDispatcher(profile, s.keys, HandlerScheduler(uiHandler)) { bytes -> s.send(bytes) }
         dispatcher.confirm = { action -> confirmAction(action.label); false }
         controls.onPress = { dispatcher.press(it) }
         controls.onRelease = { dispatcher.release(it) }
@@ -146,7 +150,7 @@ class GameActivity : Activity() {
         s.listener = object : GameSession.Listener {
             override fun onOutput() = terminal.onOutput()
             override fun onExit(exitCode: Int) {
-                handler.post { if (!isFinishing) showEnded(if (exitCode == 0) "${game.title} ended." else "${game.title} stopped (code $exitCode).") }
+                uiHandler.post { if (!isFinishing) showEnded(if (exitCode == 0) "${game.title} ended." else "${game.title} stopped (code $exitCode).") }
             }
         }
         try {
@@ -181,6 +185,9 @@ class GameActivity : Activity() {
     }
 
     private fun layoutForOrientation(landscape: Boolean) {
+        // terminal and controls survive rotation; in portrait they sit inside a column, so
+        // clearing root alone would leave them attached to the old column.
+        for (v in listOf<View>(terminal, controls)) (v.parent as? ViewGroup)?.removeView(v)
         root.removeAllViews()
         controls.landscape = landscape
         val top = hstack(10) {
@@ -206,8 +213,8 @@ class GameActivity : Activity() {
 
     private fun fitTerminal() {
         val d = resources.displayMetrics.density
-        val maxCell = 26f * d * TuikioApp.instance.prefs.terminalTextScale
-        terminal.fitGrid(cols, rows, maxCell)
+        // TerminalView fits what the game draws into the space, up to this cell height.
+        terminal.maxCellPx = 30f * d * TuikioApp.instance.prefs.terminalTextScale
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -219,7 +226,7 @@ class GameActivity : Activity() {
 
     override fun onStart() {
         super.onStart()
-        session?.signal(PtyFrames.SIG_CONT)
+        session?.resume()
         terminal.onOutput()
     }
 
@@ -227,15 +234,15 @@ class GameActivity : Activity() {
         // Freeze the game: no CPU, no timers, no surprise game-over while you were away.
         if (::dispatcher.isInitialized) dispatcher.releaseAll()
         controls.releaseAll()
-        if (!isFinishing) session?.signal(PtyFrames.SIG_STOP)
+        if (!isFinishing) session?.suspend()
         super.onStop()
     }
 
     override fun onDestroy() {
-        handler.removeCallbacksAndMessages(null)
+        uiHandler.removeCallbacksAndMessages(null)
         val s = session
         if (s != null) {
-            s.signal(PtyFrames.SIG_CONT)
+            s.resume() // a frozen game can't react to the hang-up that stop() sends
             s.stop(1200)
             val seconds = (SystemClock.elapsedRealtime() - startedAt) / 1000
             if (startedAt > 0) TuikioApp.instance.library.recordSession(game.id, seconds)
@@ -265,7 +272,7 @@ class GameActivity : Activity() {
                     sheet.dismiss()
                     // Ask the game to quit its own way first, so it can write scores and saves.
                     quit?.let { dispatcher.emit(it.output) }
-                    handler.postDelayed({ finish() }, if (quit != null) 600 else 0)
+                    uiHandler.postDelayed({ finish() }, if (quit != null) 600 else 0)
                 }
             }, lp(MATCH, WRAP))
             addView(hstack(8) {

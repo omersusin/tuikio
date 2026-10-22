@@ -211,10 +211,20 @@ static void draw(void) {
     if (ox < 0) ox = 0;
     if (oy < 0) oy = 0;
     if (resized) { out("\033[0m\033[2J"); resized = 0; full_redraw = 1; }
-    outf("\033[%d;%dH\033[0m\033[1;38;5;209mKio: Lantern Tide\033[0m  \033[38;5;222mScore %-5d\033[0m Best %-5d", oy + 1, ox + 1, score, best);
-    outf("\033[%d;%dH\033[38;5;204m", oy + 2, ox + 1);
+    /* Two header lines exactly as wide as the board (W + 2 columns), padded so stale digits
+     * never linger and nothing wraps on a narrow terminal. */
+    char right[32];
+    int rlen = snprintf(right, sizeof right, "Score %d", score);
+    int pad = (W + 2) - 17 - rlen;
+    outf("\033[%d;%dH\033[0;1;38;5;209mKio: Lantern Tide\033[0m%*s\033[38;5;222m%s\033[0m",
+         oy + 1, ox + 1, pad < 1 ? 1 : pad, "", right);
+    outf("\033[%d;%dH\033[0;38;5;204m", oy + 2, ox + 1);
     for (int i = 0; i < 3; i++) out(i < hearts ? "\xe2\x99\xa5 " : "\033[38;5;240m\xe2\x99\xa1 \033[38;5;204m");
-    outf("\033[0m Tide %d  Lanterns %d   ", level, lanterns_left);
+    char mid[32];
+    int mlen = snprintf(mid, sizeof mid, "Tide %d  \xe2\x9c\xa6 %d", level, lanterns_left) - 2; /* \u2726 is 3 bytes, 1 column */
+    rlen = snprintf(right, sizeof right, "Best %d", best);
+    pad = (W + 2) - 6 - 1 - mlen - rlen;
+    outf("\033[0m %s\033[0m%*s\033[38;5;146m%s\033[0m", mid, pad < 1 ? 1 : pad, "", right);
     if (full_redraw) {
         outf("\033[%d;%dH\033[38;5;61m\xe2\x95\xad", oy + 3, ox + 1);
         for (int x = 0; x < W; x++) out("\xe2\x94\x80");
@@ -266,11 +276,14 @@ static void draw(void) {
         out("\xe2\x95\xaf\033[0m");
     }
     full_redraw = 0;
-    const char *msg = game_over ? "\033[1;38;5;209mThe tide won this time. R: retry  Q: quit\033[0m"
-                    : paused ? "\033[1;38;5;222mPaused. P to continue, Q to quit.\033[0m"
-                    : lanterns_left == 0 ? "\033[38;5;48mAll lanterns found! Back home to \xe2\x8c\x82\033[0m"
-                    : "\033[38;5;146mArrows move \xc2\xb7 P pause \xc2\xb7 Q quit\033[0m";
-    outf("\033[%d;%dH\033[2K\033[%d;%dH%s", oy + 5 + H, 1, oy + 5 + H, ox + 1, msg);
+    /* Status line, centered under the board. Every message fits in W + 2 columns. */
+    const char *msg; int mcols;
+    if (game_over) { msg = "\033[1;38;5;209mThe tide won! R retry \xc2\xb7 Q quit"; mcols = 30; }
+    else if (paused) { msg = "\033[1;38;5;222mPaused \xc2\xb7 P play \xc2\xb7 Q quit"; mcols = 24; }
+    else if (lanterns_left == 0) { msg = "\033[38;5;48mAll lanterns lit! Home to \xe2\x8c\x82"; mcols = 27; }
+    else { msg = "\033[38;5;146mArrows move \xc2\xb7 P pause \xc2\xb7 Q quit"; mcols = 30; }
+    /* Reset colors first: ESC[2K erases with the current background. */
+    outf("\033[0m\033[%d;%dH\033[2K\033[%d;%dH%s\033[0m", oy + 5 + H, 1, oy + 5 + H, ox + 1 + ((W + 2) - mcols) / 2, msg);
     flush_out();
 }
 
