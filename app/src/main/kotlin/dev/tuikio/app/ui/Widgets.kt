@@ -456,31 +456,44 @@ class StripeProgress(context: Context) : View(context) {
 }
 
 /** Round icon-only button with a required content description. */
-fun Context.iconButton(icon: Icon, description: String, fill: Int = Theme.palette.surface, ink: Int = Theme.palette.ink, onClick: () -> Unit): View =
-    object : View(this) {
-        private val d = StickerDrawable(this@iconButton, fill = fill, shadowDp = 0f, cornerDp = -1f, outlineDp = Math.max(Theme.shapes.outlineDp, 1.5f))
-        private val ic = IconDrawable(icon, ink, 2.6f)
+fun Context.iconButton(icon: Icon, description: String, fill: Int = Theme.palette.surface, ink: Int = Theme.palette.ink, onClick: () -> Unit): IconButton =
+    IconButton(this, icon, description, fill, ink, onClick)
 
-        init {
-            background = d
-            contentDescription = description
-            isClickable = true
-            isFocusable = true
-            setOnClickListener {
-                performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-                onClick()
-            }
+class IconButton(ctx: Context, icon: Icon, description: String, fill: Int, private val ink: Int, onClick: () -> Unit) : View(ctx) {
+    private val d = StickerDrawable(ctx, fill = fill, shadowDp = 0f, cornerDp = -1f, outlineDp = Math.max(Theme.shapes.outlineDp, 1.5f))
+    private var ic = IconDrawable(icon, ink, 2.6f)
+    var icon: Icon = icon
+        private set
+
+    init {
+        background = d
+        contentDescription = description
+        isClickable = true
+        isFocusable = true
+        setOnClickListener {
+            performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            onClick()
         }
-
-        override fun onMeasure(w: Int, h: Int) = setMeasuredDimension(dp(48), dp(48))
-        override fun onDraw(canvas: Canvas) {
-            val s = dp(20)
-            ic.setBounds((width - s) / 2, (height - s) / 2, (width + s) / 2, (height + s) / 2)
-            ic.draw(canvas)
-        }
-
-        override fun getAccessibilityClassName(): CharSequence = android.widget.Button::class.java.name
     }
+
+    /** Swaps what the button shows and says, for buttons that toggle (Pause and Resume). */
+    fun show(icon: Icon, description: String) {
+        if (icon == this.icon && description == contentDescription) return
+        this.icon = icon
+        ic = IconDrawable(icon, ink, 2.6f)
+        contentDescription = description
+        invalidate()
+    }
+
+    override fun onMeasure(w: Int, h: Int) = setMeasuredDimension(dp(48), dp(48))
+    override fun onDraw(canvas: Canvas) {
+        val s = dp(20)
+        ic.setBounds((width - s) / 2, (height - s) / 2, (width + s) / 2, (height + s) / 2)
+        ic.draw(canvas)
+    }
+
+    override fun getAccessibilityClassName(): CharSequence = android.widget.Button::class.java.name
+}
 
 /** A short-lived message bubble at the bottom, with Kio, instead of a toast or snackbar. */
 object Snack {

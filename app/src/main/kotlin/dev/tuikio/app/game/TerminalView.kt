@@ -86,6 +86,18 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     private val sb = StringBuilder()
     private val blinkTick = Runnable { requestFrame() }
 
+    /**
+     * Keeps showing the last frame while true. A game told to stop leaves its screen first
+     * (curses' suspend handler), and that should not flash up behind the pause sheet; what
+     * changed meanwhile is drawn once this is cleared.
+     */
+    var frozen = false
+        set(value) {
+            if (field == value) return
+            field = value
+            if (!value) requestFrame()
+        }
+
     /** Measured redraw cost, shown in Settings › Diagnostics. */
     var lastFrameMicros = 0L
         private set
@@ -244,6 +256,11 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     override fun onDraw(canvas: Canvas) {
         val emu = emulator ?: return
         val pal = palette ?: return
+        if (frozen) {
+            canvas.drawColor(pal.screen)
+            buffer?.let { canvas.drawBitmap(it, originX, originY, null) }
+            return
+        }
         val t0 = System.nanoTime()
         var cursorRow: Int
         var cursorCol: Int

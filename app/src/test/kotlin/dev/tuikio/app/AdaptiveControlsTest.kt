@@ -9,10 +9,12 @@ import dev.tuikio.app.game.ControlsView
 import dev.tuikio.app.game.GameActivity
 import dev.tuikio.app.game.GameLauncher
 import dev.tuikio.app.game.TerminalView
+import dev.tuikio.app.ui.IconButton
 import dev.tuikio.app.ui.Motion
 import dev.tuikio.app.ui.TButton
 import java.io.File
 import java.util.concurrent.TimeUnit
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Assume.assumeTrue
@@ -87,6 +89,23 @@ class AdaptiveControlsTest {
         controls.onPress("pause") // sends the state's output: resumes
         controls.onRelease("pause")
         waitFor("the button to read Pause again", a) { controls.contentDescription == null && !screen(a).contains("Paused") }
+    }
+
+    /** The app's own Pause really pauses, and its button turns into Resume until the game runs again. */
+    @Test
+    fun theAppPauseButtonFreezesTheGameAndReadsResume() {
+        val a = launch("lantern-tide")
+        val term = views(a.window.decorView).filterIsInstance<TerminalView>().first()
+        waitFor("title", a) { screen(a).contains("L A N T E R N") }
+        fun topButton() = views(a.window.decorView).filterIsInstance<IconButton>().first { it.contentDescription in setOf("Pause", "Resume") }
+        topButton().performClick()
+        waitFor("the pause sheet", a) { views(a.window.decorView).any { it is TextView && it.text == "Paused" } }
+        assertEquals("Resume", topButton().contentDescription)
+        assertTrue("the last frame stays up", term.frozen)
+        views(a.window.decorView).filterIsInstance<TButton>().first { it.text == "Resume" }.performClick()
+        waitFor("the game to run and show again", a) { topButton().contentDescription == "Pause" && !term.frozen }
+        term.onText!!(" ")
+        waitFor("the game to take input again", a) { screen(a).contains("Tide") }
     }
 
     @Test

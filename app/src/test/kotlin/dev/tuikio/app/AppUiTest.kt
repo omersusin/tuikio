@@ -174,6 +174,23 @@ class AppUiTest {
         }
     }
 
+    /** Rotating with the pause sheet open keeps the game paused and the sheet up. */
+    @Test
+    fun pauseSurvivesRotation() {
+        install("2048")
+        val c = gameActivity("2048")
+        val a = c.get()
+        waitFor("2048 to draw") { screenText(a).contains("pts") }
+        click(a.window.decorView, "Pause")
+        rotate(c, landscape = true)
+        assertTrue("the sheet is back after rotating", texts(a.window.decorView).contains("Paused"))
+        click(a.window.decorView, "Resume") // the top bar's button, now a play button
+        idle(400)
+        assertTrue("no sheet once resumed", !texts(a.window.decorView).contains("Paused"))
+        assertTrue(views(a.window.decorView).any { it.contentDescription == "Pause" })
+        c.pause().stop().destroy()
+    }
+
     @Test
     fun backgroundingPausesAndResumesTheGame() {
         install("2048")

@@ -35,6 +35,7 @@ import dev.tuikio.app.ui.Theme
 import dev.tuikio.app.ui.WRAP
 import dev.tuikio.app.ui.dp
 import dev.tuikio.app.ui.hstack
+import dev.tuikio.app.ui.IconButton
 import dev.tuikio.app.ui.iconButton
 import dev.tuikio.app.ui.lp
 import dev.tuikio.app.ui.vstack
@@ -278,7 +279,15 @@ class GameActivity : Activity() {
         for (v in listOf<View>(terminal, controls)) (v.parent as? ViewGroup)?.removeView(v)
         root.removeAllViews()
         controls.landscape = landscape
-        fun pauseButton() = iconButton(Icon.PAUSE, "Pause", fill = Theme.palette.surfaceAlt) { showPauseSheet() }
+        // The pause sheet and its help go with the old views; the game stays paused and the
+        // sheet comes back below.
+        val paused = pauseHolds.isNotEmpty()
+        if (paused) { pauseHolds.clear(); pauseHolds += "sheet" }
+        pauseSheet = null
+        pauseButtons.clear()
+        fun pauseButton() = iconButton(if (paused) Icon.PLAY else Icon.PAUSE, if (paused) "Resume" else "Pause", fill = Theme.palette.surfaceAlt) {
+            pauseSheet?.dismiss() ?: showPauseSheet()
+        }.also { pauseButtons += it }
         fun keyboardButton() = iconButton(Icon.KEYBOARD, "Show keyboard", fill = Theme.palette.surfaceAlt) { toggleKeyboard() }
         val top: View = if (landscape) {
             // The side column is narrow: buttons on one row, the title under them (two lines at most).
@@ -325,6 +334,7 @@ class GameActivity : Activity() {
             fitTerminal()
             if (shownChips.isNotEmpty()) placeChips()
         }
+        if (paused) showPauseSheet()
     }
 
     private fun fitTerminal() {
@@ -342,7 +352,7 @@ class GameActivity : Activity() {
 
     override fun onStart() {
         super.onStart()
-        session?.resume()
+        if (pauseHolds.isEmpty()) session?.resume()
         terminal.onOutput()
     }
 
@@ -369,11 +379,40 @@ class GameActivity : Activity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() = showPauseSheet()
 
+    // ------------------------------------------------------------------ pausing
+
+    /** What keeps the game paused (the pause sheet, the help opened from it); it runs when empty. */
+    private val pauseHolds = HashSet<String>()
+    private val pauseButtons = ArrayList<IconButton>()
+    private var pauseSheet: Sheet? = null
+    private val thaw = Runnable { terminal.frozen = false }
+
+    /** Really pauses: the game is stopped, its last frame stays up and Pause turns into Resume. */
+    private fun holdPause(by: String) {
+        if (!pauseHolds.add(by) || pauseHolds.size > 1) return
+        uiHandler.removeCallbacks(thaw)
+        terminal.frozen = true
+        if (::dispatcher.isInitialized) dispatcher.releaseAll()
+        controls.releaseAll()
+        session?.suspend()
+        pauseButtons.forEach { it.show(Icon.PLAY, "Resume") }
+    }
+
+    private fun releasePause(by: String) {
+        if (!pauseHolds.remove(by) || pauseHolds.isNotEmpty()) return
+        session?.resume()
+        // A curses game redraws its whole screen as it continues; show it again once it has.
+        uiHandler.postDelayed(thaw, 250)
+        pauseButtons.forEach { it.show(Icon.PAUSE, "Pause") }
+    }
+
     private fun showPauseSheet() {
         if (exited) {
             finish()
             return
         }
+        if (pauseSheet != null) return
+        holdPause("sheet")
         lateinit var sheet: Sheet
         val content = vstack(12) {
             addView(hstack(12) {
@@ -396,14 +435,17 @@ class GameActivity : Activity() {
                     setOnClickListener { sheet.dismiss(); toggleKeyboard() }
                 }, lp(0, WRAP, 1f))
                 addView(TButton(context, "How to play", ButtonStyle.SECONDARY, Icon.INFO).apply {
-                    setOnClickListener { sheet.dismiss(); showHelp() }
+                    setOnClickListener { showHelp(); sheet.dismiss() } // help keeps the game paused
                 }, lp(0, WRAP, 1f))
             })
         }
         sheet = Sheet(root, content).show()
+        sheet.onDismiss = { if (pauseSheet === sheet) pauseSheet = null; releasePause("sheet") }
+        pauseSheet = sheet
     }
 
     private fun showHelp() {
+        holdPause("help")
         lateinit var sheet: Sheet
         val content = vstack(10) {
             addView(T.title(context, profile.title, 21f))
@@ -412,6 +454,7 @@ class GameActivity : Activity() {
             addView(TButton(context, "Got it").apply { setOnClickListener { sheet.dismiss() } }, lp(MATCH, WRAP))
         }
         sheet = Sheet(root, content).show()
+        sheet.onDismiss = { releasePause("help") }
     }
 
     private fun showEnded(message: String) {
