@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "nudoku",
+  "title": "nudoku",
+  "summary": "A clean Sudoku with three difficulty levels and hints.",
+  "description": "Move with the pad, type digits with the keyboard; x deletes, c checks, H gives a hint, N starts a new puzzle and Q quits.",
+  "category": "puzzle",
+  "tags": [
+    "sudoku",
+    "logic",
+    "numbers"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Michael \"jubalh\" Vetter"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://jubalh.github.io/nudoku/",
+    "version": "2.1.0"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "nudoku_2.1.0.orig.tar.gz",
+    "source_sha256": "eeff7f3adea5bfe7b88bf7683d68e9a597aabd1442d1621f21760c746400b924"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_nudoku",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "arrows.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: board and key list."
+  }
+}

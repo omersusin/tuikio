@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "netris",
+  "title": "Netris",
+  "summary": "Falling blocks with a twist: play against the built-in robot or over the network.",
+  "description": "j and l slide, k rotates, Space drops. Started on its own it's a classic single game.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Mark H. Weaver"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://github.com/naclander/netris",
+    "version": "0.52"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "netris_0.52.orig.tar.gz",
+    "source_sha256": "8bc770ebb2c3ead1611ca7a1a2f3d833e169536c78d53b3fcf49381164ee9706"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_netris",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "jkl-blocks.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: board drawn."
+  }
+}

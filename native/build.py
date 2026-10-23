@@ -80,8 +80,8 @@ def tar_text(name, rel):
     """Reads <top>/<rel> from a verified source archive without unpacking it."""
     with tarfile.open(tk.fetch(name)) as tf:
         for m in tf.getmembers():
-            parts = m.name.split("/", 1)
-            if m.isfile() and len(parts) == 2 and parts[1] == rel:
+            parts = m.name.removeprefix("./").split("/", 1)
+            if m.isfile() and (parts[-1] == rel and len(parts) == 2 or m.name.removeprefix("./") == rel):
                 return tf.extractfile(m).read().decode("utf-8", "replace")
     raise BuildError(f"{rel} not found in {name}")
 

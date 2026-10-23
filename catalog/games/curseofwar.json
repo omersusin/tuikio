@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "curseofwar",
+  "title": "Curse of War",
+  "summary": "Real-time strategy: grow your towns, send armies and take the map.",
+  "description": "You don't command units directly: Space puts a flag where your people should gather, R upgrades a village to a town and then a fortress, X clears your flags. Watch the front move.",
+  "category": "strategy",
+  "tags": [
+    "real-time",
+    "strategy",
+    "map"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Alexey Nikolaev"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://a-nikolaev.github.io/curseofwar/",
+    "version": "1.1.8"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "curseofwar_1.1.8.orig.tar.gz",
+    "source_sha256": "89f8ded9833a0bc2fbbc69bcdffb515d4d8622f8c4cfe9c64fc2a3bf71d23d0d"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_curseofwar",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "arrows.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: map drawn."
+  }
+}

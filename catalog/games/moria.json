@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "id": "moria",
+  "title": "Umoria",
+  "summary": "The 1983 roguelike: descend 50 levels and slay the Balrog of Moria.",
+  "description": "Create a character, then fight your way down through the Mines of Moria. ? lists every command; the pad walks.",
+  "category": "roguelike",
+  "tags": [
+    "roguelike",
+    "dungeon",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Robert Alan Koeneke",
+      "James E. Wilson",
+      "David J. Grabiner",
+      "Michael R. Cook"
+    ],
+    "license": "GPL-2.0-only",
+    "source_url": "https://umoria.org/",
+    "version": "5.7.13"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "moria_5.7.13.orig.tar.gz",
+    "source_sha256": "2e3ac82142e9b31a5b328503015952abb00fa41dbee1f620e3b32716d911fe5f"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_moria",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "roguelike.v1",
+  "saves": {
+    "paths": [
+      "scores.dat",
+      "game.sav"
+    ],
+    "notes": "Scores and saved game"
+  },
+  "data_files": [
+    {
+      "asset": "games/moria/data/death_royal.txt",
+      "dest": "data/death_royal.txt",
+      "sha256": "384ccd4411b6d9accc6f695ef56954bbc4ba49cc8106fed1718afa6042ea4cd2"
+    },
+    {
+      "asset": "games/moria/data/death_tomb.txt",
+      "dest": "data/death_tomb.txt",
+      "sha256": "5351c2ebc218c95a39ed6d9f43c5b68550f3cd3f8219ac730b3478bf353a33b9"
+    },
+    {
+      "asset": "games/moria/data/help.txt",
+      "dest": "data/help.txt",
+      "sha256": "891693ef46f565945898a7fc1a26b311d0750eff406fe66da1a9354edbefb38d"
+    },
+    {
+      "asset": "games/moria/data/help_wizard.txt",
+      "dest": "data/help_wizard.txt",
+      "sha256": "28c141abd27a6b24c61c3c58652dd0a190657ddae0dc435f0e414659c0e0bce4"
+    },
+    {
+      "asset": "games/moria/data/rl_help.txt",
+      "dest": "data/rl_help.txt",
+      "sha256": "6d74872f4b5b795a636e377a6fbfcca9a57acfe69dabff2e3c1790b022a8efb5"
+    },
+    {
+      "asset": "games/moria/data/rl_help_wizard.txt",
+      "dest": "data/rl_help_wizard.txt",
+      "sha256": "f9270d7e0becbb86fae61316b3bb6e78755ad4cabd1464a0377bdbe641c7c084"
+    },
+    {
+      "asset": "games/moria/data/splash.txt",
+      "dest": "data/splash.txt",
+      "sha256": "b96923e1209ec93037ca9338601674defb8703d0ec62998742d92c54dbad845e"
+    },
+    {
+      "asset": "games/moria/data/versions.txt",
+      "dest": "data/versions.txt",
+      "sha256": "d3fc3592bdebe078d696573d5c474f7523dfa2544fd2f2deff760dd6be43aec3"
+    },
+    {
+      "asset": "games/moria/data/welcome.txt",
+      "dest": "data/welcome.txt",
+      "sha256": "546a8638c80bc64b8ab0781b11fd44ffbd40e3f9710ab7663aba90efa1183ef0"
+    },
+    {
+      "asset": "games/moria/scores.dat",
+      "dest": "scores.dat",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: character creation."
+  }
+}

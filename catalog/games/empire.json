@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "empire",
+  "title": "Empire",
+  "summary": "The classic war game of exploration and conquest against a computer opponent.",
+  "description": "Explore the map, capture cities, build armies, fleets and planes, and conquer the world. Commands are single keys; ? lists them at every prompt.",
+  "category": "strategy",
+  "tags": [
+    "war",
+    "4x",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Chuck Simmons",
+      "Eric S. Raymond"
+    ],
+    "license": "GPL-2.0-only",
+    "source_url": "http://www.catb.org/~esr/vms-empire/",
+    "version": "1.16"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "empire_1.16.orig.tar.gz",
+    "source_sha256": "5c44c86edfea554f93a5a98f736590ca7aaa52e66a91352722d069ae383e80f9"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_empire",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      "empsave.dat"
+    ],
+    "notes": "Saved game"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: difficulty prompt."
+  }
+}

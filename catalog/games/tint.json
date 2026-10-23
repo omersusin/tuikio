@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "tint",
+  "title": "TINT",
+  "summary": "TINT Is Not Tetris: the tidy falling-blocks game from Debian.",
+  "description": "Pick a starting level, then slide, rotate and drop. Down drops the piece.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Abraham van der Merwe"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/tint",
+    "version": "0.07"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "tint_0.07.tar.xz",
+    "source_sha256": "4bd9122782a2c273f726a22223da6fdd33b323f06f257f842f3836669e825f2c"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_tint",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "blocks.v1",
+  "saves": {
+    "paths": [
+      "tint.scores"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: level prompt."
+  }
+}

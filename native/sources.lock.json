@@ -61,6 +61,146 @@
       "git": "https://github.com/abakh/nbsdgames",
       "commit": "d9494d501950e5adc1c572331fba48f93980fee0",
       "sha256": "79e6e8aef92c2a99cdeed9ebe78ddba46b360212733762060320503ef6c4c9ba"
+    },
+    "nudoku_2.1.0.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/nudoku/nudoku_2.1.0.orig.tar.gz",
+      "sha256": "eeff7f3adea5bfe7b88bf7683d68e9a597aabd1442d1621f21760c746400b924"
+    },
+    "nudoku_2.1.0-0.2.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/nudoku/nudoku_2.1.0-0.2.debian.tar.xz",
+      "sha256": "d3c0fd8a69c470ee858b50418e5952abdc6bba2234448e179100fb10dcab05c0"
+    },
+    "tty-solitaire_1.3.1.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/t/tty-solitaire/tty-solitaire_1.3.1.orig.tar.gz",
+      "sha256": "f2b80c8d5317e67db43c1dbf3b0f5f3dfea5e826c18744562615f1b1536ae433"
+    },
+    "tty-solitaire_1.3.1-1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/t/tty-solitaire/tty-solitaire_1.3.1-1.debian.tar.xz",
+      "sha256": "794d0b6b1f949e7c22199c07c57255c817f0ce3adb9629daf4d9460dd3e08868"
+    },
+    "pacman4console_1.3.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/p/pacman4console/pacman4console_1.3.orig.tar.gz",
+      "sha256": "9a5c4a96395ce4a3b26a9896343a2cdf488182da1b96374a13bf5d811679eb90"
+    },
+    "pacman4console_1.3-1build3.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/p/pacman4console/pacman4console_1.3-1build3.debian.tar.xz",
+      "sha256": "442c8d0959b74bcff5709cd3d72e192af7e21c0ab944dd92539171595d7437b1"
+    },
+    "netris_0.52.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/netris/netris_0.52.orig.tar.gz",
+      "sha256": "8bc770ebb2c3ead1611ca7a1a2f3d833e169536c78d53b3fcf49381164ee9706"
+    },
+    "netris_0.52-11.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/netris/netris_0.52-11.debian.tar.xz",
+      "sha256": "2d5965344d4728344564ae43f8413e7a40b99e4556fb8292a8a2004bce19117a"
+    },
+    "typespeed_0.6.5.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/t/typespeed/typespeed_0.6.5.orig.tar.gz",
+      "sha256": "5c860385ceed8a60f13217cc0192c4c2b4705c3e80f9866f7d72ff306eb72961"
+    },
+    "typespeed_0.6.5-4.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/t/typespeed/typespeed_0.6.5-4.debian.tar.xz",
+      "sha256": "b8473512ee3b1da13c8931c6a861c4cde6990d24f5b6b6bfaed481dd74bbb8d5"
+    },
+    "tint_0.07.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/t/tint/tint_0.07.tar.xz",
+      "sha256": "4bd9122782a2c273f726a22223da6fdd33b323f06f257f842f3836669e825f2c"
+    },
+    "sudoku_1.0.5.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/s/sudoku/sudoku_1.0.5.orig.tar.gz",
+      "sha256": "3ce6d9b237546d4ac7cdb7a6bb0e47d5c99e696a710b8935bce40dc706d32ff2"
+    },
+    "sudoku_1.0.5-2.1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/s/sudoku/sudoku_1.0.5-2.1.debian.tar.xz",
+      "sha256": "3f7efbe085eff2747cc5954ef7036750e5bf77a13a1e208485722a225be599fa"
+    },
+    "curseofwar_1.1.8.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/c/curseofwar/curseofwar_1.1.8.orig.tar.gz",
+      "sha256": "89f8ded9833a0bc2fbbc69bcdffb515d4d8622f8c4cfe9c64fc2a3bf71d23d0d"
+    },
+    "curseofwar_1.1.8-3.1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/c/curseofwar/curseofwar_1.1.8-3.1.debian.tar.xz",
+      "sha256": "bb6d523c537c9162b2e17d67d26d7265241a6ac3c3460e4df20f471d4a7c5604"
+    },
+    "cavezofphear_0.5.1.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/c/cavezofphear/cavezofphear_0.5.1.orig.tar.gz",
+      "sha256": "5bcb2975094721bedb823ba4697e27bfaae1115ff043b284fa156f5964d8d542"
+    },
+    "cavezofphear_0.5.1-1.1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/c/cavezofphear/cavezofphear_0.5.1-1.1.debian.tar.xz",
+      "sha256": "2021560123b0ee11bced1cdb318ea00014b71a291453ae423fcb75e529e70d99"
+    },
+    "empire_1.16.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/e/empire/empire_1.16.orig.tar.gz",
+      "sha256": "5c44c86edfea554f93a5a98f736590ca7aaa52e66a91352722d069ae383e80f9"
+    },
+    "empire_1.16-2.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/e/empire/empire_1.16-2.debian.tar.xz",
+      "sha256": "80ba64d851e26fa1ffb52cac957b3f6a95289dd25c374761dbaa5273a5352ac8"
+    },
+    "gtypist_2.9.5.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/g/gtypist/gtypist_2.9.5.orig.tar.gz",
+      "sha256": "4059be9585683bbb84757dd4bbafa8ff4ecda2ed9eecd4e7594365843f05a266"
+    },
+    "gtypist_2.9.5-3build1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/g/gtypist/gtypist_2.9.5-3build1.debian.tar.xz",
+      "sha256": "f288dd6bf71bbe4d91f526e18aba8a1c141f576f237cb75fc5594225f91c4dda"
+    },
+    "petris_1.0.1.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/p/petris/petris_1.0.1.orig.tar.gz",
+      "sha256": "33f6f0e929262314e0ab1ed81f0ad85224285398238eadcada0d5d9faa8d4dde"
+    },
+    "petris_1.0.1-11.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/p/petris/petris_1.0.1-11.debian.tar.xz",
+      "sha256": "adac85873f4054c1aadd3db9de5d449258eb9bd8b9c993e46201a56c8f65879b"
+    },
+    "nettoe_1.5.1.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/nettoe/nettoe_1.5.1.orig.tar.gz",
+      "sha256": "dbc2c08e7e0f7e60236954ee19a165a350ab3e0bcbbe085ecd687f39253881cb"
+    },
+    "nettoe_1.5.1-3.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/n/nettoe/nettoe_1.5.1-3.debian.tar.xz",
+      "sha256": "132bf56b80c6cf580f392f2fa6ebb77f7980512b7b3b33701f8d7385b2d7a670"
+    },
+    "trader_7.18.orig.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/t/trader/trader_7.18.orig.tar.xz",
+      "sha256": "3730b2fedd339adfc34c1640b309b3413b10b3d78969dcd71f07fd76b4514e85"
+    },
+    "trader_7.18-1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/t/trader/trader_7.18-1.debian.tar.xz",
+      "sha256": "ea5aa8b887752f05ed29d620a440f21b85373a2b1fdbbc63e57b76c385b35177"
+    },
+    "bombardier_0.8.3+nmu3.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/b/bombardier/bombardier_0.8.3+nmu3.tar.xz",
+      "sha256": "ead8d6c2d2edfd5325a7cfbc25451d2763dc78c83af2d924d7495316aabfcd13"
+    },
+    "chroma_1.19-1ubuntu1.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/c/chroma/chroma_1.19-1ubuntu1.tar.gz",
+      "sha256": "b7b6177559cae0cbefebf188e11bfe63b6ebccdde37c6145e0220d2f830ea6cb"
+    },
+    "ascii-patrol_1.7+dfsg.orig.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/a/ascii-patrol/ascii-patrol_1.7+dfsg.orig.tar.xz",
+      "sha256": "b4a70881a40d7ec88b85737a1e7c9bc66a92442c3d4bf7ddbcc40760d59b8e53"
+    },
+    "ascii-patrol_1.7+dfsg-1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/a/ascii-patrol/ascii-patrol_1.7+dfsg-1.debian.tar.xz",
+      "sha256": "81813193e595ca3fb0f565502ac795609d71a57926f0a24f0636aa6f9714ed1b"
+    },
+    "omega-rpg_0.90-pa9.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/o/omega-rpg/omega-rpg_0.90-pa9.orig.tar.gz",
+      "sha256": "1c91efa6939a9ca550cd0fad910fcc94c735893f33f6f80974632a65cca6fc42"
+    },
+    "omega-rpg_0.90-pa9-17.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/o/omega-rpg/omega-rpg_0.90-pa9-17.debian.tar.xz",
+      "sha256": "8282ba453b0168633bb7a513faa412f57e96b3ca9ef556df58d1db2fb799148e"
+    },
+    "moria_5.7.13.orig.tar.gz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/m/moria/moria_5.7.13.orig.tar.gz",
+      "sha256": "2e3ac82142e9b31a5b328503015952abb00fa41dbee1f620e3b32716d911fe5f"
+    },
+    "moria_5.7.13-1.debian.tar.xz": {
+      "url": "http://archive.ubuntu.com/ubuntu/pool/universe/m/moria/moria_5.7.13-1.debian.tar.xz",
+      "sha256": "7f26b91183654f9798d4f95d10dd2192c2dd6f6e93adde40ea20b8a7828615ea"
     }
   }
 }

@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "id": "gtypist",
+  "title": "GNU Typist",
+  "summary": "Touch-typing lessons for QWERTY, Dvorak and Colemak.",
+  "description": "Work through drills and speed tests lesson by lesson. Best with a hardware keyboard.",
+  "category": "words",
+  "tags": [
+    "typing",
+    "education"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Simon Baldwin",
+      "The GNU Typist Development Team"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://www.gnu.org/software/gtypist/",
+    "version": "2.9.5"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "gtypist_2.9.5.orig.tar.gz",
+    "source_sha256": "4059be9585683bbb84757dd4bbafa8ff4ecda2ed9eecd4e7594365843f05a266"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_gtypist",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/gtypist/gtypist/c.typ",
+      "dest": "gtypist/c.typ",
+      "sha256": "a45e760a6412039d6b1f8717b12d916d4b1cc6660055a75d67156701557cffe5"
+    },
+    {
+      "asset": "games/gtypist/gtypist/cs.typ",
+      "dest": "gtypist/cs.typ",
+      "sha256": "f4b7b854da7fc92aa1641153db5902b499709f5513805f787b046202e7b880f1"
+    },
+    {
+      "asset": "games/gtypist/gtypist/d.typ",
+      "dest": "gtypist/d.typ",
+      "sha256": "569924aeb84da9c19ea150e27071eb7f0a047dc316fffa3ee16ce406c4ec8451"
+    },
+    {
+      "asset": "games/gtypist/gtypist/demo.typ",
+      "dest": "gtypist/demo.typ",
+      "sha256": "faa247427e0f568d7512c0d8682e4db29393820df9067c0e019e7f39cb95e0e2"
+    },
+    {
+      "asset": "games/gtypist/gtypist/esp.typ",
+      "dest": "gtypist/esp.typ",
+      "sha256": "82146f1cb665a9f3229bcd9402c25c7a44bd001e9ce483f1e9e473a847875d56"
+    },
+    {
+      "asset": "games/gtypist/gtypist/gtypist.typ",
+      "dest": "gtypist/gtypist.typ",
+      "sha256": "1ed3892b76efb8a17121be32b91ae7a5951d90b5ddccfda8358408e54f81e02b"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktbg.typ",
+      "dest": "gtypist/ktbg.typ",
+      "sha256": "7746f90679d18af73a6bca4ecd564a22c4d2478943c413177c97490a44a5bf92"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktbg_long.typ",
+      "dest": "gtypist/ktbg_long.typ",
+      "sha256": "4b3edcae965dc6bcfc339a4aa99c2d29fbef501b97863978bc9840245e0d60fc"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktde.typ",
+      "dest": "gtypist/ktde.typ",
+      "sha256": "44ca8c106e99b5b0d5107600e818441a662f7ded7403ad9fab69e999f1734bde"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktde2.typ",
+      "dest": "gtypist/ktde2.typ",
+      "sha256": "a42598f86ad60f257abbf17dcc22ce2909b9f7a308da3df2e301d01a12a5a773"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktde_neo.typ",
+      "dest": "gtypist/ktde_neo.typ",
+      "sha256": "1a247b3ef090be2ff73d31099435cbe3e28d1dff643da35154f8b01f9146d4ea"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktde_number.typ",
+      "dest": "gtypist/ktde_number.typ",
+      "sha256": "1d9950c4fc16bc15f9e277a2634a34802fa7bec2d7f4bcf8f3b105b83156b578"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktdk.typ",
+      "dest": "gtypist/ktdk.typ",
+      "sha256": "53e3807b6bf2a2f57f55a3f90be35d019cb14758f7ce4a1ae9efd14690bc6af4"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktdk2.typ",
+      "dest": "gtypist/ktdk2.typ",
+      "sha256": "734a9b32f2ac858e040bf69bdecaa9ef208734bc751d0fb2a77751b9681f0b40"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktdvorak.typ",
+      "dest": "gtypist/ktdvorak.typ",
+      "sha256": "f149db10b76078cddeb1298d23c0c374130c0ee1522c40878e9486ba7cd79ba7"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktdvorak_abcd.typ",
+      "dest": "gtypist/ktdvorak_abcd.typ",
+      "sha256": "8fe4cc13f996bfbccd8df48aa34d37f3d754055fc32a81733ed7ca7b5678928b"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktdvorak_es.typ",
+      "dest": "gtypist/ktdvorak_es.typ",
+      "sha256": "0da63a9d439e8b2b2a63a326ec07799d48d26c795a746b1715d482ac474a584e"
+    },
+    {
+      "asset": "games/gtypist/gtypist/kten.typ",
+      "dest": "gtypist/kten.typ",
+      "sha256": "ad57484559a1d193e457825eee20308b8c2e7eddde57e216d21d72bccd5c9c91"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktes.typ",
+      "dest": "gtypist/ktes.typ",
+      "sha256": "3416049e0fde7cf3807265de8023c138dc79debc853b18d493b8a67d9613cd62"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktes_cat.typ",
+      "dest": "gtypist/ktes_cat.typ",
+      "sha256": "81b90e202876be0a86c17e7d18ab5876da172de9ba4497e32d8ea2c5211b5885"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktfi.typ",
+      "dest": "gtypist/ktfi.typ",
+      "sha256": "cada0544fc07f8de2b8d64ce53ba11879bf7788160696078f14264a90a1bd9db"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktfi_kids.typ",
+      "dest": "gtypist/ktfi_kids.typ",
+      "sha256": "b911d0bab876f2d09e7a95d931fc2eafba4907c3b80bff51a47d3fa80f0a99f4"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktfr.typ",
+      "dest": "gtypist/ktfr.typ",
+      "sha256": "91e3c2ada0b942ac20674501d81489dfc76c7ee440611697ac633a2bcf05dd27"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktfr2.typ",
+      "dest": "gtypist/ktfr2.typ",
+      "sha256": "3d117cd3e808ac357783f004768c1688ea821648f51e41562b5687770e12481d"
+    },
+    {
+      "asset": "games/gtypist/gtypist/kthu.typ",
+      "dest": "gtypist/kthu.typ",
+      "sha256": "a1d52c9f36cb7a6aebfdac6fb6b8b640765b03975252a21702c43b321ff4b6e8"
+    },
+    {
+      "asset": "games/gtypist/gtypist/kthu_expert.typ",
+      "dest": "gtypist/kthu_expert.typ",
+      "sha256": "f91aed59e839675081de1148cbc691b268a09213bab6eea9c3767409c019d2ef"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktit.typ",
+      "dest": "gtypist/ktit.typ",
+      "sha256": "b54e86fb6f55be2da84b671b126aa61053ea9d53fc571cb04607c5657f921fac"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktnl.typ",
+      "dest": "gtypist/ktnl.typ",
+      "sha256": "10b5bfe376759a5ae3c95691c8f5049a318e8944fc31da30ec6302e6f8ecd70c"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktnl_junior.typ",
+      "dest": "gtypist/ktnl_junior.typ",
+      "sha256": "5e5d2d514004aaca56244990521bf7b3688d9cbad2130affeef161e21b0fe28a"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktno.typ",
+      "dest": "gtypist/ktno.typ",
+      "sha256": "6f5af455c05d283cc8538dec5047c4f40468721d172310cbff69e8b10d8aceed"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktpl.typ",
+      "dest": "gtypist/ktpl.typ",
+      "sha256": "9ab9d4a9947648d34e4d16314c693a9c126a674ee31e09a2a8698cae59f1d950"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktru.typ",
+      "dest": "gtypist/ktru.typ",
+      "sha256": "e42bf18cf467cfc12b08a24755ee73c82a3ffbac45bc54d8406b787a555d81bc"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktru_long.typ",
+      "dest": "gtypist/ktru_long.typ",
+      "sha256": "8efe43c1045e2502600f5dd3cc32be6b3c813c3da69c946111972a2b8bfbe0bd"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktru_slava.typ",
+      "dest": "gtypist/ktru_slava.typ",
+      "sha256": "3751ce768a7cceacbe0f47dde603e4c8ae69ffba7a96ddd121cc51e9c6945e2a"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ktsi.typ",
+      "dest": "gtypist/ktsi.typ",
+      "sha256": "a27505900b4cb099b1504e16416eabfde9e823a2a6c97ceb9eb0755de75a331b"
+    },
+    {
+      "asset": "games/gtypist/gtypist/kttr.typ",
+      "dest": "gtypist/kttr.typ",
+      "sha256": "02b288b1da895290bdfa8ec5f3196a9af5658002b867e6b114f47a166258eefe"
+    },
+    {
+      "asset": "games/gtypist/gtypist/m.typ",
+      "dest": "gtypist/m.typ",
+      "sha256": "a25c5bfa2c34508f4741f71cfbf65f4e55f9d8f2f690470c35a6be48f5ceeadc"
+    },
+    {
+      "asset": "games/gtypist/gtypist/n.typ",
+      "dest": "gtypist/n.typ",
+      "sha256": "440be59598ba61ecc1f0c4d759f36325440e8d4bd378d40a437319f8c13f584b"
+    },
+    {
+      "asset": "games/gtypist/gtypist/q.typ",
+      "dest": "gtypist/q.typ",
+      "sha256": "bee97b1013b09cf9f2f0feaf7d353328781042645e77a0e7a54983ae74d7fa5c"
+    },
+    {
+      "asset": "games/gtypist/gtypist/r.typ",
+      "dest": "gtypist/r.typ",
+      "sha256": "4143a89e50c5800af6525363c1387fc463f6e17154e0122529960f2eac733c97"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ru.typ",
+      "dest": "gtypist/ru.typ",
+      "sha256": "fe4b0f4d3fcee6ce53c48cf988934ac53ef0fe2918bc32638a180d611e738ff7"
+    },
+    {
+      "asset": "games/gtypist/gtypist/s.typ",
+      "dest": "gtypist/s.typ",
+      "sha256": "c7d72203b08b409ebd89417137c985d77abb3e4d390b9cec59b23ae845a09727"
+    },
+    {
+      "asset": "games/gtypist/gtypist/t.typ",
+      "dest": "gtypist/t.typ",
+      "sha256": "769cd69876b8c0f0027652f06551074986b59523ec0d3354366a86576ddccb9e"
+    },
+    {
+      "asset": "games/gtypist/gtypist/ttde.typ",
+      "dest": "gtypist/ttde.typ",
+      "sha256": "31b8b9c45587710450cc6c6616a1ce26a9c4e02277878fdd50553b4e3e8782e9"
+    },
+    {
+      "asset": "games/gtypist/gtypist/u.typ",
+      "dest": "gtypist/u.typ",
+      "sha256": "729ef72e90a58edd17f158f1ed1e18e62d534fe9c02496e63ee4702586c4ae0a"
+    },
+    {
+      "asset": "games/gtypist/gtypist/v.typ",
+      "dest": "gtypist/v.typ",
+      "sha256": "870fa7172c9e1f881a2d18a4562d8ccf99658d562d9c37ec2dbf164019c87f60"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: lesson series menu."
+  }
+}

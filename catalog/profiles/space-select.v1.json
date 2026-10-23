@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "profile_id": "space-select.v1",
+  "title": "Arrows and Space",
+  "help": "The pad moves; the big button is Space, the game's main action (pick up and place a card, drop a bomb). Enter and Back answer menus.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "up",
+      "label": "Up",
+      "icon": "arrow_up",
+      "output": {
+        "key": "UP"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "icon": "arrow_down",
+      "output": {
+        "key": "DOWN"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "space",
+      "label": "Space",
+      "output": {
+        "text": " "
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "enter",
+      "label": "Enter",
+      "icon": "check",
+      "output": {
+        "key": "ENTER"
+      }
+    },
+    {
+      "id": "back",
+      "label": "Back",
+      "icon": "back",
+      "output": {
+        "key": "ESCAPE"
+      }
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 184,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 88,
+        "bind": {
+          "press": "space"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 60,
+        "bind": {
+          "press": "enter"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "back"
+        }
+      },
+      {
+        "type": "keyboard",
+        "anchor": "top_start",
+        "size": 52
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 176,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 84,
+        "bind": {
+          "press": "space"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "enter"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "back"
+        }
+      },
+      {
+        "type": "keyboard",
+        "anchor": "bottom_start",
+        "size": 52
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

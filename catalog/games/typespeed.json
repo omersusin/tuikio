@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "id": "typespeed",
+  "title": "Typespeed",
+  "summary": "Type the words before they fly off the screen.",
+  "description": "Pick a word list (English, programming, Unix commands and more) and type each word as it crosses the screen. Plays best with a hardware keyboard.",
+  "category": "words",
+  "tags": [
+    "typing",
+    "speed"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Jani Ollikainen",
+      "Jaakko Manelius",
+      "Tobias Stoeckmann"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://typespeed.sourceforge.net/",
+    "version": "0.6.5"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "typespeed_0.6.5.orig.tar.gz",
+    "source_sha256": "5c860385ceed8a60f13217cc0192c4c2b4705c3e80f9866f7d72ff306eb72961"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_typespeed",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      "typespeed.score"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [
+    {
+      "asset": "games/typespeed/typespeed.score",
+      "dest": "typespeed.score",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/typespeed/typespeed/rules/rule.classic",
+      "dest": "typespeed/rules/rule.classic",
+      "sha256": "43f1068809c8fe4b788d79272e405339d8fab257568cb07a923a32f9051388f9"
+    },
+    {
+      "asset": "games/typespeed/typespeed/rules/rule.training",
+      "dest": "typespeed/rules/rule.training",
+      "sha256": "0f6ee01cb1eb67313d83638a2976cabcebf8cbc68c42eea06d4d59fc992ed433"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.csharp",
+      "dest": "typespeed/words/words.csharp",
+      "sha256": "ce00472f2a3d0e149ab9a6d0dfcf95f07235ade217db272ac37ae3b0cb9468c8"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.csharp_with_operators",
+      "dest": "typespeed/words/words.csharp_with_operators",
+      "sha256": "e7212be996876b2839ff8a7376b47cefdf53a2c298b6a3dca92b52926d96820b"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.dos",
+      "dest": "typespeed/words/words.dos",
+      "sha256": "f50a2a217c8e13beb69a07ecebabba65e242675a12ac5e1d5b300431378f4ad7"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.dut",
+      "dest": "typespeed/words/words.dut",
+      "sha256": "d61a1cb2d0d77632b42531ea5693be82ddca8c01a554fc601a6a7c5f80286b60"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.eng",
+      "dest": "typespeed/words/words.eng",
+      "sha256": "6c5562bf97673f39e17c0cf5eb87bba6d32b290bc70890704b6948316843910d"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.esp",
+      "dest": "typespeed/words/words.esp",
+      "sha256": "63f0a4036479067da399caf27cae2fbec90cad4ae4ef57417876adceda7fe5ac"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.fin",
+      "dest": "typespeed/words/words.fin",
+      "sha256": "a27532d71f148300f3740edb16c672bbbe7d9a4245db26d4bc65bc7976456498"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.fra",
+      "dest": "typespeed/words/words.fra",
+      "sha256": "c09a161de29ed13f8832c3f6b56c84470126e322293a15cbe766634c7685b0dc"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.ger",
+      "dest": "typespeed/words/words.ger",
+      "sha256": "c6467c8727489bbfe25574c47e776bfbcdc0b193908398930b652a6575b03d7e"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.ita",
+      "dest": "typespeed/words/words.ita",
+      "sha256": "e179da5b76bbd5e98b811afa69173c9efc8d3a8a05b4447c5ba5968ae3bed43e"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.por",
+      "dest": "typespeed/words/words.por",
+      "sha256": "035ca5798299db6e6dfe147b8d9b8aa1658395a8c7625d139b9d52c1a1565fc3"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.prog",
+      "dest": "typespeed/words/words.prog",
+      "sha256": "28afc80ef0282ba31959e8038177c53838ebb420ae8455d30b84c7c88e403dac"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.tha",
+      "dest": "typespeed/words/words.tha",
+      "sha256": "3262ca665438cdfc2e2d3fb7aaf0f66babc245d7ead3c22c5744ea1198a92912"
+    },
+    {
+      "asset": "games/typespeed/typespeed/words/words.unix",
+      "dest": "typespeed/words/words.unix",
+      "sha256": "cdc101633d5a73e0c1b2961c9d31e67d2c3a308838de87e8928c60678dc633c5"
+    },
+    {
+      "asset": "games/typespeed/typespeedrc",
+      "dest": "typespeedrc",
+      "sha256": "b52695cf2b882ad7ee39fd666a4eaf0c03e95b20fa3d2d7e6964bc1d79d1d38e"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: word-list menu."
+  }
+}

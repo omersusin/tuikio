@@ -73,7 +73,7 @@ def main():
         fs = files(p)
         if "--json" in sys.argv or "--lock" in sys.argv:
             for f in fs:
-                if not f["name"].endswith(".dsc"):
+                if not f["name"].endswith((".dsc", ".asc")):
                     lock[f["name"]] = {"url": f["url"], "sha256": f["sha256"]}
         else:
             print(f"{name:22} {p['Version']:24} {p['Component']:9} {' '.join(f['name'] for f in fs if not f['name'].endswith('.dsc'))}")

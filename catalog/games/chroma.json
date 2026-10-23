@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "id": "chroma",
+  "title": "Chroma",
+  "summary": "Abstract puzzles of falling shapes and devious traps.",
+  "description": "Guide your pieces through each level, collecting every star without being crushed. Many levels; an editor too.",
+  "category": "puzzle",
+  "tags": [
+    "puzzle",
+    "logic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Amf"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "http://www.level7.org.uk/chroma/",
+    "version": "1.19"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "chroma_1.19-1ubuntu1.tar.gz",
+    "source_sha256": "b7b6177559cae0cbefebf188e11bfe63b6ebccdde37c6145e0220d2f830ea6cb"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_chroma",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "arrows.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/chroma/chroma/colours/chroma-enhanced.chroma",
+      "dest": "chroma/colours/chroma-enhanced.chroma",
+      "sha256": "6864b00055dd81e466385c69b96c2a8b335451160a6ae50861919f0ad72c7177"
+    },
+    {
+      "asset": "games/chroma/chroma/colours/chroma-enigma.chroma",
+      "dest": "chroma/colours/chroma-enigma.chroma",
+      "sha256": "6499a4d26696c756f32500686e6a00782b3aeb83d63456cf8d1c3215ec071d1b"
+    },
+    {
+      "asset": "games/chroma/chroma/colours/chroma-monochrome.chroma",
+      "dest": "chroma/colours/chroma-monochrome.chroma",
+      "sha256": "a96b7376ac3de823ccebf922312fa2f00f866304e81bd704165c53eca25aeb86"
+    },
+    {
+      "asset": "games/chroma/chroma/colours/chroma-reverse.chroma",
+      "dest": "chroma/colours/chroma-reverse.chroma",
+      "sha256": "5298105de3996c364217e6d914646444602d8157f3557d2d461fe5d975f77192"
+    },
+    {
+      "asset": "games/chroma/chroma/colours/chroma-standard.chroma",
+      "dest": "chroma/colours/chroma-standard.chroma",
+      "sha256": "03bb2cf71f4913b11366b4052c4fbda4d7e06b2c0110e4b07c831bb82faf483f"
+    },
+    {
+      "asset": "games/chroma/chroma/colours/fallback.chroma",
+      "dest": "chroma/colours/fallback.chroma",
+      "sha256": "b8da6684717f794fe33442a7c2c7d2a2d06a022c34b6c14d15f927d4a9865fbc"
+    },
+    {
+      "asset": "games/chroma/chroma/help/README",
+      "dest": "chroma/help/README",
+      "sha256": "bfa8de58ddb357df5e07f9e73f7fa68ce9a0dbeeda399f5e02630eed99b9c1b1"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-01.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-01.chroma",
+      "sha256": "d02d86162900180a175cc1058d1026e4c95cb42398abfed3ea7e8eadc3d45569"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-02.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-02.chroma",
+      "sha256": "3aab5baea9b4b2ce241c60deb58a18580b7c2447a834569f9c085c5f4b42c7af"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-03.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-03.chroma",
+      "sha256": "ca1d303acb6a8599c9502b27e01c556d52b811a78fc730de0ac473a53e8a8729"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-04.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-04.chroma",
+      "sha256": "9a6b26c1b818562d0b10c8ddc7f33d3ee46a359036a62eaa9fb9af79009c6612"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-05.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-05.chroma",
+      "sha256": "5b304d6bf5beadddd90380f83fd2a7f838b5eaff4776861eeefdb2fbbf939795"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-06.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-06.chroma",
+      "sha256": "4498edec1c9a76c80dbbdae66c524f6b151db22d27f03ef280b652a285debfc4"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-07.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-07.chroma",
+      "sha256": "00495e7085e8a73352009c5c72d7adaeaf758422b52d6d74a24c91f6b2f38da5"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-08.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-08.chroma",
+      "sha256": "4790d51e899d8a75fe44d22a3f838b4875c2805256a0ccca17ee3c6b01471f65"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/chroma-1-09.chroma",
+      "dest": "chroma/levels/chroma-1/chroma-1-09.chroma",
+      "sha256": "d81ed024596e9ba108dee6a758a0551d99630b9b1471414fb5df8eea7ffdd51d"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-1/set.chroma",
+      "dest": "chroma/levels/chroma-1/set.chroma",
+      "sha256": "a61d61e84de6ca66aaf3cd2d49eb82204895d6a714b5332f208f7090ca69f670"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-01.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-01.chroma",
+      "sha256": "20373aca420f07488eaabbe284aab610367d2992930a0e5d23d1dfb3fe3dc7fb"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-02.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-02.chroma",
+      "sha256": "b0de0a8e07abe133a3ceb71c4a44bef2cb0709d8e84bafe2d584c4841e1649de"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-03.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-03.chroma",
+      "sha256": "5e75c8698dc7b3cb44f6102bf1c0e7507342b17c155d8609ed8beac37cc41122"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-04.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-04.chroma",
+      "sha256": "264f3a857597004df2d158b3c49b4c262e982dbd3a2bb60e22d35433e99c272b"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-05.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-05.chroma",
+      "sha256": "f778329a081cb8b7e8a4e74600336c6672f39c43268033a487a8f8fcb4c734d3"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-06.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-06.chroma",
+      "sha256": "26c718d2021bcfecd41f53a8534b36e4b9e0ff520b5052f8710fd5fd34e987fc"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-07.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-07.chroma",
+      "sha256": "d002ac797e1223f2a0594ed7f51e4d7dcb777f06c5e1d68294c6fc04b439dd8f"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-08.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-08.chroma",
+      "sha256": "2fb57118930d115c2bdc050a66d64035983a93dcaef276a9e462a7b35bbd86ce"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-09.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-09.chroma",
+      "sha256": "46a94d53cb33c53095d5666d2eb462947ded46817562bb40f57ebc632445ee17"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-10.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-10.chroma",
+      "sha256": "a1cbb250d9301a78f5a7aca61edcf475b13f5ff5b452de9f9ab9ed5ea0563bae"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-11.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-11.chroma",
+      "sha256": "97ac38a2d175467e487159addcb497ad20dbb5ca63e754a703822525d70fc19a"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/chroma-2-12.chroma",
+      "dest": "chroma/levels/chroma-2/chroma-2-12.chroma",
+      "sha256": "e89b7d148c9d559a1f987acba15c8037b4f633219977919dff52d4cc432c5d76"
+    },
+    {
+      "asset": "games/chroma/chroma/levels/chroma-2/set.chroma",
+      "dest": "chroma/levels/chroma-2/set.chroma",
+      "sha256": "005909bdffbe1e8f2cab44ed8b8e615c282e24dd555548a0aec1bc6e63f848a4"
+    },
+    {
+      "asset": "games/chroma/chroma/locale/en_US/LC_MESSAGES/chroma.mo",
+      "dest": "chroma/locale/en_US/LC_MESSAGES/chroma.mo",
+      "sha256": "490467b57b8c7f4c67013e3452a7c57e6522f5001423cd5c290bb50f3822f493"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: title menu."
+  }
+}

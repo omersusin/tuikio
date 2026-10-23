@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "petris",
+  "title": "Petris",
+  "summary": "Peter's Tetris: small, quick and colourful.",
+  "description": "Choose a level, then slide, rotate and drop the falling pieces.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Peter Seidler"
+    ],
+    "license": "LicenseRef-Public-Domain OR MIT",
+    "source_url": "https://packages.debian.org/source/sid/petris",
+    "version": "1.0.1"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "petris_1.0.1.orig.tar.gz",
+    "source_sha256": "33f6f0e929262314e0ab1ed81f0ad85224285398238eadcada0d5d9faa8d4dde"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_petris",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "petris.v1",
+  "saves": {
+    "paths": [
+      "petris.scores"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: level menu."
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "bombardier",
+  "title": "Bombardier",
+  "summary": "Flatten the city before your plane comes down: one bomb at a time.",
+  "description": "Your plane drops a row each pass. Press Space to bomb the buildings below so you can land.",
+  "category": "arcade",
+  "tags": [
+    "one button",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Gergely Risko"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://packages.debian.org/source/sid/bombardier",
+    "version": "0.8.3+nmu3"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "bombardier_0.8.3+nmu3.tar.xz",
+    "source_sha256": "ead8d6c2d2edfd5325a7cfbc25451d2763dc78c83af2d924d7495316aabfcd13"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_bombardier",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        25
+      ],
+      "preferred": [
+        80,
+        25
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "space-select.v1",
+  "saves": {
+    "paths": [
+      "bdscore"
+    ],
+    "notes": "Hall of fame"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: title screen at 80x25."
+  }
+}

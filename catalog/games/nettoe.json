@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "nettoe",
+  "title": "netToe",
+  "summary": "Tic-tac-toe against the computer or a friend.",
+  "description": "Choose a game from the menu, then place your mark by typing the square's number.",
+  "category": "puzzle",
+  "tags": [
+    "tic-tac-toe",
+    "two player"
+  ],
+  "players": "1-2",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Gabriele Giorgetti",
+      "Mats Erik Andersson"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://nettoe.sourceforge.net/",
+    "version": "1.5.1"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "nettoe_1.5.1.orig.tar.gz",
+    "source_sha256": "dbc2c08e7e0f7e60236954ee19a165a350ab3e0bcbbe085ecd687f39253881cb"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_nettoe",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: main menu."
+  }
+}

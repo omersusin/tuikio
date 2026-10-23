@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "id": "cavezofphear",
+  "title": "Cavez of Phear",
+  "summary": "A Boulder Dash homage: dig, dodge falling rocks and collect the diamonds.",
+  "description": "Tunnel through the earth, grab every diamond and stay out from under the boulders.",
+  "category": "arcade",
+  "tags": [
+    "boulder dash",
+    "puzzle",
+    "action"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Tom Rune Flo"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://github.com/AMDmi3/cavezofphear",
+    "version": "0.5.1"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "cavezofphear_0.5.1.orig.tar.gz",
+    "source_sha256": "5bcb2975094721bedb823ba4697e27bfaae1115ff043b284fa156f5964d8d542"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_cavezofphear",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        25
+      ],
+      "preferred": [
+        80,
+        25
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "arrows.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/cavezofphear/data/gover",
+      "dest": "data/gover",
+      "sha256": "a2b6d45c270c7375dd1223297ac75d4060d5a07962a779533f890d840d857d35"
+    },
+    {
+      "asset": "games/cavezofphear/data/htext",
+      "dest": "data/htext",
+      "sha256": "e3b77fa2e484d3417b6f2d096a20d69c15d7232fec6184264fbac3f9544c8ef1"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/01",
+      "dest": "data/levels/01",
+      "sha256": "a00fcc4b0833455048d512a936b3783f05986d47ac84bcf241e19f30a28b4ace"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/02",
+      "dest": "data/levels/02",
+      "sha256": "733799c1408e6a9b7a413a48d6d25745748f2beb5cb1165fec62e680fe5f2f9c"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/03",
+      "dest": "data/levels/03",
+      "sha256": "12d4c7e42ac33e47d4d019b0799f191c7f26fba3726e5056c0664a1e5fa01352"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/04",
+      "dest": "data/levels/04",
+      "sha256": "cae8f58bcac1503972f890b50269fbc4985807b212761a6a6a8e8415ba062508"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/05",
+      "dest": "data/levels/05",
+      "sha256": "14e3a2a56cdb9adf8cb10f4b1824a099e34e5f2923a44d4da1a0dd860df73ec0"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/06",
+      "dest": "data/levels/06",
+      "sha256": "89510b3d946d20a0c50c6c3a17c45ba4fe0504aef6c9b25cf08da5bcab466357"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/07",
+      "dest": "data/levels/07",
+      "sha256": "46d4eda4ebdf43240abd1bdc2c20e0098da27d55b462bb8fd1fd0479fea52bfc"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/08",
+      "dest": "data/levels/08",
+      "sha256": "886339dba8f4ee516be75d053c5d994fb318059845ee9effdf803532e1fc5209"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/09",
+      "dest": "data/levels/09",
+      "sha256": "12765c58eb6b7fe75c4a1eb182fe7dfdec32eac0b4cd4d898a0c11c17d90d26f"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/10",
+      "dest": "data/levels/10",
+      "sha256": "9b2a6dd4bad576e4f5c3b7cc792f16e639f21d0dd47a311cb1002216f6bdfa91"
+    },
+    {
+      "asset": "games/cavezofphear/data/levels/11",
+      "dest": "data/levels/11",
+      "sha256": "2c12414b4f5b7dc39a2a5ab5bb71dda1677c6a8665db9f126cd86a16b23e0e8d"
+    },
+    {
+      "asset": "games/cavezofphear/data/spgraf",
+      "dest": "data/spgraf",
+      "sha256": "6bb44478fb4776d24faf37ca2211a4b3fc4fe61c1a83e207a68d3f8dc4ca28e4"
+    },
+    {
+      "asset": "games/cavezofphear/data/tdesc",
+      "dest": "data/tdesc",
+      "sha256": "5acff22c637b8acbfacb1c7b95689956e9a973265938dcc19c821d139e50b977"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: title screen at 80x25."
+  }
+}

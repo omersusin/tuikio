@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "trader",
+  "title": "Star Traders",
+  "summary": "Build interstellar trading companies and corner the galactic stock market.",
+  "description": "A remake of the 1970s classic Star Traders: place moves on the map, found companies, merge them and trade shares. One to eight players share the phone.",
+  "category": "strategy",
+  "tags": [
+    "trading",
+    "economy",
+    "classic"
+  ],
+  "players": "1-8",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "John Zaitseff"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://www.zap.org.au/projects/trader/",
+    "version": "7.18"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/ubuntu.py",
+    "source_archive": "trader_7.18.orig.tar.xz",
+    "source_sha256": "3730b2fedd339adfc34c1640b309b3413b10b3d78969dcd71f07fd76b4514e85"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_trader",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      ".local/share/trader"
+    ],
+    "notes": "Saved games"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: player-count prompt."
+  }
+}

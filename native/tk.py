@@ -182,10 +182,29 @@ def apply_debian_patches(src, debian_tarball, skip=()):
         run(f"patch -p1 --forward --batch < {os.path.join(pdir, p.split()[0])}", src)
 
 
+def replace_in(path, old, new, count=1):
+    """Edits one exact string in a source file (an Android-specific path, usually); fails if the
+    text isn't there, so an upstream change can't silently skip the fix."""
+    with open(path, encoding="utf-8", errors="surrogateescape") as fh:
+        text = fh.read()
+    if text.count(old) < 1 or (count and text.count(old) != count):
+        raise BuildError(f"{os.path.basename(path)}: expected {count or 'some'} of {old!r}, found {text.count(old)}")
+    with open(path, "w", encoding="utf-8", errors="surrogateescape") as fh:
+        fh.write(text.replace(old, new))
+
+
 def copy_license(name, path):
     """Installs a game's license text as LICENSES/<name>.txt (bundled in the APK)."""
     os.makedirs(LICENSES, exist_ok=True)
     shutil.copyfile(path, os.path.join(LICENSES, f"{name}.txt"))
+
+
+def placeholder(rel):
+    """An empty data file: the app creates it once and never overwrites it (score files)."""
+    dst = os.path.join(ASSETS, rel)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    open(dst, "w").close()
+    return dst
 
 
 def install_asset(rel, path):
@@ -297,6 +316,9 @@ def autotools(abi, src, args="", cflags="", make="make -j8", env_extra=None):
     inc = f"-I{abi.sysroot}/include -I{abi.sysroot}/include/ncursesw"
     env = abi.env(CFLAGS=f"{CFLAGS} {LEGACY} {inc} {cflags}", CXXFLAGS=f"{CFLAGS} {inc} {cflags}",
                   LIBS=abi.curses_libs, LDFLAGS=f"{abi.ldflags} -L{abi.sysroot}/lib")
+    # Cross-compiling, autoconf can't run its malloc(0) probe and assumes the worst, which
+    # pulls in rpl_malloc replacements most packages don't ship. musl's malloc(0) is fine.
+    env.update(ac_cv_func_malloc_0_nonnull="yes", ac_cv_func_realloc_0_nonnull="yes")
     if env_extra:
         env.update(env_extra)
     # Decades-old config.sub scripts predate musl (and sometimes x86_64); use current ones.
