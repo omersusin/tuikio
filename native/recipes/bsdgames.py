@@ -15,7 +15,7 @@ import shutil
 import threading
 
 from tk import (ASSETS, BUILD, CFLAGS, HERE, LEGACY, BuildError, apply_debian_patches, apply_patches,
-                game, log, run, unpack)
+                game, log, run, unpack, zig)
 
 ORIG = "bsdgames_2.17.orig.tar.gz"
 DEBIAN = "bsdgames_2.17-33.debian.tar.xz"
@@ -42,7 +42,6 @@ GAMES = {
     "monop-bsd": ("monop", ["monop-cards.pck"]),
     "phantasia-bsd": ("phantasia", ["phantasia/monsters", "phantasia/characs", "phantasia/gold", "phantasia/lastdead",
                                     "phantasia/mess", "phantasia/motd", "phantasia/scoreboard", "phantasia/void"]),
-    "pig-bsd": ("pig", []),
     "quiz-bsd": ("quiz", ["quiz/"]),
     "robots-bsd": ("robots", ["robots_roll"]),
     "sail-bsd": ("sail", ["saillog", "sail/"]),
@@ -117,6 +116,11 @@ def host_build():
             fh.write(CONFIG)
         run("./configure", src)
         run("make -j4", src)
+        # adventure's text is XOR-ed with random() when data.c is generated and decoded with
+        # random() at run time: generate it with musl's random(), which the games use, rather
+        # than the host C library's different sequence.
+        run(f"{zig()} cc -target x86_64-linux-musl -static -O2 -Iinclude -Iadventure {COMPAT_INCLUDE} "
+            "adventure/setup.c -o adventure/setup-musl && adventure/setup-musl adventure/glorkz > adventure/data.c", src)
         run("make install", src)
         # Per-directory compiler flags, straight from the generated makefile.
         with open(os.path.join(src, "print.mk"), "w") as fh:

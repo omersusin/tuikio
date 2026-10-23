@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "monop-bsd",
+  "title": "Monopoly",
+  "summary": "The property-trading board game, for one or more players at one phone.",
+  "description": "Buy, trade and build. Commands are words (\"roll\", \"buy\", \"trade\"); press ? at any prompt to see them. \"save\" keeps the game.",
+  "category": "strategy",
+  "tags": [
+    "board",
+    "multiplayer",
+    "classic"
+  ],
+  "players": "1-9",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Ken Arnold"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_monop_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "any"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "\"save\" writes a file in the game's folder."
+  },
+  "data_files": [
+    {
+      "asset": "games/monop-bsd/monop-cards.pck",
+      "dest": "monop-cards.pck",
+      "sha256": "8d33e06914ffaf7bd6d4326a3dc73379a9deb7634a09b8bb1475dca71e4d06d0"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: player-count prompt."
+  }
+}

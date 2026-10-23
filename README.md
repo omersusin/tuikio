@@ -60,21 +60,46 @@ the SIL Open Font License 1.1.
 
 Everyone whose suggestion, port or correction is accepted through the app or a pull request is listed here, by GitHub login or as an anonymous community contributor. Be the first: suggest a game from the app's Create tab.
 
-### Games (9 playable)
+### Games (34 playable)
 
 Every game is the work of its authors; Tuikio only ports and packages it. Licenses link to the full text shipped in the app.
 
 | Game | Authors | License | Source | Status |
 |---|---|---|---|---|
 | 2048 | Maurits van der Schee | [MIT](LICENSES/2048.txt) | [github.com/mevdschee/2048.c](https://github.com/mevdschee/2048.c) | PORTABLE |
+| Air Traffic Controller | Ed James | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Arithmetic | Eamonn McManus | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Backgammon | Alan Char | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Backgammon Tutor | Alan Char | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Battlestar | David Riggle, Chris Guthrie, Peter Da Silva, Kevin Brown, Edward Wang | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Boggle | Barry Brachman | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Canfield | Steve Levine, Steve Feldman, Kirk McKusick, Mikey Olson, Eric Allman | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Colossal Cave Adventure | Will Crowther, Don Woods, Jim Gillogly (C version), James W. Williams | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Cribbage | Earl T. Cohen, Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Dots and Boxes | Christos Zoulas | [BSD-2-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Freesweep | Gus Hartmann, Peter Keller | [GPL-2.0-or-later](LICENSES/freesweep.txt) | [github.com/rwestlund/freesweep](https://github.com/rwestlund/freesweep) | PORTABLE |
+| Go Fish | Muffy Barkocy | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Gomoku | Ralph Campbell | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Greed | Matthew Day, Eric S. Raymond | [BSD-2-Clause](LICENSES/greed.txt) | [http://www.catb.org/~esr/greed/](http://www.catb.org/~esr/greed/) | PORTABLE |
+| Hack | Jay Fenlason, Kenny Woodland, Mike Thome, Jon Payne, Andries Brouwer | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Hangman | Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Hunt the Wumpus | Dave Taylor | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Kio: Lantern Tide | Ömer SÜSİN, Claude Code | [GPL-3.0-or-later](LICENSES/tuikio-GPL-3.0.txt) | [github.com/omersusin/tuikio/tree/main/native/original/lantern-tide](https://github.com/omersusin/tuikio/tree/main/native/original/lantern-tide) | PORTABLE |
+| Mille Bornes | Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Monopoly | Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Moon Buggy | Jochen Voss | [GPL-2.0-or-later](LICENSES/moon-buggy.txt) | [www.seehuhn.de/pages/moon-buggy](https://www.seehuhn.de/pages/moon-buggy) | PORTABLE |
 | nInvaders | Dettus | [GPL-2.0-or-later](LICENSES/ninvaders.txt) | [ninvaders.sourceforge.net/](https://ninvaders.sourceforge.net/) | PORTABLE |
 | nSnake | Alexandre Dantas | [GPL-3.0-or-later](LICENSES/nsnake.txt) | [github.com/alexdantas/nSnake](https://github.com/alexdantas/nSnake) | PORTABLE |
+| Phantasia | Edward Estes, Chris Robertson | [LicenseRef-Public-Domain](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Quiz | Jim R. Oldroyd, Keith Gabryelski | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | robotfindskitten | Leonard Richardson | [GPL-2.0-or-later](LICENSES/robotfindskitten.txt) | [http://robotfindskitten.org/](http://robotfindskitten.org/) | PORTABLE |
+| Robots | Ken Arnold, Christos Zoulas | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Sail | Dave Riggle, Craig Leres | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Snake | The BSD authors | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Star Trek | Eric Allman | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Tetris (BSD) | Chris Torek, Darren F. Provine, Nancy L. Tinkham, Hubert Feyrer | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Vitetris | Victor Geraldsson | [BSD-2-Clause](LICENSES/vitetris.txt) | [github.com/vicgeralds/vitetris](https://github.com/vicgeralds/vitetris) | PORTABLE |
+| Worm | Michael Toy | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 
 ### Inside the app
 
@@ -106,7 +131,7 @@ Every game is the work of its authors; Tuikio only ports and packages it. Licens
 - [Termux packages](https://github.com/termux/termux-packages) by The Termux maintainers
 - [Debian and Ubuntu archives](https://packages.debian.org/) by The Debian and Ubuntu maintainers
 
-### Also in the catalog (173 links)
+### Also in the catalog (166 links)
 
 Listed in the app with a link to their authors' pages; not bundled (yet). Licenses are their authors'.
 
@@ -129,7 +154,6 @@ Listed in the app with a link to their authors' pages; not bundled (yet). Licens
 - [Asteroids (Shell Games)](https://github.com/MCookinho/shellgame)
 - [Astwar](https://savannah.nongnu.org/projects/astwar)
 - [Awkaster (raycasting)](https://github.com/TheMozg/awk-raycaster)
-- [Backgammon BSD](https://man.openbsd.org/backgammon.6)
 - [BalatroTUI](https://github.com/Passeriform/BalatroTUI)
 - [Bash Dungeon](https://github.com/wolandark/bash-dungeon)
 - [Bashmaze](https://github.com/phoemur/bashmaze)
@@ -137,7 +161,6 @@ Listed in the app with a link to their authors' pages; not bundled (yet). Licens
 - [Blackguard](https://github.com/ElnurBDa/blackguard)
 - [Blackjack (Shell Games)](https://github.com/MCookinho/shellgame)
 - [Blue Moon Solitaire](http://www.catb.org/~esr/bluemoon/)
-- [Boggle BSD](https://man.openbsd.org/boggle.6)
 - [Breakout (Shell Games)](https://github.com/MCookinho/shellgame)
 - [Brickgame 4bit](https://github.com/ilyakurdyukov/brickgame-4bit)
 - [Brogue Community Edition](https://github.com/tmewett/BrogueCE)
@@ -158,7 +181,6 @@ Listed in the app with a link to their authors' pages; not bundled (yet). Licens
 - [Conquest (Beej)](https://github.com/beejjorgensen/conquest)
 - [Conquest (Jtrulson)](https://github.com/jtrulson/conquest/)
 - [Cpat Solitaire](http://cpat.sourceforge.net/)
-- [Cribbage BSD](https://man.openbsd.org/cribbage.6)
 - [CSol](https://github.com/nielssp/csol)
 - [CTRIS](https://github.com/dominikhackl/ctris)
 - [Curse of War](https://a-nikolaev.github.io/curseofwar/)
@@ -189,7 +211,6 @@ Listed in the app with a link to their authors' pages; not bundled (yet). Licens
 - [Hammurabi Python](https://github.com/wzhishen/hammurabi)
 - [Hamurabi](https://github.com/blt/hamurabi)
 - [Hangman (Shell Games)](https://github.com/MCookinho/shellgame)
-- [Hangman BSD](https://man.openbsd.org/hangman.6)
 - [Hydra Slayer](http://www.roguetemple.com/z/hydra/)
 - [Inertia (physics simulation)](https://github.com/aclfe/inertia)
 - [Just Asteroids](https://github.com/gabrielvictorcf/just-asteroids)
@@ -197,13 +218,11 @@ Listed in the app with a link to their authors' pages; not bundled (yet). Licens
 - [Late.sh (includes games)](https://github.com/mpiorowski/late-sh)
 - [LeTrain](https://github.com/antoniovazquezaraujo/LeTrain)
 - [Lightcycle](https://github.com/gsobell/lightcycle)
-- [Mille BSD](https://man.openbsd.org/mille.6)
 - [Minecurses](https://github.com/christosmarg/minecurses)
 - [MinesVIiper](https://gir.st/mines.html)
 - [Minesweep-rs](https://github.com/cpcloud/minesweep-rs)
 - [Minesweeper (Shell Games)](https://github.com/MCookinho/shellgame)
 - [Minesweeper 4D](https://github.com/itabesamesa/minesweeper_4d_rs)
-- [Monop BSD](https://man.openbsd.org/monop.6)
 - [Moria](https://umoria.org/)
 - [Morpion Solitaire](https://github.com/gre/morpion-solitaire)
 - [MSnake](https://github.com/mogria/msnake)
@@ -278,7 +297,6 @@ Listed in the app with a link to their authors' pages; not bundled (yet). Licens
 - [Wander](https://github.com/shmup/wander)
 - [Wolfentext3D](https://github.com/AtomicPair/wolfentext3d)
 - [Wordle CLI](https://github.com/nimblebun/wordle-cli)
-- [Wump BSD](https://man.openbsd.org/wump.6)
 - [Xonitix](https://github.com/garu/Xonitix)
 - [Yetris](https://alexdantas.github.io/yetris/)
 - [Zigtris](https://github.com/ringtailsoftware/zigtris)

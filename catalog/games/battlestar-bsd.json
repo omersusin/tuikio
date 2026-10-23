@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "id": "battlestar-bsd",
+  "title": "Battlestar",
+  "summary": "A text adventure aboard a battlestar and the planet below it.",
+  "description": "Explore the ship, find your way to the planet and save the day. Commands are words such as \"look\", \"take\", \"north\". \"save\" keeps your game.",
+  "category": "adventure",
+  "tags": [
+    "text",
+    "science fiction",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "David Riggle",
+      "Chris Guthrie",
+      "Peter Da Silva",
+      "Kevin Brown",
+      "Edward Wang"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_battlestar_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "any"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      "Bstar",
+      "battlestar.log"
+    ],
+    "notes": "Saved game and the score log"
+  },
+  "data_files": [
+    {
+      "asset": "games/battlestar-bsd/battlestar.log",
+      "dest": "battlestar.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: opening room description."
+  }
+}

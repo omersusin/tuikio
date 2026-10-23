@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "adventure-bsd",
+  "title": "Colossal Cave Adventure",
+  "summary": "The original text adventure: explore a cave full of treasure, magic and a hungry dwarf or two.",
+  "description": "Crowther and Woods' 1977 Adventure, the game that named a genre. Type two-word commands such as \"go north\", \"get lamp\" or \"xyzzy\". Type \"save\" to keep your place.",
+  "category": "adventure",
+  "tags": [
+    "text",
+    "classic",
+    "exploration",
+    "puzzle"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Will Crowther",
+      "Don Woods",
+      "Jim Gillogly (C version)",
+      "James W. Williams"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_adventure_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "any"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "\"save\" writes a file in the game's folder; restart with it to continue."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: welcome prompt, then the first room after answering no."
+  }
+}

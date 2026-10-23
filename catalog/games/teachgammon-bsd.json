@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "teachgammon-bsd",
+  "title": "Backgammon Tutor",
+  "summary": "Learn backgammon with a guided practice game.",
+  "description": "Explains the rules of backgammon, then plays a tutorial game with you.",
+  "category": "strategy",
+  "tags": [
+    "board",
+    "tutorial",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Alan Char"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_teachgammon_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "any"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: rules text."
+  }
+}

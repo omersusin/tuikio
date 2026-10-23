@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "id": "quiz-bsd",
+  "title": "Quiz",
+  "summary": "Trivia drills: capitals, elements, Shakespeare, Morse code and more.",
+  "description": "Lists every subject, then asks for two to pair up, such as \"Europe capital\" or \"element symbol\". Type answers and press Enter; an empty line shows the right one.",
+  "category": "words",
+  "tags": [
+    "trivia",
+    "education",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Jim R. Oldroyd",
+      "Keith Gabryelski"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_quiz_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "any"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/quiz-bsd/quiz/africa",
+      "dest": "quiz/africa",
+      "sha256": "d01bb8d33ff5f33ddfaa056984d4fe64df9f7b0e2ba00b9b779fc24eba62c823"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/america",
+      "dest": "quiz/america",
+      "sha256": "7c944a8081ae5cc82d7a12f5faccc9dcc623e893ee76f434f5bcb921198a42d0"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/areas",
+      "dest": "quiz/areas",
+      "sha256": "1a4a527d773b6513a8e222efa0935896cdc7bcad616244ae0798ee683aa2bd72"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/arith",
+      "dest": "quiz/arith",
+      "sha256": "8b1203f16c12d928233bb4472dd62ddda32aac7114117a31fc5639029f89c0b4"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/asia",
+      "dest": "quiz/asia",
+      "sha256": "bbd4da4cee0dbcb2afc517d7261e25af5dae80075203d3297a58496e8ea96a2f"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/babies",
+      "dest": "quiz/babies",
+      "sha256": "f7f36c8199eb65cfe81aef2e12c617bedfded23ee6260bfef56410878fe2bf9b"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/bard",
+      "dest": "quiz/bard",
+      "sha256": "a1d1a362cc2bde672da2ede0dd9357a722669296bcee733f328bcddeefee6200"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/chinese",
+      "dest": "quiz/chinese",
+      "sha256": "b3b1601a0334fe57773142d264f30f76771f0159ecfee7c4ccbbb348d4e4538e"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/collectives",
+      "dest": "quiz/collectives",
+      "sha256": "2fd43d5f629f8a1045b24f417c7753b23c41b9514fc9d2ce7acec154f01d2077"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/ed",
+      "dest": "quiz/ed",
+      "sha256": "2a7c0b8280c4e0f6cd7c4ad5696ea4793905f5230fc2538f469e702108355a9f"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/elements",
+      "dest": "quiz/elements",
+      "sha256": "389c43f6df09250664de06aa1ea011e31e741ebd9011189a37d6e25a6d4a3c26"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/europe",
+      "dest": "quiz/europe",
+      "sha256": "e00402d83b389dfd4eb249009623f7ade1e93d360ebcc3a3e0714e9a4963876b"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/flowers",
+      "dest": "quiz/flowers",
+      "sha256": "9cc6846b2f72e9b00c1c6a316818153ac6c5709e8468a9303568604d1d724b25"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/greek",
+      "dest": "quiz/greek",
+      "sha256": "1b72a5fff612e56aff0879533c5744c9b85ee9b63041f280633ba1619b08c3c0"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/inca",
+      "dest": "quiz/inca",
+      "sha256": "6081ab302c60dddd0634c1201592aa36ff4192711098bfa29fdd1f800c9018a5"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/index",
+      "dest": "quiz/index",
+      "sha256": "3c5b192b53ed63051a4c099c0aae909a7fc61fb700a7ee50209d2286c7882f09"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/latin",
+      "dest": "quiz/latin",
+      "sha256": "feda62fcf271ff38503c2411cd725cf2f8c5188860b4f8a61215a03f0a9d21ff"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/locomotive",
+      "dest": "quiz/locomotive",
+      "sha256": "d1b174b4b5e1c031f4a7e118081325b5795faee28354de3606f0bf831ac073ce"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/midearth",
+      "dest": "quiz/midearth",
+      "sha256": "0686c9add6f6aefc5bc119088ced1e2aff34af8418d179cbb44137f632371fc9"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/morse",
+      "dest": "quiz/morse",
+      "sha256": "4dd45283cfc7bb0d514943d82829a6c115f6d1a2b475208563c10d3d911b8252"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/mult",
+      "dest": "quiz/mult",
+      "sha256": "40d210fe014323a6ed30ead9a4662c1f138cb6e3c526b3b45bf660598a234eaf"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/murders",
+      "dest": "quiz/murders",
+      "sha256": "171c7a0e14be5d02a93a70a2523782c226c11ac2ff69d21099122c3494421844"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/poetry",
+      "dest": "quiz/poetry",
+      "sha256": "9bca04023d1b550c9a113c8649cca7877158a844cad20258150f84571eb85f11"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/posneg",
+      "dest": "quiz/posneg",
+      "sha256": "effb68e8e4cfe3f1d8ce91dbe77f2ec60ffde28cd18a375ee3277c94f6cac01d"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/pres",
+      "dest": "quiz/pres",
+      "sha256": "498f64f00b319e7183a6bcc5519db6ea9dd882e4a363673dad680e594ad837d1"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/province",
+      "dest": "quiz/province",
+      "sha256": "1f028158498ff58563b3efe24e3700c90744ce1aa3e5a1f4f508fb40f0dfc63e"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/seq-easy",
+      "dest": "quiz/seq-easy",
+      "sha256": "a4a545a4c1a803a3ffff55fdc6d35172ff61b063974b39ac7b9577fada4f88af"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/seq-hard",
+      "dest": "quiz/seq-hard",
+      "sha256": "0bf65fd7438edc56ea35c72d9a2e3e3bb01b748409909fd3d97ef88719447e1d"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/sexes",
+      "dest": "quiz/sexes",
+      "sha256": "125acc4853e20634fccb826411090180cf47fb04426fb72d36b702af85350da5"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/sov",
+      "dest": "quiz/sov",
+      "sha256": "8bc954227e4d682d296780d2ac1a86d46b1afe74cb4e5b890a9ea2947f210ce9"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/spell",
+      "dest": "quiz/spell",
+      "sha256": "3a6584c74c31e731ae5693feb998308530001103a4b47dce433de2ff36127e2e"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/state",
+      "dest": "quiz/state",
+      "sha256": "f983975d2ae1a79df50cd6b9608aa1ed2a629a8403acd0264f67b6f11f128cf8"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/trek",
+      "dest": "quiz/trek",
+      "sha256": "28a9d1fa671da6571831d9e36879e326e0edcf8f990c4894724f336083389ecd"
+    },
+    {
+      "asset": "games/quiz-bsd/quiz/ucc",
+      "dest": "quiz/ucc",
+      "sha256": "5bae3db2d6a76b3eb83158932a4c9d35a20c52638938d9d83aba987847e5682e"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: subject list, then questions after choosing two subjects."
+  }
+}

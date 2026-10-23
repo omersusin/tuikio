@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "id": "cribbage-bsd",
+  "title": "Cribbage",
+  "summary": "Cribbage against the computer, scoring and pegging included.",
+  "description": "Discard to the crib, peg to 31 and count your hand. Cards are typed as rank and suit, for example \"ah\" for the ace of hearts.",
+  "category": "cards",
+  "tags": [
+    "cards",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Earl T. Cohen",
+      "Ken Arnold"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_cribbage_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      "criblog"
+    ],
+    "notes": "Game log"
+  },
+  "data_files": [
+    {
+      "asset": "games/cribbage-bsd/cribbage.instr",
+      "dest": "cribbage.instr",
+      "sha256": "3347deb89f62df55de3811e21c8b690dee6069d3ae907c989c482c5c496ad2a5"
+    },
+    {
+      "asset": "games/cribbage-bsd/criblog",
+      "dest": "criblog",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: instructions prompt."
+  }
+}

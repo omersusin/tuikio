@@ -1,0 +1,23 @@
+--- a/quiz/quiz.c
++++ b/quiz/quiz.c
+@@ -105,8 +105,20 @@
+ 
+ 	switch(argc) {
+ 	case 0:
++		/* Tuikio: there is no command line in the app, so list the subjects and ask. */
+ 		get_file(indexfile);
+ 		show_index();
++		{
++			char line[256], c1[128], c2[128];
++
++			(void)printf("\nType two subjects to be quizzed on, for example \"Europe capital\": ");
++			(void)fflush(stdout);
++			if (fgets(line, sizeof(line), stdin) == NULL ||
++			    sscanf(line, "%127s %127s", c1, c2) != 2)
++				break;
++			get_cats(c1, c2);
++			quiz();
++		}
+ 		break;
+ 	case 2:
+ 		get_file(indexfile);

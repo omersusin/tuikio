@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "trek-bsd",
+  "title": "Star Trek",
+  "summary": "Hunt Klingons across the galaxy in the classic 1970s Star Trek game.",
+  "description": "Command the Enterprise: scan, warp, fire phasers and photon torpedoes, and dock at starbases. Commands are words such as \"srscan\", \"move\" or \"phasers\".",
+  "category": "strategy",
+  "tags": [
+    "space",
+    "text",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Eric Allman"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_trek_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "any"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: title screen."
+  }
+}

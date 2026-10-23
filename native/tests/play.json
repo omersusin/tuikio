@@ -1,0 +1,30 @@
+{
+  "comment": "Scripted first moves for ported games, run by core/runtime PlayScriptsTest against the x86_64 build exactly as the app starts them. Steps: \"expect:<text on screen>\", \"type:<text>\" (\\n is Enter), \"key:<TermKey>\", \"wait:<ms>\". Games without a script are still started by SuspendResumeTest.",
+  "games": {
+    "adventure-bsd": ["expect:Would you like instructions", "type:n\n", "expect:end of a road", "type:enter building\n", "expect:inside a building"],
+    "arithmetic-bsd": ["expect: =", "type:0\n", "expect:What?"],
+    "atc-bsd": ["expect:Time:", "expect:Safe:"],
+    "backgammon-bsd": ["expect:rules"],
+    "teachgammon-bsd": ["expect:Backgammon"],
+    "battlestar-bsd": ["expect:stateroom"],
+    "boggle-bsd": ["expect:Type <space> to begin", "type: ", "expect:Type '?' for help"],
+    "canfield-bsd": ["expect:instructions", "type:n\n", "expect:CANFIELD"],
+    "cribbage-bsd": ["expect:instructions for cribbage", "type:n", "expect:Long (to 121) or Short (to 61)"],
+    "dab-bsd": ["expect:S c:"],
+    "go-fish-bsd": ["expect:Would you like instructions", "type:n\n", "expect:Your hand is"],
+    "gomoku-bsd": ["expect:black", "expect:A B C D E F G H J K L M N O P Q R S T"],
+    "hack-bsd": ["expect:Who are you?", "type:Kio\n", "expect:experienced player", "type:y", "expect:what kind of character", "type:F", "expect:welcome to hack", "expect:Level 1"],
+    "hangman-bsd": ["expect:Guessed:", "type:e", "expect:Word #:"],
+    "mille-bsd": ["expect:Milestones", "expect:Hand Total"],
+    "monop-bsd": ["expect:How many players?", "type:2\n", "expect:Player 1's name", "type:Ada\n", "type:Kio\n", "expect:goes first", "expect:Command:"],
+    "phantasia-bsd": ["expect:P h a n t a s i a"],
+    "quiz-bsd": ["expect:Subjects", "type:q", "expect:Type two subjects", "type:europe capital\n", "expect:?"],
+    "robots-bsd": ["expect:Directions:", "type:t", "expect:Score:"],
+    "sail-bsd": ["expect:Constitution"],
+    "snake-bsd": ["expect:$"],
+    "tetris-bsd": ["expect:Score:", "expect:j - left"],
+    "trek-bsd": ["expect:S T A R   T R E K"],
+    "worm-bsd": ["expect:Worm"],
+    "wump-bsd": ["expect:Instructions?", "type:n\n", "expect:You are in room", "expect:Move or shoot?"]
+  }
+}

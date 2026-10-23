@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "id": "hack-bsd",
+  "title": "Hack",
+  "summary": "The 1985 dungeon crawl that grew into NetHack.",
+  "description": "Descend through the dungeon, fight monsters and find the Amulet. Type your name to begin; ? lists every command.",
+  "category": "roguelike",
+  "tags": [
+    "roguelike",
+    "dungeon",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Jay Fenlason",
+      "Kenny Woodland",
+      "Mike Thome",
+      "Jon Payne",
+      "Andries Brouwer"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_hack_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "roguelike.v1",
+  "saves": {
+    "paths": [
+      "hack/save",
+      "hack/record"
+    ],
+    "notes": "Saved games and the record of top scores"
+  },
+  "data_files": [
+    {
+      "asset": "games/hack-bsd/hack/data",
+      "dest": "hack/data",
+      "sha256": "efdd3e44da06a3e1eaef6822baea33f79bae2ff9fc8beec333d8db1279b3321c"
+    },
+    {
+      "asset": "games/hack-bsd/hack/help",
+      "dest": "hack/help",
+      "sha256": "b719632f99a32d01ad3dfab41026509fc607ce74b44db86c6277a3218071e58d"
+    },
+    {
+      "asset": "games/hack-bsd/hack/hh",
+      "dest": "hack/hh",
+      "sha256": "ff3bf3856fa8df2f25a1939b166c8a5493103f665efa3d726c259cf5e1872f6b"
+    },
+    {
+      "asset": "games/hack-bsd/hack/perm",
+      "dest": "hack/perm",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/hack-bsd/hack/record",
+      "dest": "hack/record",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/hack-bsd/hack/rumors",
+      "dest": "hack/rumors",
+      "sha256": "34eec3fa22419c91db1be39004e27135f51a013e86332721ae435ba2efb4ad89"
+    },
+    {
+      "asset": "games/hack-bsd/hack/save/.keep",
+      "dest": "hack/save/.keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: name prompt."
+  }
+}

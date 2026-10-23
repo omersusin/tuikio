@@ -43,6 +43,7 @@ def robotfindskitten(abi):
 @game("moon-buggy", notice=("moon-buggy_1.0.51.orig.tar.gz", "COPYING"))
 def moon_buggy(abi):
     src = unpack("moon-buggy_1.0.51.orig.tar.gz", os.path.join(abi.work("moon-buggy"), "src"))
+    apply_patches(src, "moon-buggy")  # leaving the app pauses a run instead of ending it
     autotools(abi, src, "--sharedstatedir=/nonexistent")
     # Rebuild highscore.o with the score file in the game's own directory.
     run(f'make highscore.o scoredir=. -B CFLAGS="{CFLAGS} {LEGACY}" && make', src,

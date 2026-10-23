@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "hangman-bsd",
+  "title": "Hangman",
+  "summary": "Guess the word one letter at a time before the gallows is finished.",
+  "description": "Type letters to guess. Words come from the SCOWL American English list.",
+  "category": "words",
+  "tags": [
+    "words",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Ken Arnold"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_hangman_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/hangman-bsd/words",
+      "dest": "words",
+      "sha256": "6dc6cc302ed4453fe306b1d6fcc27016235409d9a80c62a2ab6146566329c716"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: gallows and word."
+  }
+}

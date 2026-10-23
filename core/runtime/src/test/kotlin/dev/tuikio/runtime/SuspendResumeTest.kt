@@ -47,7 +47,7 @@ class SuspendResumeTest {
                     if (!s.isRunning) problems += "${m.id}: died after resume (exit ${s.exitCode}) ${s.diagnostics.trim()}"
                 }
                 val text = s.screenText().joinToString("\n")
-                if ("ABORTED" in text || "ABORTED" in s.diagnostics) problems += "${m.id}: aborted"
+                if ("ABORTED" in text || "ABORTED" in s.diagnostics) problems += "${m.id}: aborted. stderr: ${s.diagnostics.trim()}\n$text"
             } finally {
                 s.stop(800)
             }

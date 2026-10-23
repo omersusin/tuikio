@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "id": "sail-bsd",
+  "title": "Sail",
+  "summary": "Command a ship of the line in Napoleonic-era naval battles.",
+  "description": "Pick a historical scenario, then steer, set sails, load and fire broadsides. Commands are single keys; ? lists them.",
+  "category": "strategy",
+  "tags": [
+    "naval",
+    "historical",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Dave Riggle",
+      "Craig Leres"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_sail_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      "saillog"
+    ],
+    "notes": "Captains' log of scores"
+  },
+  "data_files": [
+    {
+      "asset": "games/sail-bsd/sail/.keep",
+      "dest": "sail/.keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/sail-bsd/saillog",
+      "dest": "saillog",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: scenario list."
+  }
+}

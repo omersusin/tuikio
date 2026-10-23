@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "profile_id": "roguelike.v1",
+  "title": "Roguelike",
+  "help": "The pad walks in eight directions with the classic h j k l y u b n keys. Search, pick up, inventory and the stairs are one tap away; Keys opens the keyboard for every other command.",
+  "orientation": "landscape",
+  "actions": [
+    {"id": "n", "label": "North", "output": {"text": "k"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "s", "label": "South", "output": {"text": "j"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "w", "label": "West", "output": {"text": "h"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "e", "label": "East", "output": {"text": "l"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "nw", "label": "North-west", "output": {"text": "y"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "ne", "label": "North-east", "output": {"text": "u"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "sw", "label": "South-west", "output": {"text": "b"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "se", "label": "South-east", "output": {"text": "n"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "search", "label": "Search", "icon": "search", "output": {"text": "s"}},
+    {"id": "pickup", "label": "Pick up", "icon": "bag", "output": {"text": ","}},
+    {"id": "inventory", "label": "Items", "output": {"text": "i"}},
+    {"id": "down", "label": "Down", "icon": "stairs", "output": {"text": ">"}},
+    {"id": "more", "label": "More", "output": {"key": "ENTER"}},
+    {"id": "escape", "label": "Esc", "icon": "back", "output": {"key": "ESCAPE"}}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "dpad8", "anchor": "bottom_center", "size": 204, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "bottom_end", "size": 60, "bind": {"press": "search"}},
+      {"type": "button", "anchor": "bottom_start", "size": 60, "bind": {"press": "pickup"}},
+      {"type": "button", "anchor": "center_end", "size": 52, "bind": {"press": "more"}, "style": "primary"},
+      {"type": "button", "anchor": "center_start", "size": 52, "bind": {"press": "inventory"}},
+      {"type": "button", "anchor": "top_end", "size": 48, "bind": {"press": "down"}},
+      {"type": "keyboard", "anchor": "top_start", "size": 48}
+    ],
+    "landscape": [
+      {"type": "dpad8", "anchor": "center_start", "size": 184, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "center_end", "size": 64, "bind": {"press": "more"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_end", "size": 54, "bind": {"press": "search"}},
+      {"type": "button", "anchor": "top_end", "size": 50, "bind": {"press": "escape"}},
+      {"type": "button", "anchor": "bottom_start", "size": 50, "bind": {"press": "pickup"}},
+      {"type": "keyboard", "anchor": "top_start", "size": 48}
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

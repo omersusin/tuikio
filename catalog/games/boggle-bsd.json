@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "id": "boggle-bsd",
+  "title": "Boggle",
+  "summary": "Find as many words as you can in a 4x4 grid of letters before time runs out.",
+  "description": "Words must be at least three letters, made of neighbouring cubes. Type each word and press Enter. The dictionary is the SCOWL American English list.",
+  "category": "words",
+  "tags": [
+    "words",
+    "timed",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Barry Brachman"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_boggle_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/boggle-bsd/boggle/dictindex",
+      "dest": "boggle/dictindex",
+      "sha256": "0575a061b9154bd168a7a3df05eb19ea9d49915701692e6508c6b4f9fc2584fe"
+    },
+    {
+      "asset": "games/boggle-bsd/boggle/dictionary",
+      "dest": "boggle/dictionary",
+      "sha256": "6e21fe49d955d797f4f55a31d7b150c9ab34c796e7fa7d7cfff00ed8cce5e91a"
+    },
+    {
+      "asset": "games/boggle-bsd/boggle/helpfile",
+      "dest": "boggle/helpfile",
+      "sha256": "c52afc1560dd1309f3fe55a641a08f712cdfc137081f680f2deedd346b67cc26"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: start prompt."
+  }
+}

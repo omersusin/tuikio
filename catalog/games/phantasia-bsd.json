@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "phantasia-bsd",
+  "title": "Phantasia",
+  "summary": "A fantasy role-playing game of monsters, treasure and the throne.",
+  "description": "Create a character, roam the land and fight your way up the ranks. Menus use single keys shown on screen.",
+  "category": "roguelike",
+  "tags": [
+    "rpg",
+    "fantasy",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Edward Estes",
+      "Chris Robertson"
+    ],
+    "license": "LicenseRef-Public-Domain",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_phantasia_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      "phantasia/characs",
+      "phantasia/scoreboard"
+    ],
+    "notes": "Characters and the scoreboard"
+  },
+  "data_files": [
+    {
+      "asset": "games/phantasia-bsd/phantasia/characs",
+      "dest": "phantasia/characs",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/phantasia-bsd/phantasia/gold",
+      "dest": "phantasia/gold",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/phantasia-bsd/phantasia/lastdead",
+      "dest": "phantasia/lastdead",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/phantasia-bsd/phantasia/mess",
+      "dest": "phantasia/mess",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/phantasia-bsd/phantasia/monsters",
+      "dest": "phantasia/monsters",
+      "sha256": "83b930a867a23ff549ca8ae6d8f8345c4edcef9ac0e3d7872b2c198176cb3b5e"
+    },
+    {
+      "asset": "games/phantasia-bsd/phantasia/motd",
+      "dest": "phantasia/motd",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/phantasia-bsd/phantasia/scoreboard",
+      "dest": "phantasia/scoreboard",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "asset": "games/phantasia-bsd/phantasia/void",
+      "dest": "phantasia/void",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: welcome screen."
+  }
+}

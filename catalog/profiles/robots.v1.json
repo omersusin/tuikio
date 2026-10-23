@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "profile_id": "robots.v1",
+  "title": "Dodge the robots",
+  "help": "Step in eight directions; every robot steps toward you. Stay waits one turn, Teleport jumps somewhere random, and Wait sits still until the round ends.",
+  "orientation": "landscape",
+  "actions": [
+    {"id": "n", "label": "North", "output": {"text": "k"}},
+    {"id": "s", "label": "South", "output": {"text": "j"}},
+    {"id": "w", "label": "West", "output": {"text": "h"}},
+    {"id": "e", "label": "East", "output": {"text": "l"}},
+    {"id": "nw", "label": "North-west", "output": {"text": "y"}},
+    {"id": "ne", "label": "North-east", "output": {"text": "u"}},
+    {"id": "sw", "label": "South-west", "output": {"text": "b"}},
+    {"id": "se", "label": "South-east", "output": {"text": "n"}},
+    {"id": "stay", "label": "Stay", "output": {"text": " "}},
+    {"id": "teleport", "label": "Teleport", "icon": "spark", "output": {"text": "t"}, "haptic": "heavy"},
+    {"id": "wait", "label": "Wait", "output": {"text": "w"}},
+    {"id": "yes", "label": "Yes", "output": {"text": "y"}}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "dpad8", "anchor": "bottom_center", "size": 212, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "bottom_end", "size": 68, "bind": {"press": "teleport"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_start", "size": 60, "bind": {"press": "stay"}},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "wait"}},
+      {"type": "button", "anchor": "top_start", "size": 52, "bind": {"press": "yes"}}
+    ],
+    "landscape": [
+      {"type": "dpad8", "anchor": "center_start", "size": 188, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "center_end", "size": 76, "bind": {"press": "teleport"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_end", "size": 56, "bind": {"press": "stay"}},
+      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "wait"}},
+      {"type": "button", "anchor": "bottom_start", "size": 50, "bind": {"press": "yes"}}
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

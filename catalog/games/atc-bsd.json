@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "id": "atc-bsd",
+  "title": "Air Traffic Controller",
+  "summary": "Guide planes to their exits and airports without collisions or fuel trouble.",
+  "description": "Planes appear at the edges; each needs to reach its destination at the right altitude. Commands are keystrokes: a plane's letter, then t (turn), a (altitude) and a direction or number, then Enter.",
+  "category": "strategy",
+  "tags": [
+    "simulation",
+    "real-time",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Ed James"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_atc_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [
+      "atc_score"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [
+    {
+      "asset": "games/atc-bsd/atc/Atlantis",
+      "dest": "atc/Atlantis",
+      "sha256": "0e609e7eb6d7aa08615d9e19b7e9f25647b6b071b43e4384156fbd580f2c60a2"
+    },
+    {
+      "asset": "games/atc-bsd/atc/Game_List",
+      "dest": "atc/Game_List",
+      "sha256": "0fdc13ced8e8be1da7d148edb2d60c584ede7e295923f8474e78125ad8348c6d"
+    },
+    {
+      "asset": "games/atc-bsd/atc/Killer",
+      "dest": "atc/Killer",
+      "sha256": "6226ec08cbd4edca4f25e637343585dca368009e20c0ee6c95bb8855f71111a4"
+    },
+    {
+      "asset": "games/atc-bsd/atc/OHare",
+      "dest": "atc/OHare",
+      "sha256": "d87037c549bc8e4ffe8e5a17b2658e649a40fc651aa1387a04bb407f809c6648"
+    },
+    {
+      "asset": "games/atc-bsd/atc/Tic-Tac-Toe",
+      "dest": "atc/Tic-Tac-Toe",
+      "sha256": "3fbf54f22f42a7d6e77815451150dd8502df396643ad640d0f0c973f7ff96b75"
+    },
+    {
+      "asset": "games/atc-bsd/atc/airports",
+      "dest": "atc/airports",
+      "sha256": "93b92426b390a088c588d4d48da5036051c3bf64302e894c2f7fb4d633f480c3"
+    },
+    {
+      "asset": "games/atc-bsd/atc/box",
+      "dest": "atc/box",
+      "sha256": "6710f5b830d42c652877cab2a7efbaee213e5d2646b0ccd2e6a89a2a0f6eee25"
+    },
+    {
+      "asset": "games/atc-bsd/atc/crosshatch",
+      "dest": "atc/crosshatch",
+      "sha256": "fd101fdc5944bf2550bcf26960434cd385aef14b496c239ac0a442b22628b795"
+    },
+    {
+      "asset": "games/atc-bsd/atc/crossover",
+      "dest": "atc/crossover",
+      "sha256": "19f294dff11b4d6f7223e356bc2f2cee0b59d3f97e94ce6f608600fd1cdca719"
+    },
+    {
+      "asset": "games/atc-bsd/atc/default",
+      "dest": "atc/default",
+      "sha256": "b3ebe29860eff249e11cfae1fabc28d57de4c842f814995625120b71be22fc0a"
+    },
+    {
+      "asset": "games/atc-bsd/atc/easy",
+      "dest": "atc/easy",
+      "sha256": "572daef2c86eadf32046345826348c8b541bb74cbe67f773c77155f44dc64667"
+    },
+    {
+      "asset": "games/atc-bsd/atc/game_2",
+      "dest": "atc/game_2",
+      "sha256": "09bc1586182d05ddd4dfd1327aad3b789e344fc56e2bb9a5d78920dc34d80b0b"
+    },
+    {
+      "asset": "games/atc-bsd/atc/game_3",
+      "dest": "atc/game_3",
+      "sha256": "fbfcfbb1d8db8b334073264f234083a2e8ba5f71c254ddb0cb00df4b1ba260e2"
+    },
+    {
+      "asset": "games/atc-bsd/atc/game_4",
+      "dest": "atc/game_4",
+      "sha256": "b93eec0e3240923454def7506f5e0b6a9d756899ad52e267c756cb57283b1289"
+    },
+    {
+      "asset": "games/atc-bsd/atc/novice",
+      "dest": "atc/novice",
+      "sha256": "4788a45ad959ec0db2c0ef2e8ed676373bc4069414896c84e5c871980cd6b9eb"
+    },
+    {
+      "asset": "games/atc-bsd/atc/two-corners",
+      "dest": "atc/two-corners",
+      "sha256": "e663d7de1d7d15a0edfe27357778de038f9b6124450c6801135c70de9c4a0871"
+    },
+    {
+      "asset": "games/atc-bsd/atc_score",
+      "dest": "atc_score",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: airspace map and plane list."
+  }
+}

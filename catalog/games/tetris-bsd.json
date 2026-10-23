@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "id": "tetris-bsd",
+  "title": "Tetris (BSD)",
+  "summary": "The compact BSD Tetris that started as an obfuscated C contest winner.",
+  "description": "Slide, rotate and drop falling pieces to clear rows.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Chris Torek",
+      "Darren F. Provine",
+      "Nancy L. Tinkham",
+      "Hubert Feyrer"
+    ],
+    "license": "BSD-3-Clause",
+    "source_url": "https://salsa.debian.org/debian/bsdgames",
+    "version": "2.17 (Debian 2.17-33)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/bsdgames.py",
+    "source_archive": "bsdgames_2.17.orig.tar.gz",
+    "source_sha256": "066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60",
+    "license_file": "bsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_tetris_bsd",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "tetris-bsd.v1",
+  "saves": {
+    "paths": [
+      "tetris-bsd.scores"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [
+    {
+      "asset": "games/tetris-bsd/tetris-bsd.scores",
+      "dest": "tetris-bsd.scores",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: playfield and key line."
+  }
+}

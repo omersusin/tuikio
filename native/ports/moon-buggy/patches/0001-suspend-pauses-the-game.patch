@@ -1,0 +1,36 @@
+--- a/queue.c
++++ b/queue.c
+@@ -212,9 +212,12 @@
+ void
+ clock_thaw (void)
+ /* Adjust the clock to make the next event occur immediately.
+- * The queue must contain at least one element.  */
++ * Tuikio: does nothing when the queue is empty.  The app freezes a game in the
++ * background with SIGTSTP and then SIGSTOP; on a busy phone SIGSTOP can win,
++ * and the SIGCONT that resumes it discards the pending SIGTSTP, so a thaw may
++ * arrive without a freeze.  */
+ {
+-  assert (queue);
++  if (! queue)  return;
+   time_base = vclock () - queue->t;
+ }
+ 
+--- a/game.c
++++ b/game.c
+@@ -124,13 +124,11 @@
+ signal_handler (int signum)
+ {
+   switch (signum) {
++  /* Tuikio: the app suspends a game whenever it leaves the screen, so a
++   * suspension pauses the run instead of ending it.  */
+   case SIGTSTP:
+-    if (lives > 1)  lives = 1;
+-    if (! crash_detected)  crash_detected = 1;
+-    print_message ("GAME OVER (suspended)");
+-    break;
+   case SIGCONT:
+-    print_message ("GAME OVER (suspended)");
++    print_message ("paused while away: carry on!");
+     break;
+   }
+ }

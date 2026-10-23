@@ -56,6 +56,6 @@
   "verification": {
     "host_tested": "2026-10-22",
     "android_tested": null,
-    "notes": "Host test: title screen. COPYING is GPLv2; the source names no version, so any GPL version may apply."
+    "notes": "Host test: title screen. COPYING is GPLv2; the source names no version, so any GPL version may apply. Tuikio patch: leaving the app pauses a run instead of ending it."
   }
 }
