@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "profile_id": "jkl-blocks.v1",
+  "title": "Falling pieces (j k l)",
+  "help": "Left and right slide the piece and up rotates it (the game's j, l and k keys). The big button sends Space, which drops the piece in BSD Tetris. Pause is p.",
+  "orientation": "portrait",
+  "actions": [
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "text": "j"
+      },
+      "repeat": {
+        "delay_ms": 170,
+        "interval_ms": 60
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "text": "l"
+      },
+      "repeat": {
+        "delay_ms": 170,
+        "interval_ms": 60
+      }
+    },
+    {
+      "id": "rotate",
+      "label": "Rotate",
+      "icon": "rotate",
+      "output": {
+        "text": "k"
+      }
+    },
+    {
+      "id": "drop",
+      "label": "Drop",
+      "icon": "drop",
+      "output": {
+        "text": " "
+      },
+      "haptic": "heavy"
+    },
+    {
+      "id": "pause",
+      "label": "Pause",
+      "icon": "pause",
+      "output": {
+        "text": "p"
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 184,
+        "bind": {
+          "up": "rotate",
+          "down": "drop",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 96,
+        "bind": {
+          "press": "drop"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 60,
+        "bind": {
+          "press": "pause"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 176,
+        "bind": {
+          "up": "rotate",
+          "down": "drop",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 92,
+        "bind": {
+          "press": "drop"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "pause"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": false
+}

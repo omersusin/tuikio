@@ -164,7 +164,7 @@ GAMES = [
                      "through #.",
          category="arcade", tags=["turn-based", "classic"], authors=["The BSD authors"],
          saves=(["snake.log", "snakerawscores"], "Scores"), test_notes="Host test: field, player and money."),
-    dict(id="tetris-bsd", title="Tetris (BSD)", exe="game_tetris_bsd", controls="tetris-bsd.v1",
+    dict(id="tetris-bsd", title="Tetris (BSD)", exe="game_tetris_bsd", controls="jkl-blocks.v1",
          orientation="portrait",
          summary="The compact BSD Tetris that started as an obfuscated C contest winner.",
          description="Slide, rotate and drop falling pieces to clear rows.",

@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "profile_id": "sos-nb.v1",
+  "title": "Write S or O",
+  "help": "Move to an empty square with the pad, then write an S or an O. Spelling S-O-S scores and gives you another turn. You can also tap the board.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "up",
+      "label": "Up",
+      "icon": "arrow_up",
+      "output": {
+        "key": "UP"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "icon": "arrow_down",
+      "output": {
+        "key": "DOWN"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "select",
+      "label": "Enter",
+      "icon": "check",
+      "output": {
+        "key": "ENTER"
+      }
+    },
+    {
+      "id": "s",
+      "label": "S",
+      "output": {
+        "text": "S"
+      }
+    },
+    {
+      "id": "o",
+      "label": "O",
+      "output": {
+        "text": "O"
+      }
+    },
+    {
+      "id": "help",
+      "label": "Help",
+      "icon": "info",
+      "output": {
+        "key": "F1"
+      }
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 184,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 84,
+        "bind": {
+          "press": "select"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 64,
+        "bind": {
+          "press": "o"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "help"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "size": 64,
+        "bind": {
+          "press": "s"
+        }
+      },
+      {
+        "type": "keyboard",
+        "anchor": "top_start",
+        "size": 52
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 176,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 80,
+        "bind": {
+          "press": "select"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 64,
+        "bind": {
+          "press": "o"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 64,
+        "bind": {
+          "press": "s"
+        }
+      },
+      {
+        "type": "keyboard",
+        "anchor": "bottom_start",
+        "size": 52
+      }
+    ]
+  },
+  "pointer": "mouse",
+  "keyboard": true
+}

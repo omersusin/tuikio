@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "sudoku-nb",
+  "title": "Sudoku",
+  "summary": "Fill the grid so every row, column and box holds each number once.",
+  "description": "Move with the pad and type numbers with the keyboard; Space clears a square, n starts a new board.",
+  "category": "puzzle",
+  "tags": [
+    "sudoku",
+    "logic",
+    "numbers"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "abakh"
+    ],
+    "license": "CC0-1.0 OR Apache-2.0",
+    "source_url": "https://github.com/abakh/nbsdgames",
+    "version": "git d9494d5 (2026-10-20)"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/nbsdgames.py",
+    "source_archive": "nbsdgames-d9494d50.tar",
+    "source_sha256": "79e6e8aef92c2a99cdeed9ebe78ddba46b360212733762060320503ef6c4c9ba",
+    "license_file": "nbsdgames.txt"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_sudoku_nb",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        16
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "nbsd.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: grid and progress counters."
+  }
+}

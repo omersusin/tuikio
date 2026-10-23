@@ -3,6 +3,7 @@ package dev.tuikio.catalogcli
 import dev.tuikio.catalog.CatalogDocument
 import dev.tuikio.catalog.CatalogSignature
 import dev.tuikio.catalog.DiscoveryEntry
+import dev.tuikio.catalog.EntryKind
 import dev.tuikio.catalog.GameManifest
 import dev.tuikio.catalog.SourceCheck
 import dev.tuikio.catalog.SourceUrl
@@ -103,8 +104,9 @@ private fun load(dir: File, problems: MutableList<String>): Loaded {
         if (check is SourceCheck.Ok) byCanonical.getOrPut(check.source.key) { ArrayList() } += e.id
     }
     byCanonical.filterValues { it.size > 1 }.forEach { (url, list) ->
-        // Several games from one repository are fine once each is a separate, ported game.
-        val ported = discovery.filter { it.id in list }.all { it.gameId != null }
+        // Several games from one repository are fine once each is a separate, ported game
+        // (next to, at most, an entry for the collection as a whole).
+        val ported = discovery.filter { it.id in list && it.kind != EntryKind.COLLECTION }.all { it.gameId != null }
         val allowed = ported || list.all { it.startsWith("shellgame") || it == "shell-games" || it == "spire-ascent" } ||
             list.all { it.startsWith("awesome-ttygames") }
         if (!allowed) problems += "possible duplicates for $url: $list"

@@ -35,6 +35,10 @@ moon-buggy_1.0.51.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/m/moon-buggy/moon-buggy_1.0.51.orig.tar.gz
   sha256 352dc16ccae4c66f1e87ab071e6a4ebeb94ff4e4f744ce1b12a769d02fe5d23f
 
+nbsdgames-d9494d50.tar
+  https://github.com/abakh/nbsdgames @ d9494d501950e5adc1c572331fba48f93980fee0
+  sha256 79e6e8aef92c2a99cdeed9ebe78ddba46b360212733762060320503ef6c4c9ba
+
 ncurses_6.4+20240113.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/main/n/ncurses/ncurses_6.4+20240113.orig.tar.gz
   sha256 37a12a0f8ae2605012c9a164dd286b0cfa02b51b5055836d09eb3d597fc351b1

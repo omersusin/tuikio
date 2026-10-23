@@ -60,7 +60,7 @@ the SIL Open Font License 1.1.
 
 Everyone whose suggestion, port or correction is accepted through the app or a pull request is listed here, by GitHub login or as an anonymous community contributor. Be the first: suggest a game from the app's Create tab.
 
-### Games (34 playable)
+### Games (56 playable)
 
 Every game is the work of its authors; Tuikio only ports and packages it. Licenses link to the full text shipped in the app.
 
@@ -71,12 +71,17 @@ Every game is the work of its authors; Tuikio only ports and packages it. Licens
 | Arithmetic | Eamonn McManus | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Backgammon | Alan Char | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Backgammon Tutor | Alan Char | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Battleship | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Battlestar | David Riggle, Chris Guthrie, Peter Da Silva, Kevin Brown, Edward Wang | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Boggle | Barry Brachman | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Canfield | Steve Levine, Steve Feldman, Kirk McKusick, Mikey Olson, Eric Allman | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Checkers | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Colossal Cave Adventure | Will Crowther, Don Woods, Jim Gillogly (C version), James W. Williams | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Cribbage | Earl T. Cohen, Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Darrt | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Dots and Boxes | Christos Zoulas | [BSD-2-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Fifteen | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| Fisher | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Freesweep | Gus Hartmann, Peter Keller | [GPL-2.0-or-later](LICENSES/freesweep.txt) | [github.com/rwestlund/freesweep](https://github.com/rwestlund/freesweep) | PORTABLE |
 | Go Fish | Muffy Barkocy | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Gomoku | Ralph Campbell | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
@@ -84,20 +89,37 @@ Every game is the work of its authors; Tuikio only ports and packages it. Licens
 | Hack | Jay Fenlason, Kenny Woodland, Mike Thome, Jon Payne, Andries Brouwer | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Hangman | Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Hunt the Wumpus | Dave Taylor | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Jewels | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Kio: Lantern Tide | Ömer SÜSİN, Claude Code | [GPL-3.0-or-later](LICENSES/tuikio-GPL-3.0.txt) | [github.com/omersusin/tuikio/tree/main/native/original/lantern-tide](https://github.com/omersusin/tuikio/tree/main/native/original/lantern-tide) | PORTABLE |
+| Memory Blocks | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| Miketron | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Mille Bornes | Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Mines | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Monopoly | Ken Arnold | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Moon Buggy | Jochen Voss | [GPL-2.0-or-later](LICENSES/moon-buggy.txt) | [www.seehuhn.de/pages/moon-buggy](https://www.seehuhn.de/pages/moon-buggy) | PORTABLE |
+| Muncher | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | nInvaders | Dettus | [GPL-2.0-or-later](LICENSES/ninvaders.txt) | [ninvaders.sourceforge.net/](https://ninvaders.sourceforge.net/) | PORTABLE |
 | nSnake | Alexandre Dantas | [GPL-3.0-or-later](LICENSES/nsnake.txt) | [github.com/alexdantas/nSnake](https://github.com/alexdantas/nSnake) | PORTABLE |
 | Phantasia | Edward Estes, Chris Robertson | [LicenseRef-Public-Domain](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Pipes | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Quiz | Jim R. Oldroyd, Keith Gabryelski | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Rabbithole | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| Red Square | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| Revenge | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| Reversi | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | robotfindskitten | Leonard Richardson | [GPL-2.0-or-later](LICENSES/robotfindskitten.txt) | [http://robotfindskitten.org/](http://robotfindskitten.org/) | PORTABLE |
 | Robots | Ken Arnold, Christos Zoulas | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 | Sail | Dave Riggle, Craig Leres | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Scissor | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Snake | The BSD authors | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Snake Duel | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| SOS | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| Square Jump | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Star Trek | Eric Allman | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Sudoku | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Tetris (BSD) | Chris Torek, Darren F. Provine, Nancy L. Tinkham, Hubert Feyrer | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
+| Treasure Mines | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
+| Tug of War | abakh | [CC0-1.0 OR Apache-2.0](LICENSES/nbsdgames.txt) | [github.com/abakh/nbsdgames](https://github.com/abakh/nbsdgames) | PORTABLE |
 | Vitetris | Victor Geraldsson | [BSD-2-Clause](LICENSES/vitetris.txt) | [github.com/vicgeralds/vitetris](https://github.com/vicgeralds/vitetris) | PORTABLE |
 | Worm | Michael Toy | [BSD-3-Clause](LICENSES/bsdgames.txt) | [salsa.debian.org/debian/bsdgames](https://salsa.debian.org/debian/bsdgames) | PORTABLE |
 
@@ -227,7 +249,7 @@ Listed in the app with a link to their authors' pages; not bundled (yet). Licens
 - [Morpion Solitaire](https://github.com/gre/morpion-solitaire)
 - [MSnake](https://github.com/mogria/msnake)
 - [MyMan (Pac-Man)](https://myman.sourceforge.io/)
-- [NBSD Games (18 games)](https://github.com/abakh/nbsdgames)
+- [NBSD Games (18 games)](https://github.com/abakh/nbsdgames) (CC0-1.0 OR Apache-2.0)
 - [NChess](https://github.com/billyvinning/nchess)
 - [NetHack](https://github.com/NetHack/NetHack)
 - [Nibbles](https://www.earth.li/projectpurple/progs/nibbles.html)

@@ -95,6 +95,8 @@ def write_notices(games):
         name, rel = NOTICES[comp]
         if rel is None:
             text = open(tk.fetch(name), encoding="utf-8", errors="replace").read()
+        elif isinstance(rel, (tuple, list)):  # several license files, e.g. a dual license
+            text = "\n\n".join(tar_text(name, r) for r in rel)
         else:
             text = tar_text(name, rel)
         with open(os.path.join(LICENSES, f"{comp}.txt"), "w") as fh:

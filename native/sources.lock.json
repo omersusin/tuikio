@@ -56,6 +56,11 @@
     "scowl_2020.12.07-2.debian.tar.xz": {
       "url": "http://archive.ubuntu.com/ubuntu/pool/main/s/scowl/scowl_2020.12.07-2.debian.tar.xz",
       "sha256": "17a60633b2ec2b1af1595e1c48008a9deeb9ce8f12754a4ef9c6594daa194df2"
+    },
+    "nbsdgames-d9494d50.tar": {
+      "git": "https://github.com/abakh/nbsdgames",
+      "commit": "d9494d501950e5adc1c572331fba48f93980fee0",
+      "sha256": "79e6e8aef92c2a99cdeed9ebe78ddba46b360212733762060320503ef6c4c9ba"
     }
   }
 }

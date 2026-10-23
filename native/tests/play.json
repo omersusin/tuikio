@@ -1,30 +1,219 @@
 {
   "comment": "Scripted first moves for ported games, run by core/runtime PlayScriptsTest against the x86_64 build exactly as the app starts them. Steps: \"expect:<text on screen>\", \"type:<text>\" (\\n is Enter), \"key:<TermKey>\", \"wait:<ms>\". Games without a script are still started by SuspendResumeTest.",
   "games": {
-    "adventure-bsd": ["expect:Would you like instructions", "type:n\n", "expect:end of a road", "type:enter building\n", "expect:inside a building"],
-    "arithmetic-bsd": ["expect: =", "type:0\n", "expect:What?"],
-    "atc-bsd": ["expect:Time:", "expect:Safe:"],
-    "backgammon-bsd": ["expect:rules"],
-    "teachgammon-bsd": ["expect:Backgammon"],
-    "battlestar-bsd": ["expect:stateroom"],
-    "boggle-bsd": ["expect:Type <space> to begin", "type: ", "expect:Type '?' for help"],
-    "canfield-bsd": ["expect:instructions", "type:n\n", "expect:CANFIELD"],
-    "cribbage-bsd": ["expect:instructions for cribbage", "type:n", "expect:Long (to 121) or Short (to 61)"],
-    "dab-bsd": ["expect:S c:"],
-    "go-fish-bsd": ["expect:Would you like instructions", "type:n\n", "expect:Your hand is"],
-    "gomoku-bsd": ["expect:black", "expect:A B C D E F G H J K L M N O P Q R S T"],
-    "hack-bsd": ["expect:Who are you?", "type:Kio\n", "expect:experienced player", "type:y", "expect:what kind of character", "type:F", "expect:welcome to hack", "expect:Level 1"],
-    "hangman-bsd": ["expect:Guessed:", "type:e", "expect:Word #:"],
-    "mille-bsd": ["expect:Milestones", "expect:Hand Total"],
-    "monop-bsd": ["expect:How many players?", "type:2\n", "expect:Player 1's name", "type:Ada\n", "type:Kio\n", "expect:goes first", "expect:Command:"],
-    "phantasia-bsd": ["expect:P h a n t a s i a"],
-    "quiz-bsd": ["expect:Subjects", "type:q", "expect:Type two subjects", "type:europe capital\n", "expect:?"],
-    "robots-bsd": ["expect:Directions:", "type:t", "expect:Score:"],
-    "sail-bsd": ["expect:Constitution"],
-    "snake-bsd": ["expect:$"],
-    "tetris-bsd": ["expect:Score:", "expect:j - left"],
-    "trek-bsd": ["expect:S T A R   T R E K"],
-    "worm-bsd": ["expect:Worm"],
-    "wump-bsd": ["expect:Instructions?", "type:n\n", "expect:You are in room", "expect:Move or shoot?"]
+    "adventure-bsd": [
+      "expect:Would you like instructions",
+      "type:n\n",
+      "expect:end of a road",
+      "type:enter building\n",
+      "expect:inside a building"
+    ],
+    "arithmetic-bsd": [
+      "expect: =",
+      "type:0\n",
+      "expect:=   0"
+    ],
+    "atc-bsd": [
+      "expect:Time:",
+      "expect:Safe:"
+    ],
+    "backgammon-bsd": [
+      "expect:rules"
+    ],
+    "teachgammon-bsd": [
+      "expect:Backgammon"
+    ],
+    "battlestar-bsd": [
+      "expect:stateroom"
+    ],
+    "boggle-bsd": [
+      "expect:Type <space> to begin",
+      "type: ",
+      "expect:Type '?' for help"
+    ],
+    "canfield-bsd": [
+      "expect:instructions",
+      "type:n\n",
+      "expect:CANFIELD"
+    ],
+    "cribbage-bsd": [
+      "expect:instructions for cribbage",
+      "type:n",
+      "expect:Long (to 121) or Short (to 61)"
+    ],
+    "dab-bsd": [
+      "expect:S c:"
+    ],
+    "go-fish-bsd": [
+      "expect:Would you like instructions",
+      "type:n\n",
+      "expect:Your hand is"
+    ],
+    "gomoku-bsd": [
+      "expect:black",
+      "expect:A B C D E F G H J K L M N O P Q R S T"
+    ],
+    "hack-bsd": [
+      "expect:Who are you?",
+      "type:Kio\n",
+      "expect:experienced player",
+      "type:y",
+      "expect:what kind of character",
+      "type:F",
+      "expect:welcome to hack",
+      "expect:Level 1"
+    ],
+    "hangman-bsd": [
+      "expect:Guessed:",
+      "type:e",
+      "expect:Word #:"
+    ],
+    "mille-bsd": [
+      "expect:Milestones",
+      "expect:Hand Total"
+    ],
+    "monop-bsd": [
+      "expect:How many players?",
+      "type:2\n",
+      "expect:Player 1's name",
+      "type:Ada\n",
+      "type:Kio\n",
+      "expect:goes first",
+      "expect:Command:"
+    ],
+    "phantasia-bsd": [
+      "expect:P h a n t a s i a"
+    ],
+    "quiz-bsd": [
+      "expect:Subjects",
+      "type:q",
+      "expect:Type two subjects",
+      "type:europe capital\n",
+      "expect:?"
+    ],
+    "robots-bsd": [
+      "expect:Directions:",
+      "type:t",
+      "expect:Score:"
+    ],
+    "sail-bsd": [
+      "expect:Constitution"
+    ],
+    "snake-bsd": [
+      "expect:$"
+    ],
+    "tetris-bsd": [
+      "expect:Score:",
+      "expect:j - left"
+    ],
+    "trek-bsd": [
+      "expect:S T A R   T R E K"
+    ],
+    "worm-bsd": [
+      "expect:Worm"
+    ],
+    "wump-bsd": [
+      "expect:Instructions?",
+      "type:n\n",
+      "expect:You are in room",
+      "expect:Move or shoot?"
+    ],
+    "battleship-nb": [
+      "expect:Choose type of the game",
+      "type:1",
+      "expect:Set your board",
+      "key:ENTER",
+      "expect:Put your"
+    ],
+    "checkers-nb": [
+      "expect:Choose type of the black player",
+      "type:H",
+      "expect:white player",
+      "type:c",
+      "wait:300"
+    ],
+    "darrt-nb": [
+      "expect:Score:"
+    ],
+    "fifteen-nb": [
+      "expect:IFTEEN",
+      "key:ENTER"
+    ],
+    "fisher-nb": [
+      "expect:Hooks:",
+      "key:DOWN"
+    ],
+    "jewels-nb": [
+      "expect:j,l-Move",
+      "type:j",
+      "type:k"
+    ],
+    "memoblocks-nb": [
+      "expect:EMORY",
+      "key:ENTER"
+    ],
+    "miketron-nb": [
+      "expect:IKETRON",
+      "key:UP"
+    ],
+    "mines-nb": [
+      "expect:Mines:10",
+      "key:RIGHT",
+      "type: ",
+      "expect:Flags:1"
+    ],
+    "muncher-nb": [
+      "expect:UNCHER",
+      "key:LEFT"
+    ],
+    "pipes-nb": [
+      "expect:IPES",
+      "key:ENTER"
+    ],
+    "rabbithole-nb": [
+      "expect:Carrots left",
+      "key:RIGHT"
+    ],
+    "redsquare-nb": [
+      "expect:QUARE",
+      "key:RIGHT"
+    ],
+    "revenge-nb": [
+      "expect:EVENGE",
+      "key:LEFT"
+    ],
+    "reversi-nb": [
+      "expect:Choose type of the white player",
+      "type:c",
+      "wait:300"
+    ],
+    "scissor-nb": [
+      "expect:CISSOR"
+    ],
+    "sjump-nb": [
+      "expect:Combo:",
+      "key:ENTER"
+    ],
+    "snakeduel-nb": [
+      "expect:Your wins:",
+      "key:UP"
+    ],
+    "sos-nb": [
+      "expect:Choose the type of the blue player",
+      "type:H",
+      "wait:300"
+    ],
+    "sudoku-nb": [
+      "expect:Solved:",
+      "key:RIGHT"
+    ],
+    "trsr-nb": [
+      "expect:Choose type of the # player",
+      "type:H",
+      "wait:300"
+    ],
+    "tugow-nb": [
+      "expect:UG"
+    ]
   }
 }

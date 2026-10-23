@@ -46,7 +46,7 @@
     },
     "orientation": "portrait"
   },
-  "controls": "tetris-bsd.v1",
+  "controls": "jkl-blocks.v1",
   "saves": {
     "paths": [
       "tetris-bsd.scores"
