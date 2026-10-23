@@ -86,6 +86,8 @@ object GameEnvironment {
         val tmp = File(home, ".tmp")
         val env = linkedMapOf(
             "HOME" to home.absolutePath,
+            // Shells set PWD and some games read it unchecked; the game starts in its home.
+            "PWD" to home.absolutePath,
             "TMPDIR" to tmp.absolutePath,
             "TERM" to "xterm-256color",
             "COLORTERM" to "truecolor",
@@ -120,6 +122,9 @@ class GameSession(
         /** Called on the reader thread after new output was applied to [terminal]. */
         fun onOutput() {}
         fun onExit(exitCode: Int) {}
+
+        /** Called on a reader thread when [lineInput] changes. */
+        fun onInputMode(lineInput: Boolean) {}
     }
 
     @Volatile
@@ -142,6 +147,14 @@ class GameSession(
 
     /** Last lines the helper or game wrote to stderr; useful in error reports, never contains input. */
     val diagnostics: String get() = synchronized(stderrTail) { stderrTail.toString() }
+
+    /**
+     * Whether the game reads whole lines (true: an answer needs Enter) or single keys (false), as
+     * the helper reports from the terminal's mode; null until it has.
+     */
+    @Volatile
+    var lineInput: Boolean? = null
+        private set
 
     fun start() {
         check(process == null) { "already started" }
@@ -179,14 +192,18 @@ class GameSession(
     }
 
     private fun drainErrors(err: InputStream) {
-        val buf = ByteArray(1024)
         try {
-            while (true) {
-                val n = err.read(buf)
-                if (n < 0) break
-                synchronized(stderrTail) {
-                    stderrTail.append(String(buf, 0, n, Charsets.UTF_8))
-                    if (stderrTail.length > 4096) stderrTail.delete(0, stderrTail.length - 4096)
+            err.bufferedReader(Charsets.UTF_8).forEachLine { line ->
+                when (line) {
+                    "@mode line", "@mode keys" -> {
+                        val lines = line == "@mode line"
+                        lineInput = lines
+                        listener?.onInputMode(lines)
+                    }
+                    else -> synchronized(stderrTail) {
+                        stderrTail.append(line).append('\n')
+                        if (stderrTail.length > 4096) stderrTail.delete(0, stderrTail.length - 4096)
+                    }
                 }
             }
         } catch (e: IOException) {

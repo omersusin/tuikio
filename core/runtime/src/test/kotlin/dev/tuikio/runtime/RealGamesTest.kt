@@ -58,6 +58,25 @@ class RealGamesTest {
         assertTrue(!s.terminal.isAltScreen, "left the alternate screen")
     }
 
+    /** Answer chips add Enter only for games that read whole lines; the helper says which. */
+    @Test
+    fun helperReportsWhetherTheGameReadsLinesOrKeys() {
+        fun GameSession.mode(want: Boolean, what: String) {
+            val end = System.currentTimeMillis() + 3000
+            while (lineInput != want && System.currentTimeMillis() < end) Thread.sleep(20)
+            assertEquals(want, lineInput, "$what. stderr: $diagnostics")
+        }
+        val lines = session("game_arithmetic_bsd")
+        lines.expect("a sum") { it.contains("=") }
+        lines.mode(true, "arithmetic reads whole lines")
+        lines.stop()
+        val keys = session("game_lantern_tide")
+        keys.expect("title screen") { it.contains("L A N T E R N") }
+        keys.mode(false, "a curses game reads single keys")
+        keys.stop()
+        assertTrue("@mode" !in keys.diagnostics, "status lines are not diagnostics")
+    }
+
     @Test
     fun game2048MovesTilesAndQuits() {
         val s = session("game_2048")

@@ -52,7 +52,22 @@
       "icon": "pause",
       "output": {
         "text": "p"
-      }
+      },
+      "states": [
+        {
+          "when": "(?i)paused - press return",
+          "label": "Resume",
+          "icon": "play",
+          "output": {
+            "key": "ENTER"
+          }
+        },
+        {
+          "when": "(?i)\\bpaused\\b",
+          "label": "Resume",
+          "icon": "play"
+        }
+      ]
     },
     {
       "id": "quit",

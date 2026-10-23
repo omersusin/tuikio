@@ -126,7 +126,7 @@ data class GameManifest(
         /** Variables the runtime owns; a manifest may never override them. */
         private val RESERVED_ENV = setOf(
             "HOME", "PATH", "TERM", "TERMINFO", "TERMINFO_DIRS", "TMPDIR", "SHELL", "USER", "LOGNAME",
-            "LANG", "LC_ALL", "COLORTERM", "ESCDELAY",
+            "LANG", "LC_ALL", "COLORTERM", "ESCDELAY", "PWD",
         )
 
         fun parse(text: String): GameManifest = fromJson(JsonReader.parse(text))

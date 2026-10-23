@@ -5,27 +5,149 @@
   "help": "Hold a direction to keep Kio scuttling. Swipes work too.",
   "orientation": "portrait",
   "actions": [
-    {"id": "up", "label": "Up", "output": {"key": "UP"}, "repeat": {"delay_ms": 160, "interval_ms": 90}},
-    {"id": "down", "label": "Down", "output": {"key": "DOWN"}, "repeat": {"delay_ms": 160, "interval_ms": 90}},
-    {"id": "left", "label": "Left", "output": {"key": "LEFT"}, "repeat": {"delay_ms": 160, "interval_ms": 90}},
-    {"id": "right", "label": "Right", "output": {"key": "RIGHT"}, "repeat": {"delay_ms": 160, "interval_ms": 90}},
-    {"id": "pause", "label": "Pause", "icon": "pause", "output": {"text": "p"}},
-    {"id": "retry", "label": "Retry", "icon": "refresh", "output": {"text": "r"}},
-    {"id": "quit", "label": "Quit", "icon": "close", "output": {"text": "q"}, "confirm": true}
+    {
+      "id": "up",
+      "label": "Up",
+      "output": {
+        "key": "UP"
+      },
+      "repeat": {
+        "delay_ms": 160,
+        "interval_ms": 90
+      }
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "output": {
+        "key": "DOWN"
+      },
+      "repeat": {
+        "delay_ms": 160,
+        "interval_ms": 90
+      }
+    },
+    {
+      "id": "left",
+      "label": "Left",
+      "output": {
+        "key": "LEFT"
+      },
+      "repeat": {
+        "delay_ms": 160,
+        "interval_ms": 90
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "output": {
+        "key": "RIGHT"
+      },
+      "repeat": {
+        "delay_ms": 160,
+        "interval_ms": 90
+      }
+    },
+    {
+      "id": "pause",
+      "label": "Pause",
+      "icon": "pause",
+      "output": {
+        "text": "p"
+      },
+      "states": [
+        {
+          "when": "(?i)\\bpaused\\b",
+          "label": "Resume",
+          "icon": "play"
+        }
+      ]
+    },
+    {
+      "id": "retry",
+      "label": "Retry",
+      "icon": "refresh",
+      "output": {
+        "text": "r"
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
   ],
   "layout": {
     "portrait": [
-      {"type": "dpad4", "anchor": "bottom_center", "size": 208, "bind": {"up": "up", "down": "down", "left": "left", "right": "right"}},
-      {"type": "button", "anchor": "bottom_start", "size": 60, "bind": {"press": "pause"}},
-      {"type": "button", "anchor": "bottom_end", "size": 60, "bind": {"press": "retry"}}
+      {
+        "type": "dpad4",
+        "anchor": "bottom_center",
+        "size": 208,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 60,
+        "bind": {
+          "press": "pause"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 60,
+        "bind": {
+          "press": "retry"
+        }
+      }
     ],
     "landscape": [
-      {"type": "dpad4", "anchor": "center_start", "size": 180, "bind": {"up": "up", "down": "down", "left": "left", "right": "right"}},
-      {"type": "button", "anchor": "center_end", "size": 64, "bind": {"press": "pause"}},
-      {"type": "button", "anchor": "bottom_end", "size": 56, "bind": {"press": "retry"}}
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 180,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 64,
+        "bind": {
+          "press": "pause"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "retry"
+        }
+      }
     ]
   },
-  "gestures": {"swipe_up": "up", "swipe_down": "down", "swipe_left": "left", "swipe_right": "right"},
+  "gestures": {
+    "swipe_up": "up",
+    "swipe_down": "down",
+    "swipe_left": "left",
+    "swipe_right": "right"
+  },
   "pointer": "none",
   "keyboard": true
 }

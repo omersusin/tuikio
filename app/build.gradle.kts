@@ -112,6 +112,10 @@ tasks.named<Test>("test") {
     systemProperty("robolectric.offline", "true")
     systemProperty("robolectric.dependency.dir", layout.buildDirectory.dir("robolectric-deps").get().asFile.absolutePath)
     systemProperty("tuikio.nativeOut", rootProject.file("native/build/out/x86_64").absolutePath)
+    // RenderShotsTest: -Pshots=<game ids|all> renders game screens to app/build/shots/.
+    systemProperty("tuikio.shots", providers.gradleProperty("shots").getOrElse(""))
+    systemProperty("tuikio.shotsDir", layout.buildDirectory.dir("shots").get().asFile.absolutePath)
+    if (providers.gradleProperty("shots").isPresent) outputs.upToDateWhen { false }
     maxHeapSize = "2g"
     // Robolectric reaches into these JDK internals (AGP passes the same flags).
     jvmArgs(

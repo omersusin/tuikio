@@ -45,6 +45,10 @@ with `forkpty`, starts the game on it, and relays bytes:
   `SIGWINCH`), `3` signal (`1` INT, `2` HUP, `3` TERM, `4` CONT, `5` STOP, sent to the game's
   process group).
 - **stdout** is the game's raw terminal output.
+- **stderr** has the helper's own messages, plus a status line `@mode line` or `@mode keys`
+  whenever the game switches its terminal between canonical (line) input and single keys. The
+  game screen uses it for answer chips: in line mode an answer is followed by Enter, in key
+  mode it is sent alone (an extra Enter would answer the next question).
 - **Output coalescing**: after the first chunk, the helper collects whatever follows within
   4 ms and writes it once. Games that draw a frame as many tiny writes then wake the app once
   per frame instead of dozens of times (see `docs/PERFORMANCE.md`).

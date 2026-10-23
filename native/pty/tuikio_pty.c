@@ -15,6 +15,9 @@
  *   T_SIGNAL 0x03  payload = one byte: 1 = SIGINT, 2 = SIGHUP, 3 = SIGTERM, 4 = SIGCONT, 5 = SIGSTOP,
  *                  6 = SIGTSTP
  * EOF on stdin means the app went away: the game is sent SIGHUP, then killed.
+ * stderr carries the helper's own messages, and a status line "@mode line" or "@mode keys"
+ * whenever the game switches its terminal between reading whole lines (canonical mode) and
+ * single keys, so the app knows whether an answer needs Enter after it.
  * The helper exits with the game's exit status (128+signal if it was killed).
  */
 #define _GNU_SOURCE
@@ -95,6 +98,18 @@ static int reap(int grace_ms) {
     return status;
 }
 
+/* On a pty master, TCGETS reads the game's side of the terminal. */
+static void report_mode(int master) {
+    static int last = -1;
+    struct termios t;
+    if (tcgetattr(master, &t) != 0) return;
+    int canon = (t.c_lflag & ICANON) != 0;
+    if (canon == last) return;
+    last = canon;
+    fprintf(stderr, "@mode %s\n", canon ? "line" : "keys");
+    fflush(stderr);
+}
+
 static int exit_code(int status) {
     if (WIFEXITED(status)) return WEXITSTATUS(status);
     if (WIFSIGNALED(status)) return 128 + WTERMSIG(status);
@@ -145,14 +160,18 @@ int main(int argc, char **argv) {
     int stdin_open = 1;
     int status = 0;
     int exited = 0;
+    long long last_output = 0;
 
     while (!got_term) {
         struct pollfd pf[2];
         int n = 0;
         pf[n].fd = master; pf[n].events = POLLIN; pf[n].revents = 0; n++;
         if (stdin_open) { pf[n].fd = 0; pf[n].events = POLLIN; pf[n].revents = 0; n++; }
-        int r = poll(pf, (nfds_t)n, 250);
+        /* A game often prints its question and then switches modes to read the answer: look
+         * again soon after output, so the app learns the new mode while the question is fresh. */
+        int r = poll(pf, (nfds_t)n, now_ms() - last_output < 600 ? 20 : 250);
         if (r < 0 && errno != EINTR) break;
+        report_mode(master);
 
         if (r > 0 && (pf[0].revents & (POLLIN | POLLHUP | POLLERR))) {
             ssize_t got = read(master, out, sizeof out);
@@ -172,6 +191,7 @@ int main(int argc, char **argv) {
                     used += (size_t)more;
                 }
                 if (write_all(1, out, used) < 0) break; /* app stopped reading */
+                last_output = now_ms();
             } else if (got == 0 || (got < 0 && errno != EAGAIN && errno != EINTR)) {
                 /* EIO: every slave fd is closed, the game has exited. */
                 break;

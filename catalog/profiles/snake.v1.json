@@ -5,29 +5,149 @@
   "help": "Steer with the pad or swipe. The snake keeps moving; you only choose the turn.",
   "orientation": "landscape",
   "actions": [
-    {"id": "up", "label": "Up", "output": {"key": "UP"}},
-    {"id": "down", "label": "Down", "output": {"key": "DOWN"}},
-    {"id": "left", "label": "Left", "output": {"key": "LEFT"}},
-    {"id": "right", "label": "Right", "output": {"key": "RIGHT"}},
-    {"id": "ok", "label": "OK", "output": {"key": "ENTER"}},
-    {"id": "back", "label": "Back", "icon": "back", "output": {"key": "ESCAPE"}},
-    {"id": "pause", "label": "Pause", "icon": "pause", "output": {"text": "p"}},
-    {"id": "quit", "label": "Quit", "icon": "close", "output": {"text": "q"}, "confirm": true}
+    {
+      "id": "up",
+      "label": "Up",
+      "output": {
+        "key": "UP"
+      }
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "output": {
+        "key": "DOWN"
+      }
+    },
+    {
+      "id": "left",
+      "label": "Left",
+      "output": {
+        "key": "LEFT"
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "output": {
+        "key": "RIGHT"
+      }
+    },
+    {
+      "id": "ok",
+      "label": "OK",
+      "output": {
+        "key": "ENTER"
+      }
+    },
+    {
+      "id": "back",
+      "label": "Back",
+      "icon": "back",
+      "output": {
+        "key": "ESCAPE"
+      }
+    },
+    {
+      "id": "pause",
+      "label": "Pause",
+      "icon": "pause",
+      "output": {
+        "text": "p"
+      },
+      "states": [
+        {
+          "when": "(?i)\\bpaused\\b",
+          "label": "Resume",
+          "icon": "play"
+        }
+      ]
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
   ],
   "layout": {
     "portrait": [
-      {"type": "dpad4", "anchor": "bottom_center", "size": 208, "bind": {"up": "up", "down": "down", "left": "left", "right": "right"}},
-      {"type": "button", "anchor": "bottom_end", "size": 60, "bind": {"press": "ok"}},
-      {"type": "button", "anchor": "bottom_start", "size": 60, "bind": {"press": "back"}}
+      {
+        "type": "dpad4",
+        "anchor": "bottom_center",
+        "size": 208,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 60,
+        "bind": {
+          "press": "ok"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 60,
+        "bind": {
+          "press": "back"
+        }
+      }
     ],
     "landscape": [
-      {"type": "dpad4", "anchor": "center_start", "size": 180, "bind": {"up": "up", "down": "down", "left": "left", "right": "right"}},
-      {"type": "button", "anchor": "center_end", "size": 72, "bind": {"press": "ok"}, "style": "primary"},
-      {"type": "button", "anchor": "top_end", "size": 52, "bind": {"press": "back"}},
-      {"type": "button", "anchor": "bottom_end", "size": 52, "bind": {"press": "pause"}}
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 180,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 72,
+        "bind": {
+          "press": "ok"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "back"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 52,
+        "bind": {
+          "press": "pause"
+        }
+      }
     ]
   },
-  "gestures": {"swipe_up": "up", "swipe_down": "down", "swipe_left": "left", "swipe_right": "right"},
+  "gestures": {
+    "swipe_up": "up",
+    "swipe_down": "down",
+    "swipe_left": "left",
+    "swipe_right": "right"
+  },
   "pointer": "none",
   "keyboard": true
 }

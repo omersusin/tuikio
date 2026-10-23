@@ -90,9 +90,9 @@ object ControlLayout {
     }
 
     /** Smallest landscape side column (dp) that fits everything in [height] dp. */
-    fun requiredSide(elements: List<ControlElement>, width: Float, height: Float, topReserved: Float, scale: Float = 1f, labelled: (ControlElement) -> Boolean = { false }, reserveOnEnd: Boolean = false): Float {
-        if (elements.isEmpty()) return 0f
-        var side = elements.maxOf { it.sizeDp * scale + 2 * EDGE }
+    fun requiredSide(elements: List<ControlElement>, width: Float, height: Float, topReserved: Float, scale: Float = 1f, labelled: (ControlElement) -> Boolean = { false }, reserveOnEnd: Boolean = false, minSide: Float = 0f): Float {
+        if (elements.isEmpty()) return minSide
+        var side = maxOf(minSide, elements.maxOf { it.sizeDp * scale + 2 * EDGE })
         while (side < width / 2) {
             if (place(elements, width, height, scale, labelled = labelled, regionFor = sideRegions(width, height, side, topReserved, reserveOnEnd)) != null) return side
             side += 8f

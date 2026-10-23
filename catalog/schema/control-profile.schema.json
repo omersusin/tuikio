@@ -124,6 +124,35 @@
           "confirm": {
             "type": "boolean",
             "description": "Ask before sending (quit, restart)."
+          },
+          "states": {
+            "type": "array",
+            "maxItems": 4,
+            "description": "Alternate looks while the screen matches 'when' (a regular expression): Pause reads Resume once the game says it is paused",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "when",
+                "label"
+              ],
+              "properties": {
+                "when": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 16
+                },
+                "icon": {
+                  "type": "string"
+                },
+                "output": {
+                  "$ref": "#/$defs/output"
+                }
+              }
+            }
           }
         }
       }

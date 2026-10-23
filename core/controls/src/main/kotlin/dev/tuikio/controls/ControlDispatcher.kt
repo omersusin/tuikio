@@ -30,11 +30,14 @@ class ControlDispatcher(
     /** Notified on each press (for haptics and the on-screen key hint). */
     var onPressed: (ControlAction) -> Unit = {}
 
+    /** The state an action is in right now (see [ControlAction.states]); set by the game screen. */
+    var stateOf: (ControlAction) -> ActionState? = { null }
+
     fun press(actionId: String) {
         val action = profile.actions[actionId] ?: return
         if (action.confirm && !confirm(action)) return
         onPressed(action)
-        emit(action.output)
+        emit(stateOf(action)?.output ?: action.output)
         val repeat = action.repeat ?: return
         repeating.remove(actionId)?.cancel()
         repeating[actionId] = scheduleRepeat(action, repeat.delayMs, repeat.intervalMs)

@@ -26,7 +26,19 @@ data class ControlAction(
     val haptic: Haptic,
     /** Ask before sending (quit, restart): one stray tap must not end a long game. */
     val confirm: Boolean,
-)
+    /** Alternate looks the button takes while the game's screen shows something (paused...). */
+    val states: List<ActionState> = emptyList(),
+) {
+    /** The state that applies to [screen] (the terminal's text), or null for the normal look. */
+    fun stateFor(screen: CharSequence): ActionState? = states.firstOrNull { it.match.containsMatchIn(screen) }
+}
+
+/**
+ * While the screen matches [match], the action is shown as [label]/[icon] and, if given, sends
+ * [output] instead: a Pause button reads "Resume" once the game says it is paused, and sends
+ * whatever that game wants to carry on.
+ */
+data class ActionState(val match: Regex, val label: String, val icon: String?, val output: ActionOutput?)
 
 enum class Anchor(val id: String) {
     TOP_START("top_start"), TOP_END("top_end"), CENTER_START("center_start"), CENTER_END("center_end"),
@@ -108,7 +120,7 @@ data class ControlProfile(
             if (!ID.matches(id)) r.fail("profile_id '$id' is invalid")
             val actions = LinkedHashMap<String, ControlAction>()
             for (a in r.objects("actions")) {
-                a.requireOnly("id", "label", "icon", "output", "repeat", "haptic", "confirm")
+                a.requireOnly("id", "label", "icon", "output", "repeat", "haptic", "confirm", "states")
                 val aid = a.string("id")
                 if (!Regex("^[a-z0-9_]{1,32}$").matches(aid)) a.fail("action id '$aid' is invalid")
                 if (aid in actions) a.fail("duplicate action id '$aid'")
@@ -127,6 +139,17 @@ data class ControlProfile(
                     repeat = repeat,
                     haptic = a.stringOrNull("haptic")?.let { h -> Haptic.values().firstOrNull { it.name.equals(h, true) } ?: a.fail("unknown haptic '$h'") } ?: Haptic.TICK,
                     confirm = a.bool("confirm", false),
+                    states = a.objects("states").also { if (it.size > 4) a.fail("at most 4 states") }.map { st ->
+                        st.requireOnly("when", "label", "icon", "output")
+                        val pattern = st.string("when")
+                        val match = runCatching { Regex(pattern) }.getOrElse { st.fail("'when' is not a valid regular expression: ${it.message}") }
+                        ActionState(
+                            match = match,
+                            label = st.string("label").also { if (it.isBlank() || it.length > 16) st.fail("label must be 1..16 characters") },
+                            icon = st.stringOrNull("icon"),
+                            output = st.objOrNull("output")?.let { output(it, 0) },
+                        )
+                    },
                 )
             }
             if (actions.isEmpty()) r.fail("a profile needs at least one action")

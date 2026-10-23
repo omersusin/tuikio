@@ -71,6 +71,8 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     private var originY = 0f
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
+    /** Only for measuring candidate sizes: [textPaint] must always stay at the cell's size. */
+    private val measurePaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
     private val fillPaint = Paint()
     private var buffer: Bitmap? = null
     private var bufferCanvas: Canvas? = null
@@ -100,10 +102,10 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     /** Picks a font size so the grid fills this view; returns the size in px. */
     fun fitGrid(cols: Int, rows: Int, maxCellH: Float, minCellH: Float = 6f): Float {
         if (width == 0 || height == 0) return 0f
-        textPaint.typeface = typeface
-        textPaint.textSize = 100f
-        val advance = textPaint.measureText("M")
-        val fm = textPaint.fontMetrics
+        measurePaint.typeface = typeface
+        measurePaint.textSize = 100f
+        val advance = measurePaint.measureText("M")
+        val fm = measurePaint.fontMetrics
         val lineH = fm.descent - fm.ascent
         val sizeForW = width / cols.toFloat() / advance * 100f
         val sizeForH = height / rows.toFloat() / lineH * 100f
@@ -170,10 +172,10 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         val box = synchronized(emu.lock) { frameBox(emu.cols, emu.rows) }
         val bc = box[2] - box[0] + 1
         val br = box[3] - box[1] + 1
-        textPaint.typeface = typeface
-        textPaint.textSize = 100f
-        val advance = textPaint.measureText("M")
-        val fm = textPaint.fontMetrics
+        measurePaint.typeface = typeface
+        measurePaint.textSize = 100f
+        val advance = measurePaint.measureText("M")
+        val fm = measurePaint.fontMetrics
         val lineH = fm.descent - fm.ascent
         val forW = width / bc.toFloat() / advance * 100f
         // Cell height is rounded up to whole pixels, so fit against the floor of the share.
@@ -187,10 +189,10 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
 
     /** How many columns/rows fit at a given font size (for games that adapt to any size). */
     fun gridFor(textSizePx: Float): Pair<Int, Int> {
-        textPaint.typeface = typeface
-        textPaint.textSize = textSizePx
-        val w = textPaint.measureText("M")
-        val fm = textPaint.fontMetrics
+        measurePaint.typeface = typeface
+        measurePaint.textSize = textSizePx
+        val w = measurePaint.measureText("M")
+        val fm = measurePaint.fontMetrics
         val h = fm.descent - fm.ascent
         return (width / w).toInt().coerceAtLeast(2) to (height / h).toInt().coerceAtLeast(2)
     }
@@ -326,6 +328,26 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         framesDrawn++
     }
 
+    /**
+     * Test hook: true if the incrementally maintained buffer matches a repaint of every row from
+     * the same emulator snapshot (pending damage is applied first, as a frame would).
+     */
+    internal fun bufferMatchesFullRepaint(): Boolean {
+        val emu = emulator ?: return true
+        val pal = palette ?: return true
+        synchronized(emu.lock) {
+            val bmp = buffer ?: return true
+            val c = bufferCanvas ?: return true
+            val rows = emu.rows
+            if (dirty.size != rows) dirty = BooleanArray(rows)
+            if (emu.screen.collectDamage(dirty)) for (r in 0 until rows) if (dirty[r]) drawRow(c, emu, r, emu.cols, pal)
+            val fresh = Bitmap.createBitmap(bmp.width, bmp.height, Bitmap.Config.ARGB_8888)
+            val fc = Canvas(fresh)
+            for (r in 0 until rows) drawRow(fc, emu, r, emu.cols, pal)
+            return fresh.sameAs(bmp).also { fresh.recycle() }
+        }
+    }
+
     private fun color(c: Int, pal: Palette, fg: Boolean): Int = when {
         c == TermColor.DEFAULT -> if (fg) pal.screenInk else pal.screen
         TermColor.isRgb(c) -> 0xFF000000.toInt() or TermColor.rgbValue(c)
@@ -339,6 +361,11 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         val line = emu.screen[r]
         val y = r * cellH
         rowRect.set(0f, y, cols * cellW, y + cellH)
+        // Keep every glyph inside its row: tall fallback glyphs (✦ ♥, box drawing in some fonts)
+        // would otherwise leave slivers in the rows around them that a later repaint of just
+        // this row can't clean up.
+        c.save()
+        c.clipRect(rowRect)
         fillPaint.color = pal.screen
         c.drawRect(rowRect, fillPaint)
         val reverse = emu.reverseVideo
@@ -348,7 +375,10 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
             // Gather a run of cells sharing this style.
             var end = col + 1
             while (end < cols && (line.styles[end] and CellStyle.CELL_FLAGS.inv()) == (style and CellStyle.CELL_FLAGS.inv())) end++
-            var fg = color(CellStyle.fg(style), pal, true)
+            // Like xterm and most terminals, bold turns the 8 basic colors bright: curses games
+            // draw "bold black" expecting dark gray (nSnake's box shadows, for one).
+            val fgIndex = CellStyle.fg(style).let { if (it < 8 && CellStyle.has(style, CellStyle.BOLD)) it + 8 else it }
+            var fg = color(fgIndex, pal, true)
             var bg = color(CellStyle.bg(style), pal, false)
             if (CellStyle.has(style, CellStyle.INVERSE) xor reverse) {
                 val t = fg; fg = bg; bg = t
@@ -394,6 +424,7 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
             }
             col = end
         }
+        c.restore()
     }
 
     private val boxPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.SQUARE }
@@ -512,6 +543,14 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         val text = synchronized(emu.lock) { emu.screen.text().filter { it.isNotBlank() }.joinToString("\n") }
         info.text = text
         info.contentDescription = "Game screen"
+    }
+
+    /** Where the cursor's row is drawn, in view pixels (top and bottom), for placing overlays. */
+    fun cursorRowSpan(): Pair<Float, Float> {
+        val emu = emulator ?: return 0f to 0f
+        val row = synchronized(emu.lock) { emu.cursorRow }
+        val top = originY + row * cellH
+        return top to top + cellH
     }
 
     fun screenRect(out: Rect) {

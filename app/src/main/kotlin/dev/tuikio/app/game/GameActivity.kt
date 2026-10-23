@@ -41,6 +41,8 @@ import dev.tuikio.app.ui.vstack
 import dev.tuikio.catalog.GameManifest
 import dev.tuikio.catalog.Orientation
 import dev.tuikio.controls.ControlDispatcher
+import dev.tuikio.controls.PromptChip
+import dev.tuikio.controls.PromptChips
 import dev.tuikio.controls.ControlProfile
 import dev.tuikio.controls.Scheduler
 import dev.tuikio.runtime.GameSession
@@ -147,8 +149,13 @@ class GameActivity : Activity() {
         }
         terminal.onText = { text -> s.send(s.keys.text(text)) }
         terminal.onKey = { e -> handleKey(e) }
+        dispatcher.stateOf = { controls.stateOf(it) }
         s.listener = object : GameSession.Listener {
-            override fun onOutput() = terminal.onOutput()
+            override fun onOutput() {
+                terminal.onOutput()
+                scheduleWatch()
+            }
+            override fun onInputMode(lineInput: Boolean) = scheduleWatch() // answers gain or lose their Enter
             override fun onExit(exitCode: Int) {
                 uiHandler.post { if (!isFinishing) showEnded(if (exitCode == 0) "${game.title} ended." else "${game.title} stopped (code $exitCode).") }
             }
@@ -158,6 +165,87 @@ class GameActivity : Activity() {
             startedAt = SystemClock.elapsedRealtime()
         } catch (e: Exception) {
             showEnded("Couldn't start ${game.title}: ${e.message}")
+        }
+    }
+
+    // ------------------------------------------------------------------ adaptive controls
+    //
+    // The controls follow what the game shows: buttons with states change their look (Pause
+    // becomes Resume once the game says it's paused), and when the game asks a question at its
+    // cursor, the answers appear as chips ("Yes"/"No", the letters of "[TSFKCW]", "Continue").
+
+    private val watchPending = java.util.concurrent.atomic.AtomicBoolean(false)
+    private var shownChips: List<PromptChip> = emptyList()
+
+    private val chipRow by lazy { LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER } }
+    private val chipBar by lazy {
+        android.widget.HorizontalScrollView(this).apply {
+            isHorizontalScrollBarEnabled = false
+            visibility = View.GONE
+            addView(chipRow, ViewGroup.LayoutParams(WRAP, WRAP))
+        }
+    }
+
+    /** Looks at the screen at most every 120 ms, on the UI thread. Called from the reader threads. */
+    private fun scheduleWatch() {
+        if (!watchPending.compareAndSet(false, true)) return
+        uiHandler.postDelayed({ watchPending.set(false); watchScreen() }, 120)
+    }
+
+    private fun watchScreen() {
+        val s = session ?: return
+        val emu = s.terminal
+        val lines: List<String>
+        val row: Int
+        val col: Int
+        val lineMode: Boolean
+        synchronized(emu.lock) {
+            lines = emu.screen.text()
+            row = emu.cursorRow
+            col = emu.cursorCol
+            // The helper reports the terminal's mode; before it has, full-screen (curses) games
+            // are on the alternate screen and read single keys, plain programs read lines.
+            lineMode = s.lineInput ?: !emu.isAltScreen
+        }
+        controls.updateStates(lines.joinToString("\n"))
+        val chips = PromptChips.detect(lines, row, col, lineMode)
+        if (chips != shownChips) showChips(chips)
+        if (chips.isNotEmpty()) placeChips()
+    }
+
+    private fun showChips(chips: List<PromptChip>) {
+        shownChips = chips
+        chipRow.removeAllViews()
+        for (chip in chips) {
+            chipRow.addView(TButton(this, chip.label, if (chips.size <= 2 || chip.label == "Continue") ButtonStyle.PRIMARY else ButtonStyle.SECONDARY).apply {
+                minWidth = dp(if (chip.label.length == 1) 48 else 88)
+                minHeight = dp(44)
+                setPadding(dp(14), 0, dp(14), 0)
+                contentDescription = "Answer ${chip.label}"
+                setOnClickListener { dispatcher.emit(chip.output) }
+            }, LinearLayout.LayoutParams(WRAP, WRAP).apply { setMargins(dp(4), 0, dp(4), 0) })
+        }
+        chipBar.visibility = if (chips.isEmpty()) View.GONE else View.VISIBLE
+        if (chips.isNotEmpty()) chipBar.announceForAccessibility("Answers: " + chips.joinToString { it.label })
+    }
+
+    /** Above the controls by default; at the top of the game area if that would hide the cursor's line. */
+    private fun placeChips() {
+        val lp = chipBar.layoutParams as? FrameLayout.LayoutParams ?: return
+        val loc = IntArray(2).also { terminal.getLocationInWindow(it) }
+        val rootLoc = IntArray(2).also { root.getLocationInWindow(it) }
+        val termTop = loc[1] - rootLoc[1]
+        val termBottom = termTop + terminal.height
+        val barH = dp(56)
+        val cBottom = terminal.cursorRowSpan().second
+        val bottomBarTop = termBottom - barH
+        val atTop = termTop + cBottom > bottomBarTop
+        val gravity = (if (atTop) Gravity.TOP else Gravity.BOTTOM) or Gravity.CENTER_HORIZONTAL
+        val margin = if (atTop) termTop + dp(4) else root.height - termBottom + dp(4)
+        if (lp.gravity != gravity || (if (atTop) lp.topMargin else lp.bottomMargin) != margin) {
+            lp.gravity = gravity
+            if (atTop) { lp.topMargin = margin; lp.bottomMargin = 0 } else { lp.bottomMargin = margin; lp.topMargin = 0 }
+            chipBar.layoutParams = lp
         }
     }
 
@@ -176,7 +264,7 @@ class GameActivity : Activity() {
             addView(TButton(context, label).apply {
                 setOnClickListener {
                     sheet.dismiss()
-                    profile.actions[actionId]?.let { dispatcher.emit(it.output) }
+                    profile.actions[actionId]?.let { dispatcher.emit(controls.stateOf(it)?.output ?: it.output) }
                 }
             }, lp(MATCH, WRAP))
             addView(TButton(context, "Keep playing", ButtonStyle.GHOST).apply { setOnClickListener { sheet.dismiss() } }, lp(MATCH, WRAP))
@@ -190,11 +278,34 @@ class GameActivity : Activity() {
         for (v in listOf<View>(terminal, controls)) (v.parent as? ViewGroup)?.removeView(v)
         root.removeAllViews()
         controls.landscape = landscape
-        val top = hstack(10) {
-            setPadding(dp(12), dp(10), dp(12), dp(6))
-            addView(iconButton(Icon.PAUSE, "Pause", fill = Theme.palette.surfaceAlt) { showPauseSheet() })
-            addView(T.body(context, game.title, 16f, Theme.palette.screenInk, 800).apply { gravity = Gravity.CENTER }, lp(0, WRAP, 1f))
-            if (profile.keyboard) addView(iconButton(Icon.KEYBOARD, "Show keyboard", fill = Theme.palette.surfaceAlt) { toggleKeyboard() })
+        fun pauseButton() = iconButton(Icon.PAUSE, "Pause", fill = Theme.palette.surfaceAlt) { showPauseSheet() }
+        fun keyboardButton() = iconButton(Icon.KEYBOARD, "Show keyboard", fill = Theme.palette.surfaceAlt) { toggleKeyboard() }
+        val top: View = if (landscape) {
+            // The side column is narrow: buttons on one row, the title under them (two lines at most).
+            vstack(4) {
+                setPadding(dp(12), dp(10), dp(12), dp(6))
+                addView(hstack(10) {
+                    gravity = Gravity.CENTER
+                    addView(pauseButton())
+                    if (profile.keyboard) addView(keyboardButton())
+                }, lp(MATCH, WRAP))
+                addView(T.body(context, game.title, 14f, Theme.palette.screenInk, 800).apply {
+                    gravity = Gravity.CENTER
+                    maxLines = 2
+                    ellipsize = android.text.TextUtils.TruncateAt.END
+                }, lp(MATCH, WRAP))
+            }
+        } else {
+            hstack(10) {
+                setPadding(dp(12), dp(10), dp(12), dp(6))
+                addView(pauseButton())
+                addView(T.body(context, game.title, 16f, Theme.palette.screenInk, 800).apply {
+                    gravity = Gravity.CENTER
+                    maxLines = 1
+                    ellipsize = android.text.TextUtils.TruncateAt.END
+                }, lp(0, WRAP, 1f))
+                if (profile.keyboard) addView(keyboardButton())
+            }
         }
         if (landscape) {
             val side = controls.sideInsetPx()
@@ -208,7 +319,12 @@ class GameActivity : Activity() {
             column.addView(controls, LinearLayout.LayoutParams(MATCH, controls.portraitHeightPx()))
             root.addView(column, FrameLayout.LayoutParams(MATCH, MATCH))
         }
-        terminal.post { fitTerminal() }
+        (chipBar.parent as? ViewGroup)?.removeView(chipBar)
+        root.addView(chipBar, FrameLayout.LayoutParams(WRAP, WRAP, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL))
+        terminal.post {
+            fitTerminal()
+            if (shownChips.isNotEmpty()) placeChips()
+        }
     }
 
     private fun fitTerminal() {

@@ -48,10 +48,11 @@ class ControlLayoutTest {
     fun landscapeLayoutsNeverOverlap() {
         for ((name, p) in profiles) for ((w, h) in listOf(640f to 320f, 780f to 360f, 852f to 393f, 915f to 412f)) for (wanted in listOf(0.85f, 1f, 1.25f)) {
             val els = p.layout(true)
-            val scale = ControlLayout.fittedLandscapeScale(els, w, h, 72f, wanted, labelled(p))
-            val side = ControlLayout.requiredSide(els, w, h, 72f, scale, labelled(p))
+            // The game screen's top bar (ControlsView.TOP_BAR_DP) and narrowest side column.
+            val scale = ControlLayout.fittedLandscapeScale(els, w, h, 116f, wanted, labelled(p))
+            val side = ControlLayout.requiredSide(els, w, h, 116f, scale, labelled(p), minSide = 136f)
             assertTrue(side <= w * 0.3f, "$name: side columns of ${side}dp leave too little room for the game at $w×$h scale $scale")
-            val placed = assertNotNull(ControlLayout.place(els, w, h, scale, false, labelled(p), ControlLayout.sideRegions(w, h, side, 72f)), "$name @ $w×$h")
+            val placed = assertNotNull(ControlLayout.place(els, w, h, scale, false, labelled(p), ControlLayout.sideRegions(w, h, side, 116f)), "$name @ $w×$h")
             assertClean("$name landscape $w×$h scale $scale", placed, w, h)
         }
     }

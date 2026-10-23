@@ -13,6 +13,8 @@ import android.view.accessibility.AccessibilityNodeInfo
 import dev.tuikio.app.ui.Icon
 import dev.tuikio.app.ui.IconDrawable
 import dev.tuikio.app.ui.Theme
+import dev.tuikio.controls.ActionState
+import dev.tuikio.controls.ControlAction
 import dev.tuikio.controls.ControlElement
 import dev.tuikio.controls.ControlProfile
 import dev.tuikio.controls.ElementType
@@ -32,7 +34,11 @@ import dev.tuikio.controls.PlacedControl
 class ControlsView(context: Context, private val profile: ControlProfile) : View(context) {
     companion object {
         /** Height of the pause/title/keyboard bar that shares the left column in landscape. */
-        const val TOP_BAR_DP = 72f
+        /** Height of the landscape top bar: its buttons plus a two-line title (see GameActivity). */
+        const val TOP_BAR_DP = 116f
+
+        /** Narrowest landscape side column: wide enough for the pause and keyboard buttons. */
+        const val MIN_SIDE_DP = 136f
     }
 
     var landscape = false
@@ -85,7 +91,7 @@ class ControlsView(context: Context, private val profile: ControlProfile) : View
     fun sideInsetPx(): Int {
         val (w, h) = screenDp()
         val els = profile.layout(true)
-        return (ControlLayout.requiredSide(els, w, h, TOP_BAR_DP, landscapeScale(w, h), labelled, leftHanded) * density).toInt()
+        return (ControlLayout.requiredSide(els, w, h, TOP_BAR_DP, landscapeScale(w, h), labelled, leftHanded, MIN_SIDE_DP) * density).toInt()
     }
 
     /** Height of the controls area below the terminal in portrait (px). */
@@ -108,7 +114,7 @@ class ControlsView(context: Context, private val profile: ControlProfile) : View
         // a little if rounding or an unusual window size leaves too little room.
         while (result == null && s >= 0.5f) {
             result = if (landscape) {
-                val side = ControlLayout.requiredSide(els, w, h, TOP_BAR_DP, s, labelled, leftHanded)
+                val side = ControlLayout.requiredSide(els, w, h, TOP_BAR_DP, s, labelled, leftHanded, MIN_SIDE_DP)
                 ControlLayout.place(els, w, h, s, leftHanded, labelled, ControlLayout.sideRegions(w, h, side, TOP_BAR_DP, leftHanded))
             } else {
                 ControlLayout.place(els, w, h, s, leftHanded, labelled)
@@ -117,6 +123,23 @@ class ControlsView(context: Context, private val profile: ControlProfile) : View
         }
         placed = result.orEmpty().map { Placed(it.element, it.cx * d, it.cy * d, it.radius * d) }
     }
+
+    /** Actions currently showing an alternate state (see [ControlAction.states]), by id. */
+    private var states: Map<String, ActionState> = emptyMap()
+
+    /** Re-evaluates every action's state against the game's screen; redraws if anything changed. */
+    fun updateStates(screen: CharSequence) {
+        val next = HashMap<String, ActionState>()
+        for (a in profile.actions.values) if (a.states.isNotEmpty()) a.stateFor(screen)?.let { next[a.id] = it }
+        if (next != states) {
+            states = next
+            val labels = next.values.joinToString { it.label }
+            contentDescription = if (labels.isEmpty()) null else "Game controls ($labels)"
+            invalidate()
+        }
+    }
+
+    fun stateOf(action: ControlAction): ActionState? = states[action.id]
 
     override fun onDraw(canvas: Canvas) {
         val p = Theme.palette
@@ -147,8 +170,10 @@ class ControlsView(context: Context, private val profile: ControlProfile) : View
                     canvas.drawCircle(pl.cx, pl.cy + sink, pl.radius - 2, paint)
                     val actionId = e.bindings["press"]
                     val action = actionId?.let { profile.actions[it] }
+                    val state = actionId?.let { states[it] }
                     val ink = if (primary || pressed) p.onAccent else p.ink
-                    drawLabel(canvas, action?.icon, if (e.type == ElementType.KEYBOARD) "Keys" else action?.label.orEmpty(), pl.cx, pl.cy + sink, pl.radius, ink)
+                    val label = if (e.type == ElementType.KEYBOARD) "Keys" else state?.label ?: action?.label.orEmpty()
+                    drawLabel(canvas, if (state != null) state.icon else action?.icon, label, pl.cx, pl.cy + sink, pl.radius, ink)
                 }
             }
         }
