@@ -116,8 +116,19 @@ int main(int argc, char **argv)
 	show(0, page);
 	int shown = page;
 	while (shown < (int)nlines) {
-		printf("\033[7m--More-- (%d%%)  space: next  enter: line  b: back  q: quit\033[0m",
-		       (int)(100L * shown / (long)nlines));
+		/* The longest prompt that fits on one line: a wrapped one can't be cleared. */
+		static const char *const prompts[] = {
+			"--More-- (%d%%)  space: next  enter: line  b: back  q: quit",
+			"--More-- (%d%%)  space: next  q: quit",
+			"--More-- (%d%%)",
+		};
+		char prompt[96];
+		for (size_t i = 0; i < sizeof prompts / sizeof *prompts; i++) {
+			snprintf(prompt, sizeof prompt, prompts[i], (int)(100L * shown / (long)nlines));
+			if (strlen(prompt) < ws.ws_col)
+				break;
+		}
+		printf("\033[7m%.*s\033[0m", ws.ws_col - 1, prompt);
 		fflush(stdout);
 		char c;
 		if (read(tty, &c, 1) != 1)

@@ -195,6 +195,11 @@ def trader(abi):
 @game("nettoe", notice=("nettoe_1.5.1.orig.tar.gz", "COPYING"))
 def nettoe(abi):
     src = tree(abi, "nettoe", "nettoe_1.5.1.orig.tar.gz", "nettoe_1.5.1-3.debian.tar.xz")
+    # Its "default colour" is terminfo's colour 9, which with 256 colours is bright red: screens
+    # were cleared bright red. ECMA-48's default foreground and background instead.
+    replace_in(os.path.join(src, "src", "terminal.c"),
+               "        putp(tparm(setaf_str, COLOR_DEFAULT));\n\n        if (setab_str)\n           putp(tparm(setab_str, COLOR_DEFAULT));",
+               '        fputs("\\033[39;49m", stdout);')
     autotools(abi, src)
     return {"game_nettoe": os.path.join(src, "src", "nettoe")}
 
@@ -202,7 +207,13 @@ def nettoe(abi):
 @game("moria", notice=("moria_5.7.13.orig.tar.gz", "LICENSE"))
 def moria(abi):
     src = tree(abi, "moria", "moria_5.7.13.orig.tar.gz", "moria_5.7.13-1.debian.tar.xz")
-    replace_in(os.path.join(src, "src", "config.cpp"), '"/var/games/moria/scores.dat"', '"scores.dat"')
+    config = os.path.join(src, "src", "config.cpp")
+    replace_in(config, '"/var/games/moria/scores.dat"', '"scores.dat"')
+    # Debian moves the help and screen texts to /usr/lib/games/moria; they ship in the game's data/.
+    replace_in(config, '"/usr/lib/games/moria/', '"data/', count=0)
+    # The on-screen pad sends h/j/k/l/y/u/b/n, so play with the roguelike keyset (the game's own
+    # option, which a saved game keeps).
+    replace_in(config, "bool use_roguelike_keys = false;", "bool use_roguelike_keys = true;")
     exe = os.path.join(src, "umoria")
     cc(abi, files(src, "src/*.cpp"), exe, f"-std=c++14 -I{src}/src {abi.curses_cflags}", abi.curses_libs, cxx=True)
     # data/ is read relative to the working directory, the game's home.

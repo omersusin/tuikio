@@ -41,9 +41,10 @@
         24
       ]
     },
-    "orientation": "landscape"
+    "orientation": "landscape",
+    "input": "typing"
   },
-  "controls": "text.v1",
+  "controls": "arrows.v1",
   "saves": {
     "paths": [],
     "notes": "No saves."

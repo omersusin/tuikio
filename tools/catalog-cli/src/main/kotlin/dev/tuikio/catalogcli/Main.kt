@@ -8,6 +8,7 @@ import dev.tuikio.catalog.GameManifest
 import dev.tuikio.catalog.SourceCheck
 import dev.tuikio.catalog.SourceUrl
 import dev.tuikio.controls.ControlProfile
+import dev.tuikio.controls.KeyHints
 import dev.tuikio.json.Json
 import dev.tuikio.json.JsonReader
 import java.io.File
@@ -72,7 +73,18 @@ private fun load(dir: File, problems: MutableList<String>): Loaded {
         try {
             val g = GameManifest.parse(f.readText())
             if ("${g.id}.json" != f.name) problems += "${f.name}: id '${g.id}' must match the file name"
-            if (g.controls !in profiles) problems += "${f.name}: control profile '${g.controls}' does not exist"
+            val profile = profiles[g.controls]
+            if (profile == null) problems += "${f.name}: control profile '${g.controls}' does not exist"
+            else {
+                (g.controlLabels.keys + g.controlHide).filter { it !in profile.actions }
+                    .forEach { problems += "${f.name}: control profile '${g.controls}' has no action '$it'" }
+                // A game key must not repeat what a button of its (adapted) profile already sends.
+                val adapted = profile.forGame(g.controlLabels, g.controlHide)
+                val sent = (adapted.portrait + adapted.landscape).flatMap { it.bindings.values }
+                    .mapNotNull { adapted.actions[it]?.output }.map { KeyHints.keyId(it) }.toSet()
+                g.keys.filter { (it.text ?: it.key) in sent }
+                    .forEach { problems += "${f.name}: key '${it.label}' sends what a '${g.controls}' button already sends" }
+            }
             if (!File(dir.parentFile, "LICENSES/${g.licenseFile}").isFile) problems += "${f.name}: license text LICENSES/${g.licenseFile} is missing"
             games += g
         } catch (e: Exception) {

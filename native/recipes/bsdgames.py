@@ -15,7 +15,7 @@ import shutil
 import threading
 
 from tk import (ASSETS, BUILD, CFLAGS, HERE, LEGACY, BuildError, apply_debian_patches, apply_patches,
-                game, log, run, unpack, zig)
+                game, log, replace_in, run, unpack, zig)
 
 ORIG = "bsdgames_2.17.orig.tar.gz"
 DEBIAN = "bsdgames_2.17-33.debian.tar.xz"
@@ -103,6 +103,28 @@ def word_list(dst):
         fh.write("\n".join(sorted(words)) + "\n")
 
 
+def no_shell_pagers(src):
+    """Instructions and subject lists go through $PAGER, which the games start with /bin/sh -c:
+    Android 8 and 9 have no /bin/sh, and games get no shell. Run the pager itself instead, and
+    show the text as it is when there is none (cribbage used to quit). See tuikio-pager.h."""
+    header = os.path.join(HERE, "ports", "bsdgames", "tuikio-pager.h")
+    sh = 'execl("/bin/sh", "sh", "-c", %s, (char *) NULL);'
+    for d, f, edits in (
+        ("cribbage", "instr.c", [("switch (pid = vfork())", "switch (pid = fork())"), (sh % "path", "tuikio_exec_pager(path);")]),
+        ("fish", "fish.c", [("(void)" + sh % "pager", "tuikio_exec_pager(pager);")]),
+        ("wump", "wump.c", [("(void)" + sh % "pager", "tuikio_exec_pager(pager);")]),
+        ("quiz", "quiz.c", [('popen(pager, "w")', "tuikio_page_open(pager)"), ("(void)pclose(pf);", "(void)tuikio_page_close(pf);")]),
+    ):
+        shutil.copyfile(header, os.path.join(src, d, "tuikio-pager.h"))
+        path = os.path.join(src, d, f)
+        for old, new in edits:
+            replace_in(path, old, new)
+        with open(path, encoding="latin-1") as fh:
+            text = fh.read()
+        with open(path, "w", encoding="latin-1") as fh:
+            fh.write('#include "tuikio-pager.h"\n' + text)
+
+
 def host_build():
     """Builds the tree once with the build machine's compiler; returns (tree, flags per dir)."""
     with _host_lock:
@@ -113,6 +135,7 @@ def host_build():
         src = unpack(ORIG, os.path.join(work, "src"))
         apply_debian_patches(src, DEBIAN)
         apply_patches(src, "bsdgames")
+        no_shell_pagers(src)
         word_list(os.path.join(src, "words"))
         with open(os.path.join(src, "config.params"), "w") as fh:
             fh.write(CONFIG)

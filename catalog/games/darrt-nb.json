@@ -3,7 +3,7 @@
   "id": "darrt-nb",
   "title": "Darrt",
   "summary": "An aiming game played with the whole keyboard.",
-  "description": "Letters sweep across the target: type the right one at the right moment to land a dart near the centre. Open the keyboard to play.",
+  "description": "Letters sweep across the target: type the right one at the right moment to land a dart near the centre. The keyboard comes up when the game starts.",
   "category": "arcade",
   "tags": [
     "typing",
@@ -41,9 +41,16 @@
         24
       ]
     },
-    "orientation": "landscape"
+    "orientation": "landscape",
+    "input": "typing"
   },
   "controls": "text.v1",
+  "keys": [
+    {
+      "label": "Quit",
+      "text": "Q"
+    }
+  ],
   "saves": {
     "paths": [
       "darrt_scores"

@@ -43,6 +43,10 @@
     "orientation": "landscape"
   },
   "controls": "blocks.v1",
+  "control_hide": [
+    "ok",
+    "back"
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

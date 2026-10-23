@@ -3,7 +3,7 @@
   "id": "ularn",
   "title": "Ularn",
   "summary": "Ultra Larn: save your daughter by finding the cure in the caverns.",
-  "description": "A Larn variant with character classes. Move with the pad; the keyboard has every command (? lists them).",
+  "description": "A Larn variant with character classes. Move with the pad; the common commands are buttons under the map and the keyboard has the rest (? lists them).",
   "category": "roguelike",
   "tags": [
     "roguelike",
@@ -45,6 +45,48 @@
     "orientation": "landscape"
   },
   "controls": "roguelike.v1",
+  "keys": [
+    {
+      "label": "Wield",
+      "text": "w"
+    },
+    {
+      "label": "Wear",
+      "text": "W"
+    },
+    {
+      "label": "Take off",
+      "text": "T"
+    },
+    {
+      "label": "Read",
+      "text": "r"
+    },
+    {
+      "label": "Quaff",
+      "text": "q"
+    },
+    {
+      "label": "Eat",
+      "text": "e"
+    },
+    {
+      "label": "Cast",
+      "text": "c"
+    },
+    {
+      "label": "Drop",
+      "text": "d"
+    },
+    {
+      "label": "Up",
+      "text": "<"
+    },
+    {
+      "label": "Help",
+      "text": "?"
+    }
+  ],
   "saves": {
     "paths": [
       "Ularn/Uscore",

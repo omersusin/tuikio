@@ -45,6 +45,24 @@
     "orientation": "landscape"
   },
   "controls": "csol.v1",
+  "keys": [
+    {
+      "label": "Undo",
+      "text": "u"
+    },
+    {
+      "label": "Waste",
+      "text": "w"
+    },
+    {
+      "label": "Redeal",
+      "text": "r"
+    },
+    {
+      "label": "Help",
+      "text": "?"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

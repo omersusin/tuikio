@@ -44,7 +44,8 @@
       ]
     },
     "orientation": "portrait",
-    "wrap": "words"
+    "wrap": "words",
+    "input": "typing"
   },
   "controls": "text.v1",
   "saves": {

@@ -288,8 +288,12 @@ class Abi:
     def install(self, built, name):
         check_static_pie(built, self)
         dst = os.path.join(self.out, f"lib{name}.so")
-        shutil.copyfile(built, dst)
-        os.chmod(dst, 0o755)
+        # Copy, then rename over: the old file may be running (tests, the pty helper), and a
+        # running executable can't be opened for writing.
+        tmp = dst + ".tmp"
+        shutil.copyfile(built, tmp)
+        os.chmod(tmp, 0o755)
+        os.replace(tmp, dst)
         return dst
 
 

@@ -48,6 +48,18 @@
     "orientation": "landscape"
   },
   "controls": "vikeys8.v1",
+  "control_labels": {
+    "act": "Draw"
+  },
+  "control_hide": [
+    "enter"
+  ],
+  "keys": [
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

@@ -33,12 +33,12 @@
     "env": {},
     "terminal": {
       "min": [
-        40,
-        22
+        48,
+        25
       ],
       "preferred": [
         48,
-        24
+        25
       ]
     },
     "orientation": "portrait"

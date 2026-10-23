@@ -189,7 +189,7 @@ class DetailsScreen(private val gameId: String) : Screen() {
 
     private fun controlsCard(ctx: Context, game: GameManifest): View = ctx.card(gapDp = 10) {
         addView(T.label(ctx, "Controls on touch"))
-        val profile = runCatching { app.catalog.profile(game.controls) }.getOrNull()
+        val profile = runCatching { app.catalog.profile(game.controls).forGame(game.controlLabels, game.controlHide) }.getOrNull()
         if (profile == null) {
             addView(T.soft(ctx, "Uses the on-screen keyboard."))
             return@card

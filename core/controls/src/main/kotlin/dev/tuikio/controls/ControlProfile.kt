@@ -104,6 +104,20 @@ data class ControlProfile(
 ) {
     fun layout(landscapeMode: Boolean): List<ControlElement> = if (landscapeMode && landscape.isNotEmpty()) landscape else portrait
 
+    /**
+     * This profile as one game uses it: actions named for what they do there ("Select" reads
+     * "Reveal" in Mines), and buttons for actions the game has no use for left out.
+     */
+    fun forGame(labels: Map<String, String>, hidden: Set<String>): ControlProfile {
+        if (labels.isEmpty() && hidden.isEmpty()) return this
+        fun keep(e: ControlElement) = e.type != ElementType.BUTTON || e.bindings["press"] !in hidden
+        return copy(
+            actions = actions.mapValues { (id, a) -> labels[id]?.let { a.copy(label = it) } ?: a },
+            portrait = portrait.filter(::keep),
+            landscape = landscape.filter(::keep),
+        )
+    }
+
     companion object {
         const val SCHEMA_VERSION = 1
         private val ID = Regex("^[a-z0-9][a-z0-9_.-]{1,47}$")

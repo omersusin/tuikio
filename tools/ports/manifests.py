@@ -12,6 +12,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
@@ -43,6 +44,27 @@ def data_files(gid, previous):
             rel = os.path.relpath(path, root).replace(os.sep, "/")
             out.append({"asset": f"games/{gid}/{rel}", "dest": rel, "sha256": sha256(path)})
     return sorted(out, key=lambda d: d["dest"])
+
+
+def game_keys(spec):
+    """Compact key notation in the family tables -> manifest "keys".
+
+    "Bomb=b" sends b; "Back=<ESCAPE>" a named key; "a1=a1\\r" ends with Enter; "#1-9" and "#a-h"
+    are a key per digit or letter, labelled with it.
+    """
+    out = []
+    for item in spec:
+        if re.fullmatch(r"#(\w)-(\w)", item):
+            out += [{"label": chr(c), "text": chr(c)} for c in range(ord(item[1]), ord(item[3]) + 1)]
+            continue
+        label, sep, send = item.partition("=")
+        if not sep or not label or not send:
+            raise ValueError(f"bad key '{item}'")
+        if send.startswith("<") and send.endswith(">") and len(send) > 2:
+            out.append({"label": label, "key": send[1:-1]})
+        else:
+            out.append({"label": label, "text": send.replace("\\r", "\r")})
+    return out
 
 
 def manifest(fam, g, lock):
@@ -86,8 +108,12 @@ def manifest(fam, g, lock):
             "terminal": {"min": list(term_min), "preferred": list(term_pref)},
             "orientation": d.get("orientation", "landscape"),
             **({"wrap": d["wrap"]} if d.get("wrap") else {}),
+            **({"input": d["input"]} if d.get("input") else {}),
         },
         "controls": d["controls"],
+        **({"control_labels": d["labels"]} if d.get("labels") else {}),
+        **({"control_hide": d["hide"]} if d.get("hide") else {}),
+        **({"keys": game_keys(d["keys"])} if d.get("keys") else {}),
         "saves": {"paths": saves, "notes": save_notes},
         "data_files": data_files(d["id"], old.get("data_files", [])),
         "network": d.get("network", "none"),

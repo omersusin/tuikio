@@ -44,6 +44,26 @@
     "orientation": "landscape"
   },
   "controls": "space-select.v1",
+  "control_labels": {
+    "space": "Select"
+  },
+  "control_hide": [
+    "enter"
+  ],
+  "keys": [
+    {
+      "label": "More",
+      "text": "m"
+    },
+    {
+      "label": "Fewer",
+      "text": "n"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

@@ -9,7 +9,7 @@ DEFAULTS = dict(
 )
 
 GAMES = [
-    dict(id="tty-solitaire", title="tty-solitaire", exe="game_tty_solitaire", controls="space-select.v1",
+    dict(id="tty-solitaire", labels={'space': "Select"}, hide=["enter"], keys=["More=m", "Fewer=n", "Quit=q"], title="tty-solitaire", exe="game_tty_solitaire", controls="space-select.v1",
          summary="Klondike solitaire with real card art in the terminal.",
          description="Move with the pad, Space picks up and places cards; m and n grow or shrink a selection "
                      "of several cards.",
@@ -23,7 +23,7 @@ GAMES = [
          category="arcade", tags=["blocks", "classic"], authors=["Abraham van der Merwe"], license="BSD-3-Clause",
          source_url="https://salsa.debian.org/debian/tint", version="0.07", archive="tint_0.07.tar.xz",
          saves=(["tint.scores"], "High scores"), test_notes="Host test: level prompt."),
-    dict(id="pacman4console", title="Pacman for Console", exe="game_pacman4console", controls="arrows.v1",
+    dict(id="pacman4console", hide=["select", "space", "back"], keys=["Pause=p", "Quit=q"], title="Pacman for Console", exe="game_pacman4console", controls="arrows.v1",
          orientation="portrait",
          summary="Pac-Man in the terminal, with nine mazes and the ghosts you remember.",
          description="Eat every pellet, grab the power pills and chase the ghosts back home. The pad steers.",
@@ -31,28 +31,28 @@ GAMES = [
          source_url="https://sites.google.com/site/doctormike/pacman.html", version="1.3",
          archive="pacman4console_1.3.orig.tar.gz", terminal=((29, 32), (32, 32)),
          test_notes="Host test: title screen at 32x32."),
-    dict(id="sudoku", title="Su-Do-Ku", exe="game_sudoku", controls="arrows.v1",
+    dict(id="sudoku", hide=["select", "space", "back"], keys=["#1-9", "Clear=0", "Undo=u", "Hint=?", "New=n", "Restart=r", "Quit=q"], title="Su-Do-Ku", exe="game_sudoku", controls="arrows.v1",
          summary="Generated Sudoku puzzles from easy to fiendish, with hints.",
-         description="Move with the pad and type digits with the keyboard; 0 or . clears a square. The full key "
+         description="Move with the pad and tap a digit under the board; Clear empties a square. The full key "
                      "list is beside the board.",
          category="puzzle", tags=["sudoku", "logic", "numbers"], authors=["Michael Kennett"],
          license="LicenseRef-Public-Domain", source_url="https://packages.debian.org/source/sid/sudoku",
          version="1.0.5", archive="sudoku_1.0.5.orig.tar.gz", test_notes="Host test: generated board and key help."),
-    dict(id="curseofwar", title="Curse of War", exe="game_curseofwar", controls="arrows.v1",
+    dict(id="curseofwar", args=["-W", "19", "-H", "17"], terminal=((82, 26), (82, 26)), labels={'space': "Flag"}, hide=["select", "back"], keys=["Build=r", "Faster=f", "Slower=s", "Pause=p", "Clear flags=x", "Halve flags=c", "Quit=q"], title="Curse of War", exe="game_curseofwar", controls="arrows.v1",
          summary="Real-time strategy: grow your towns, send armies and take the map.",
          description="You don't command units directly: Space puts a flag where your people should gather, R "
                      "upgrades a village to a town and then a fortress, X clears your flags. Watch the front move.",
          category="strategy", tags=["real-time", "strategy", "map"], authors=["Alexey Nikolaev"],
          license="GPL-3.0-or-later", source_url="https://a-nikolaev.github.io/curseofwar/", version="1.1.8",
          archive="curseofwar_1.1.8.orig.tar.gz", discovery="curse-of-war", test_notes="Host test: map drawn."),
-    dict(id="cavezofphear", title="Cavez of Phear", exe="game_cavezofphear", controls="arrows.v1",
+    dict(id="cavezofphear", labels={'select': "OK"}, hide=["space", "back"], keys=["Bomb=b", "Detonate=t", "Give up=k", "Quit=q"], title="Cavez of Phear", exe="game_cavezofphear", controls="arrows.v1",
          summary="A Boulder Dash homage: dig, dodge falling rocks and collect the diamonds.",
          description="Tunnel through the earth, grab every diamond and stay out from under the boulders.",
          category="arcade", tags=["boulder dash", "puzzle", "action"], authors=["Tom Rune Flo"],
          license="GPL-3.0-or-later", source_url="https://github.com/AMDmi3/cavezofphear", version="0.5.1",
          archive="cavezofphear_0.5.1.orig.tar.gz", terminal=((80, 25), (80, 25)), discovery="cavez-of-phear",
          test_notes="Host test: title screen at 80x25."),
-    dict(id="empire", title="Empire", exe="game_empire", controls="text.v1",
+    dict(id="empire", input="typing", title="Empire", exe="game_empire", controls="text.v1",
          summary="The classic war game of exploration and conquest against a computer opponent.",
          description="Explore the map, capture cities, build armies, fleets and planes, and conquer the world. "
                      "Commands are single keys; ? lists them at every prompt.",
@@ -68,7 +68,7 @@ GAMES = [
          license="LicenseRef-Public-Domain OR MIT", source_url="https://packages.debian.org/source/sid/petris",
          version="1.0.1", archive="petris_1.0.1.orig.tar.gz", saves=(["petris.scores"], "High scores"),
          test_notes="Host test: level menu."),
-    dict(id="bombardier", title="Bombardier", exe="game_bombardier", controls="space-select.v1",
+    dict(id="bombardier", controls="bomber.v1", title="Bombardier", exe="game_bombardier",
          summary="Flatten the city before your plane comes down: one bomb at a time.",
          description="Your plane drops a row each pass. Press Space to bomb the buildings below so you can land.",
          category="arcade", tags=["one button", "classic"], authors=["Gergely Risko"], license="GPL-3.0-or-later",
@@ -85,14 +85,14 @@ GAMES = [
 ]
 
 GAMES += [
-    dict(id="nudoku", title="nudoku", exe="game_nudoku", controls="arrows.v1",
+    dict(id="nudoku", hide=["select", "space", "back"], keys=["#1-9", "Delete=x", "Check=c", "Hint=H", "New=N", "Quit=Q"], title="nudoku", exe="game_nudoku", controls="arrows.v1",
          summary="A clean Sudoku with three difficulty levels and hints.",
-         description="Move with the pad, type digits with the keyboard; x deletes, c checks, H gives a hint, N "
-                     "starts a new puzzle and Q quits.",
+         description="Move with the pad and tap a digit under the board; Delete, Check, Hint and New are there "
+                     "too.",
          category="puzzle", tags=["sudoku", "logic", "numbers"], authors=['Michael "jubalh" Vetter'],
          license="GPL-3.0-or-later", source_url="https://jubalh.github.io/nudoku/", version="2.1.0",
          archive="nudoku_2.1.0.orig.tar.gz", discovery="nudoku", test_notes="Host test: board and key list."),
-    dict(id="typespeed", title="Typespeed", exe="game_typespeed", controls="text.v1",
+    dict(id="typespeed", input="typing", title="Typespeed", exe="game_typespeed", controls="text.v1",
          summary="Type the words before they fly off the screen.",
          description="Pick a word list (English, programming, Unix commands and more) and type each word as it "
                      "crosses the screen. Plays best with a hardware keyboard.",
@@ -100,13 +100,13 @@ GAMES += [
          license="GPL-2.0-or-later", source_url="https://typespeed.sourceforge.net/", version="0.6.5",
          archive="typespeed_0.6.5.orig.tar.gz", discovery="typespeed",
          saves=(["typespeed.score"], "High scores"), test_notes="Host test: word-list menu."),
-    dict(id="gtypist", title="GNU Typist", exe="game_gtypist", controls="text.v1",
+    dict(id="gtypist", controls="arrows.v1", input="typing", title="GNU Typist", exe="game_gtypist",
          summary="Touch-typing lessons for QWERTY, Dvorak and Colemak.",
          description="Work through drills and speed tests lesson by lesson. Best with a hardware keyboard.",
          category="words", tags=["typing", "education"], authors=["Simon Baldwin", "The GNU Typist Development Team"],
          license="GPL-3.0-or-later", source_url="https://www.gnu.org/software/gtypist/", version="2.9.5",
          archive="gtypist_2.9.5.orig.tar.gz", test_notes="Host test: lesson series menu."),
-    dict(id="trader", title="Star Traders", exe="game_trader", controls="text.v1",
+    dict(id="trader", input="typing", title="Star Traders", exe="game_trader", controls="text.v1",
          summary="Build interstellar trading companies and corner the galactic stock market.",
          description="A remake of the 1970s classic Star Traders: place moves on the map, found companies, merge "
                      "them and trade shares. One to eight players share the phone.",
@@ -114,13 +114,13 @@ GAMES += [
          license="GPL-3.0-or-later", source_url="https://www.zap.org.au/projects/trader/", version="7.18",
          archive="trader_7.18.orig.tar.xz", saves=([".local/share/trader"], "Saved games"),
          test_notes="Host test: player-count prompt."),
-    dict(id="nettoe", title="netToe", exe="game_nettoe", controls="text.v1",
+    dict(id="nettoe", keys=["a1=a1\\r", "a2=a2\\r", "a3=a3\\r", "b1=b1\\r", "b2=b2\\r", "b3=b3\\r", "c1=c1\\r", "c2=c2\\r", "c3=c3\\r"], title="netToe", exe="game_nettoe", controls="text.v1",
          summary="Tic-tac-toe against the computer or a friend.",
          description="Choose a game from the menu, then place your mark by typing the square's number.",
          category="puzzle", tags=["tic-tac-toe", "two player"], authors=["Gabriele Giorgetti", "Mats Erik Andersson"],
          players="1-2", license="GPL-2.0-or-later", source_url="https://nettoe.sourceforge.net/", version="1.5.1",
          archive="nettoe_1.5.1.orig.tar.gz", test_notes="Host test: main menu."),
-    dict(id="moria", title="Umoria", exe="game_moria", controls="roguelike.v1",
+    dict(id="moria", hide=["pickup"], keys=["Wear=w", "Take off=T", "Eat=E", "Quaff=q", "Read=r", "Drop=d", "Cast=m", "Pray=p", "Rest=R", "Up=<", "Look=x", "Map=M", "Open=o", "Close=c", "Character=C", "Help=?"], title="Umoria", exe="game_moria", controls="roguelike.v1",
          summary="The 1983 roguelike: descend 50 levels and slay the Balrog of Moria.",
          description="Create a character, then fight your way down through the Mines of Moria. ? lists every "
                      "command; the pad walks.",
@@ -129,7 +129,7 @@ GAMES += [
          license="GPL-2.0-only", source_url="https://umoria.org/", version="5.7.13",
          archive="moria_5.7.13.orig.tar.gz", discovery="moria", saves=(["scores.dat", "game.sav"], "Scores and saved game"),
          test_notes="Host test: character creation."),
-    dict(id="chroma", title="Chroma", exe="game_chroma", controls="arrows.v1",
+    dict(id="chroma", labels={'select': "Swap", 'back': "Menu"}, hide=["space"], keys=["Undo=u", "Redo=y", "Fast=f", "Pause=p"], title="Chroma", exe="game_chroma", controls="arrows.v1",
          summary="Abstract puzzles of falling shapes and devious traps.",
          description="Guide your pieces through each level, collecting every star without being crushed. Many "
                      "levels; an editor too.",

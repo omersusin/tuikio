@@ -59,9 +59,17 @@ Diagnostics in the app runs a self-test on the phone, and its report is the kind
     "executable": "game_2048",          // ^game_[a-z0-9_]{1,40}$, bundled as lib<executable>.so
     "args": [], "env": {},              // no HOME/PATH/TERM/… overrides, nothing starting with LD_
     "terminal": { "min": [30, 15], "preferred": [40, 20] },
-    "orientation": "portrait"           // portrait|landscape|any
+    "orientation": "portrait",          // portrait|landscape|any
+    "wrap": "words",                    // optional: prose printed line by line wraps at words
+    "input": "typing"                   // optional: played by typing, the keyboard starts up
   },
   "controls": "grid4.v1",               // a profile_id
+  "control_labels": { "select": "Reveal" }, // optional: profile actions named for this game
+  "control_hide": ["space"],            // optional: profile buttons this game never uses
+  "keys": [                             // optional: the game's own keys, as labelled buttons
+    { "label": "Bomb", "text": "b" },   //   under the game whenever it isn't asking a question
+    { "label": "Menu", "key": "ESCAPE" }
+  ],
   "saves": { "paths": [], "notes": "…" },
   "data_files": [ { "asset": "games/x/data.bin", "dest": ".x/data.bin", "sha256": "…" } ],
   "network": "none",                    // none|optional|required
@@ -69,6 +77,11 @@ Diagnostics in the app runs a self-test on the phone, and its report is the kind
   "verification": { "host_tested": "2026-10-22", "android_tested": null, "notes": "…" }
 }
 ```
+
+Every key a game uses in play needs a button: a profile action, or one of its `keys`. Keys the
+screen names ("q - quit", "(n)ew game") become chips by themselves; keys it doesn't (Cavez of
+Phear's b for a bomb) must be listed. The family tables in `tools/ports/families/` write them
+compactly (`keys=["Bomb=b", "#1-9", "Next=<TAB>"]`).
 
 Unknown fields are errors, so a typo never passes silently. Paths must be relative, with no
 `..`. Licenses must be SPDX expressions. Authors come first: the details page always credits

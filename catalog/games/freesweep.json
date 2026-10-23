@@ -32,7 +32,13 @@
     "executable": "game_freesweep",
     "args": [
       "--fast",
-      "--alt-charset"
+      "--alt-charset",
+      "-w",
+      "12",
+      "-h",
+      "15",
+      "-m",
+      "36"
     ],
     "env": {},
     "terminal": {

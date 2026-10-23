@@ -45,6 +45,59 @@
     "orientation": "landscape"
   },
   "controls": "text.v1",
+  "control_labels": {
+    "enter": "Home",
+    "space": "Free cell"
+  },
+  "control_hide": [
+    "erase"
+  ],
+  "keys": [
+    {
+      "label": "a",
+      "text": "a"
+    },
+    {
+      "label": "b",
+      "text": "b"
+    },
+    {
+      "label": "c",
+      "text": "c"
+    },
+    {
+      "label": "d",
+      "text": "d"
+    },
+    {
+      "label": "e",
+      "text": "e"
+    },
+    {
+      "label": "f",
+      "text": "f"
+    },
+    {
+      "label": "g",
+      "text": "g"
+    },
+    {
+      "label": "h",
+      "text": "h"
+    },
+    {
+      "label": "Undo",
+      "text": "u"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    },
+    {
+      "label": "Help",
+      "text": "?"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

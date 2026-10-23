@@ -44,6 +44,16 @@
     "orientation": "landscape"
   },
   "controls": "nbsd.v1",
+  "control_hide": [
+    "select",
+    "space"
+  ],
+  "keys": [
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

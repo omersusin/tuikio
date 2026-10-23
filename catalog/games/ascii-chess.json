@@ -42,7 +42,8 @@
         40
       ]
     },
-    "orientation": "portrait"
+    "orientation": "portrait",
+    "input": "typing"
   },
   "controls": "text.v1",
   "saves": {

@@ -47,6 +47,75 @@
     "orientation": "landscape"
   },
   "controls": "roguelike.v1",
+  "control_hide": [
+    "pickup"
+  ],
+  "keys": [
+    {
+      "label": "Wear",
+      "text": "w"
+    },
+    {
+      "label": "Take off",
+      "text": "T"
+    },
+    {
+      "label": "Eat",
+      "text": "E"
+    },
+    {
+      "label": "Quaff",
+      "text": "q"
+    },
+    {
+      "label": "Read",
+      "text": "r"
+    },
+    {
+      "label": "Drop",
+      "text": "d"
+    },
+    {
+      "label": "Cast",
+      "text": "m"
+    },
+    {
+      "label": "Pray",
+      "text": "p"
+    },
+    {
+      "label": "Rest",
+      "text": "R"
+    },
+    {
+      "label": "Up",
+      "text": "<"
+    },
+    {
+      "label": "Look",
+      "text": "x"
+    },
+    {
+      "label": "Map",
+      "text": "M"
+    },
+    {
+      "label": "Open",
+      "text": "o"
+    },
+    {
+      "label": "Close",
+      "text": "c"
+    },
+    {
+      "label": "Character",
+      "text": "C"
+    },
+    {
+      "label": "Help",
+      "text": "?"
+    }
+  ],
   "saves": {
     "paths": [
       "scores.dat",

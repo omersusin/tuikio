@@ -174,6 +174,14 @@ class RenderShotsTest {
                             !synchronized(emu.lock) { emu.screen.text().joinToString("\n").contains(arg) }) settle(100)
                     }
                     "type" -> term0.onText?.invoke(arg.replace("\n", "\r"))
+                    // An extra shot on the way (a menu before the game it opens): <id>-<tag>-<arg>.png
+                    "shot" -> {
+                        settle(300)
+                        val root = a.window.decorView
+                        val b = Bitmap.createBitmap(root.width.coerceAtLeast(1), root.height.coerceAtLeast(1), Bitmap.Config.ARGB_8888)
+                        root.draw(Canvas(b))
+                        File(out, "$id-$tag-$arg.png").outputStream().use { b.compress(Bitmap.CompressFormat.PNG, 100, it) }
+                    }
                 }
                 settle(120)
             }

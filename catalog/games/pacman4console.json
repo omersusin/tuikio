@@ -43,6 +43,21 @@
     "orientation": "portrait"
   },
   "controls": "arrows.v1",
+  "control_hide": [
+    "select",
+    "space",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "Pause",
+      "text": "p"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

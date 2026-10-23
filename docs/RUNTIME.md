@@ -72,8 +72,13 @@ Every game starts with a cleared environment (`GameEnvironment`):
 | `USER`, `LOGNAME` | `player` |
 | `SHELL`, `PATH` | `/nonexistent`: there is no shell to escape into |
 | `ESCDELAY` | `40` (ms) so ESC is told apart from arrow-key prefixes quickly |
+| `PAGER` | the app's pager (`libtuikio_pager.so`, from `native/pty/tuikio_pager.c`) for games that page their instructions |
 
 Manifests may add variables but cannot override these, and cannot set anything starting with `LD_`.
+
+Games that start their pager with `/bin/sh -c "$PAGER"` (the BSD games) are patched to run it
+directly: Android 8 and 9 have no `/bin/sh`, and games get no shell. Without a pager the text is
+shown as it is.
 
 Games run with the app's own Linux user and SELinux domain. They can read their own home and
 nothing outside the app's sandbox. Network access is technically possible because the app

@@ -44,6 +44,11 @@
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_hide": [
+    "select",
+    "space",
+    "back"
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

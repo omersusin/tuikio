@@ -224,12 +224,44 @@
           "enum": [
             "words"
           ]
+        },
+        "input": {
+          "description": "typing: the game is played by typing, so the keyboard comes up when it starts.",
+          "enum": [
+            "typing"
+          ]
         }
       }
     },
     "controls": {
       "type": "string",
       "description": "profile_id of a control profile in catalog/profiles"
+    },
+    "control_labels": {
+      "type": "object",
+      "description": "Control profile actions renamed for this game: action id to label",
+      "additionalProperties": {"type": "string", "minLength": 1, "maxLength": 14}
+    },
+    "control_hide": {
+      "type": "array",
+      "description": "Control profile actions this game doesn't use; their buttons are left out",
+      "items": {"type": "string"}
+    },
+    "keys": {
+      "type": "array",
+      "description": "The game's own keys its control profile has no button for, shown as labelled buttons on the game screen",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label"],
+        "properties": {
+          "label": {"type": "string", "minLength": 1, "maxLength": 14},
+          "text": {"type": "string", "minLength": 1, "maxLength": 16},
+          "key": {"type": "string", "description": "A TermKey name: ENTER, ESCAPE, TAB, BACKSPACE, UP, F1..."}
+        },
+        "oneOf": [{"required": ["text"]}, {"required": ["key"]}]
+      }
     },
     "saves": {
       "type": [

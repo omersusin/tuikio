@@ -3,7 +3,7 @@
   "id": "nudoku",
   "title": "nudoku",
   "summary": "A clean Sudoku with three difficulty levels and hints.",
-  "description": "Move with the pad, type digits with the keyboard; x deletes, c checks, H gives a hint, N starts a new puzzle and Q quits.",
+  "description": "Move with the pad and tap a digit under the board; Delete, Check, Hint and New are there too.",
   "category": "puzzle",
   "tags": [
     "sudoku",
@@ -44,6 +44,69 @@
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_hide": [
+    "select",
+    "space",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "1",
+      "text": "1"
+    },
+    {
+      "label": "2",
+      "text": "2"
+    },
+    {
+      "label": "3",
+      "text": "3"
+    },
+    {
+      "label": "4",
+      "text": "4"
+    },
+    {
+      "label": "5",
+      "text": "5"
+    },
+    {
+      "label": "6",
+      "text": "6"
+    },
+    {
+      "label": "7",
+      "text": "7"
+    },
+    {
+      "label": "8",
+      "text": "8"
+    },
+    {
+      "label": "9",
+      "text": "9"
+    },
+    {
+      "label": "Delete",
+      "text": "x"
+    },
+    {
+      "label": "Check",
+      "text": "c"
+    },
+    {
+      "label": "Hint",
+      "text": "H"
+    },
+    {
+      "label": "New",
+      "text": "N"
+    },
+    {
+      "label": "Quit",
+      "text": "Q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

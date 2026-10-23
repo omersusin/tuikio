@@ -83,6 +83,8 @@ class ScreensUiTest {
     /** Clicks the first view showing [label] that is (or sits inside) something clickable. */
     private fun click(root: View, label: String, exact: Boolean = true) {
         val matches = views(root).filter {
+            // Not the strip under the game: its chips send keys to the game ("Quit" sends q).
+            if (it.contentDescription?.let { d -> d.startsWith("Key ") || d.startsWith("Answer ") } == true) return@filter false
             val t = (it as? TextView)?.text?.toString()
             // Some brand packs set text in capitals, so compare case-insensitively.
             (if (exact) t.equals(label, ignoreCase = true) else t?.startsWith(label, ignoreCase = true) == true) ||

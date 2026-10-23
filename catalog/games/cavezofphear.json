@@ -44,6 +44,31 @@
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_labels": {
+    "select": "OK"
+  },
+  "control_hide": [
+    "space",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "Bomb",
+      "text": "b"
+    },
+    {
+      "label": "Detonate",
+      "text": "t"
+    },
+    {
+      "label": "Give up",
+      "text": "k"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

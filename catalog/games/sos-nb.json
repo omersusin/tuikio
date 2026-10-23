@@ -44,6 +44,12 @@
     "orientation": "landscape"
   },
   "controls": "sos-nb.v1",
+  "keys": [
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

@@ -35,13 +35,36 @@ class KeyHintsTest {
         assertEquals(listOf("D Display=D", "Q Quit=Q"), hints("[D] Display options", "[Q] Quit"))
         assertEquals(listOf("e Fish=e"), hints("Suffering PSE? Press e to fish"))
         assertEquals(listOf("? Help=?"), hints("Greed v4.2 - Hit '?' for help."))
+        assertEquals(listOf("r Play red=r", "w Play white=w", "b Play both=b"),
+            hints("Enter 'r' to play red, 'w' to play white, 'b' to play both:"))
         assertEquals(listOf("q Quit=q", "n New game=n"), hints("(q)uit (n)ew game"))
+    }
+
+    @Test
+    fun keyColumnsWithoutSeparators() {
+        // Su-Do-Ku's legend, right of the board
+        assertEquals(listOf("c Clear board=c", "d Redraw=d", "n New board=n", "q Quit game=q", "u Undo last=u"), hints(
+            "| . . 6 | . . . | . 5 . |      c   clear board",
+            "| . . 8 | 7 . 9 | 4 . . |      d   redraw the board",
+            "| 9 . . | 3 2 . | . . . |      n   new board",
+            "| . 8 . | 4 . . | 3 . 6 |      q   quit game",
+            "| . 8 . | 4 . . | 3 . 6 |      u   undo last move"))
+        // phantasia
+        assertEquals(listOf("Q Quit=Q"), hints("Do you have a character to run [Q = Quit] ?"))
+        assertEquals(listOf("1 Magic User=1", "2 Fighter=2", "3 Elf=3", "4 Dwarf=4", "5 Halfling=5", "6 Experimento=6"),
+            hints("    1:Magic User  2:Fighter  3:Elf  4:Dwarf  5:Halfling  6:Experimento  ?  o"))
     }
 
     @Test
     fun keysAButtonAlreadySendsAreLeftOut() {
         assertEquals(listOf("q Quit=q"), hints("  p - pause", "  q - quit", covered = setOf("p")))
         assertEquals(listOf("Esc Back=ESCAPE"), hints("  space - drop", "  esc - back", covered = setOf(" ")))
+    }
+
+    @Test
+    fun aGameReadingLinesGetsEnterAfterTheKey() {
+        val chips = KeyHints.detect(listOf("  (1) Player vs CPU", "  (q) Quit"), lineMode = true)
+        assertEquals(listOf(ActionOutput.Text("1\r"), ActionOutput.Text("q\r")), chips.map { it.output })
     }
 
     @Test

@@ -3,7 +3,7 @@
   "id": "sudoku",
   "title": "Su-Do-Ku",
   "summary": "Generated Sudoku puzzles from easy to fiendish, with hints.",
-  "description": "Move with the pad and type digits with the keyboard; 0 or . clears a square. The full key list is beside the board.",
+  "description": "Move with the pad and tap a digit under the board; Clear empties a square. The full key list is beside the board.",
   "category": "puzzle",
   "tags": [
     "sudoku",
@@ -44,6 +44,73 @@
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_hide": [
+    "select",
+    "space",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "1",
+      "text": "1"
+    },
+    {
+      "label": "2",
+      "text": "2"
+    },
+    {
+      "label": "3",
+      "text": "3"
+    },
+    {
+      "label": "4",
+      "text": "4"
+    },
+    {
+      "label": "5",
+      "text": "5"
+    },
+    {
+      "label": "6",
+      "text": "6"
+    },
+    {
+      "label": "7",
+      "text": "7"
+    },
+    {
+      "label": "8",
+      "text": "8"
+    },
+    {
+      "label": "9",
+      "text": "9"
+    },
+    {
+      "label": "Clear",
+      "text": "0"
+    },
+    {
+      "label": "Undo",
+      "text": "u"
+    },
+    {
+      "label": "Hint",
+      "text": "?"
+    },
+    {
+      "label": "New",
+      "text": "n"
+    },
+    {
+      "label": "Restart",
+      "text": "r"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

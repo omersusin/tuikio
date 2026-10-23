@@ -42,7 +42,8 @@
         24
       ]
     },
-    "orientation": "any"
+    "orientation": "any",
+    "input": "typing"
   },
   "controls": "text.v1",
   "saves": {

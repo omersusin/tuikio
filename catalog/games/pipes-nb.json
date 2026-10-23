@@ -44,6 +44,30 @@
     "orientation": "landscape"
   },
   "controls": "nbsd.v1",
+  "control_labels": {
+    "select": "Place"
+  },
+  "control_hide": [
+    "space"
+  ],
+  "keys": [
+    {
+      "label": "Go",
+      "text": "g"
+    },
+    {
+      "label": "Fast",
+      "text": "f"
+    },
+    {
+      "label": "Pause",
+      "text": "p"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [
       "pipes_scores"

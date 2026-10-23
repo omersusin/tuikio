@@ -49,6 +49,64 @@
     "orientation": "landscape"
   },
   "controls": "roguelike.v1",
+  "keys": [
+    {
+      "label": "Wield",
+      "text": "w"
+    },
+    {
+      "label": "Wear",
+      "text": "W"
+    },
+    {
+      "label": "Take off",
+      "text": "T"
+    },
+    {
+      "label": "Eat",
+      "text": "e"
+    },
+    {
+      "label": "Quaff",
+      "text": "q"
+    },
+    {
+      "label": "Read",
+      "text": "r"
+    },
+    {
+      "label": "Zap",
+      "text": "z"
+    },
+    {
+      "label": "Throw",
+      "text": "t"
+    },
+    {
+      "label": "Drop",
+      "text": "d"
+    },
+    {
+      "label": "Up",
+      "text": "<"
+    },
+    {
+      "label": "Rest",
+      "text": "."
+    },
+    {
+      "label": "Look",
+      "text": ":"
+    },
+    {
+      "label": "Save",
+      "text": "S"
+    },
+    {
+      "label": "Help",
+      "text": "?"
+    }
+  ],
   "saves": {
     "paths": [
       "hack/save",

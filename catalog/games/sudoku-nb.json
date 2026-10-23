@@ -3,7 +3,7 @@
   "id": "sudoku-nb",
   "title": "Sudoku",
   "summary": "Fill the grid so every row, column and box holds each number once.",
-  "description": "Move with the pad and type numbers with the keyboard; Space clears a square, n starts a new board.",
+  "description": "Move with the pad and tap a number under the board; Clear empties a square, New starts a new board.",
   "category": "puzzle",
   "tags": [
     "sudoku",
@@ -45,6 +45,62 @@
     "orientation": "landscape"
   },
   "controls": "nbsd.v1",
+  "control_labels": {
+    "space": "Clear"
+  },
+  "control_hide": [
+    "select"
+  ],
+  "keys": [
+    {
+      "label": "1",
+      "text": "1"
+    },
+    {
+      "label": "2",
+      "text": "2"
+    },
+    {
+      "label": "3",
+      "text": "3"
+    },
+    {
+      "label": "4",
+      "text": "4"
+    },
+    {
+      "label": "5",
+      "text": "5"
+    },
+    {
+      "label": "6",
+      "text": "6"
+    },
+    {
+      "label": "7",
+      "text": "7"
+    },
+    {
+      "label": "8",
+      "text": "8"
+    },
+    {
+      "label": "9",
+      "text": "9"
+    },
+    {
+      "label": "New",
+      "text": "n"
+    },
+    {
+      "label": "Restart",
+      "text": "r"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

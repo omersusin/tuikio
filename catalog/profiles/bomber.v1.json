@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "profile_id": "bomber.v1",
+  "title": "Bomb run",
+  "help": "The plane flies on its own and drops lower every pass. Bomb levels the buildings under it; land once the city is flat.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "bomb",
+      "label": "Bomb",
+      "icon": "drop",
+      "output": {
+        "text": " "
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "pause",
+      "label": "Pause",
+      "icon": "pause",
+      "output": {
+        "text": "p"
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 112,
+        "bind": {
+          "press": "bomb"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 64,
+        "bind": {
+          "press": "pause"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 104,
+        "bind": {
+          "press": "bomb"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "size": 64,
+        "bind": {
+          "press": "pause"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ]
+  },
+  "gestures": {
+    "double_tap": "bomb"
+  },
+  "pointer": "none",
+  "keyboard": true
+}

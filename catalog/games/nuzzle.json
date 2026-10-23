@@ -43,6 +43,23 @@
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_labels": {
+    "select": "Drop",
+    "back": "Menu"
+  },
+  "control_hide": [
+    "space"
+  ],
+  "keys": [
+    {
+      "label": "Next",
+      "key": "TAB"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

@@ -45,6 +45,47 @@
     "orientation": "landscape"
   },
   "controls": "text.v1",
+  "control_hide": [
+    "space"
+  ],
+  "keys": [
+    {
+      "label": "Pick",
+      "text": "p"
+    },
+    {
+      "label": "Use",
+      "text": "u"
+    },
+    {
+      "label": "Discard",
+      "text": "d"
+    },
+    {
+      "label": "1",
+      "text": "1"
+    },
+    {
+      "label": "2",
+      "text": "2"
+    },
+    {
+      "label": "3",
+      "text": "3"
+    },
+    {
+      "label": "4",
+      "text": "4"
+    },
+    {
+      "label": "5",
+      "text": "5"
+    },
+    {
+      "label": "6",
+      "text": "6"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

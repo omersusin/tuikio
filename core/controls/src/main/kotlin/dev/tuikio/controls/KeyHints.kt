@@ -7,7 +7,8 @@ import dev.tuikio.terminal.TermKey
  * "(q) Quit", "m) Male"), legends ("q - quit", "s = Snow", "d: discard"), brackets ("<C> to
  * continue", "[H] How to play"), "(n)ew game" and "press E to ...". Each becomes a chip labelled
  * with its key and what it does, so a key the game asks for is always one tap away, even when
- * the control profile has no button for it. Keys a visible button already sends are left out.
+ * the control profile has no button for it. Keys a visible button already sends are left out,
+ * and so are the game's own keys (manifest "keys"), which are always on screen.
  */
 object KeyHints {
     const val MAX = 6
@@ -22,20 +23,27 @@ object KeyHints {
         Regex("""(?i)[<\[]($NAMED|[0-9a-z?.,])[>\]]\s*(?:to\s+|[=:-]\s*)?$LABEL"""),
         // q - quit · s = Snow · d: discard · SPACE - drop. Whitespace on one side of the separator
         // at least: "o=oo=oo" is an invader row and "C-l:redraw" means Ctrl-L.
-        Regex("""(?i)(?:^|\s{2,}|[,|·•]\s*)($NAMED|[0-9a-z?])(?:\s{1,2}[-=:]\s{0,3}|[-=:]\s{1,3})$LABEL"""),
+        Regex("""(?i)(?:^|\s{2,}|[,|·•\[(]\s*)($NAMED|[0-9a-z?])(?:\s{1,2}[-=:]\s{0,3}|[-=:]\s{1,3})$LABEL"""),
         // (q)uit · (n)ew game
         Regex("""\(([a-z])\)([a-z]{2,}(?: [a-z]+)?)"""),
         // press E to fish · hit 'p' to pause · press SPACE to start · type '?' for help
-        Regex("""(?i)\b(?:press|hit|type)\s+(?:the\s+)?['"<]?($NAMED|[0-9a-z?])['">]?\s+(?:key\s+)?(?:to|for)\s+$LABEL"""),
+        Regex("""(?i)\b(?:press|hit|type|enter)\s+(?:the\s+)?['"<]?($NAMED|[0-9a-z?])['">]?\s+(?:key\s+)?(?:to|for)\s+$LABEL"""),
+        // ..., 'w' to play white, 'b' to play both   (a quoted key needs no verb)
+        Regex("""['"]([0-9A-Za-z?])['"]\s+(?:to|for)\s+$LABEL"""),
+        // 1:Magic User  2:Fighter  3:Elf   (a numbered menu on one line)
+        Regex("""(?:^|\s{2,})([0-9]):([A-Z][A-Za-z]+(?: [A-Z][a-z]+)?)"""),
+        // "   c   clear board": a key column with no separator, the legend ending the line
+        Regex("""(?:^|\s{3,})([a-z?])\s{2,4}([a-z]{3,}(?: [a-z]+){0,3})\s*$"""),
     )
 
     private val DIRECTION = Regex("""(?i)\b(left|right|up|down|north|south|east|west)\b""")
 
     /**
      * Hints on [lines], in screen order, minus keys in [covered] (see [keyId]). With [hasPad], keys
-     * that only move ("h - Move left") are left to the pad.
+     * that only move ("h - Move left") are left to the pad. With [lineMode] (the game reads whole
+     * lines) a menu choice only counts once Enter follows, so the chip sends it too.
      */
-    fun detect(lines: List<String>, covered: Set<String> = emptySet(), hasPad: Boolean = false): List<PromptChip> {
+    fun detect(lines: List<String>, covered: Set<String> = emptySet(), hasPad: Boolean = false, lineMode: Boolean = false): List<PromptChip> {
         val found = LinkedHashMap<String, PromptChip>()
         for (line in lines) {
             if (line.isBlank()) continue
@@ -50,7 +58,8 @@ object KeyHints {
                 if (hasPad && DIRECTION.containsMatchIn(label)) continue
                 // "<enter> or <space>": a list of keys, not a key and what it does
                 if (label.trim().split(Regex("\\s+")).first().lowercase() in FILLER) continue
-                found[id] = PromptChip("${keyName(raw)} ${shortLabel(label)}", output)
+                val sent = if (lineMode && output is ActionOutput.Text) ActionOutput.Text(output.text + "\r") else output
+                found[id] = PromptChip("${keyName(raw)} ${shortLabel(label)}", sent)
                 if (found.size >= MAX) return found.values.toList()
             }
         }

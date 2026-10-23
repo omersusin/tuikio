@@ -115,8 +115,43 @@ class AdaptiveControlsTest {
         waitFor("the main menu", a) { screen(a).contains("Main Menu") }
         fun keyChips() = views(a.window.decorView).filterIsInstance<TButton>()
             .filter { it.contentDescription?.startsWith("Key ") == true && it.isShown }.map { it.text.toString() }.toList()
-        waitFor("a chip per menu entry", a) { keyChips().take(2) == listOf("1 Player vs", "2 Player vs") }
-        assertTrue("Quit is offered too: ${keyChips()}", keyChips().contains("q Quit"))
+        waitFor("a chip per menu entry", a) { keyChips().containsAll(listOf("1 Player vs", "2 Player vs", "q Quit")) }
+        // netToe reads whole lines: the chip sends Enter after the 1, so the next menu opens.
+        views(a.window.decorView).filterIsInstance<TButton>().first { it.text == "1 Player vs" && it.isShown }.performClick()
+        waitFor("the difficulty menu", a) { screen(a).contains("Level of difficulty") }
+    }
+
+    private fun keys(a: GameActivity) = views(a.window.decorView).filterIsInstance<TButton>()
+        .filter { it.contentDescription?.startsWith("Key ") == true && it.isShown }.map { it.text.toString() }.toList()
+
+    /** A game's own keys (manifest "keys") stay on screen: Cavez of Phear's bombs need b and t. */
+    @Test
+    fun aGamesOwnKeysAreAlwaysOnScreen() {
+        val a = launch("cavezofphear")
+        waitFor("the title", a) { screen(a).contains("PRESS ANY KEY") }
+        // The title asks for a key: only its answer is offered there.
+        waitFor("Continue", a) { chips(a) == listOf("Continue") }
+        views(a.window.decorView).filterIsInstance<TButton>().first { it.text == "Continue" && it.isShown }.performClick()
+        waitFor("the game's keys", a) { keys(a).take(4) == listOf("Bomb", "Detonate", "Give up", "Quit") }
+        val controls = views(a.window.decorView).filterIsInstance<ControlsView>().first()
+        assertTrue("Space and Back aren't used by the game: ${controls.visibleKeyIds()}", " " !in controls.visibleKeyIds() && "ESCAPE" !in controls.visibleKeyIds())
+    }
+
+    /** Buttons are named for what they do in the game: Mines' Enter reveals and its Space flags. */
+    @Test
+    fun buttonsAreNamedForTheGame() {
+        val a = launch("mines-nb")
+        val controls = views(a.window.decorView).filterIsInstance<ControlsView>().first()
+        val info = android.view.accessibility.AccessibilityNodeInfo.obtain()
+        controls.onInitializeAccessibilityNodeInfo(info)
+        assertTrue("labels: ${info.text}", info.text.contains("Reveal") && info.text.contains("Flag"))
+    }
+
+    /** A game played by typing starts with the keyboard (and its Esc/Tab row) up. */
+    @Test
+    fun typingGamesStartWithTheKeyboard() {
+        val a = launch("adventure-bsd")
+        waitFor("the keyboard row", a) { views(a.window.decorView).any { it.contentDescription == "Escape" && it.isShown } }
     }
 
     /** The keyboard comes with the keys a phone keyboard lacks, and the game controls make room. */

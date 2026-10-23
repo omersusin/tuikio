@@ -29,6 +29,7 @@ class PromptChipsTest {
         assertEquals(listOf("H=H", "c=c"), chips("Choose type of the black player(H/c)"))
         assertEquals((1..9).map { "$it=$it" }, chips("Choose a level to start [1-9]:"))
         assertEquals(listOf("m=m⏎", "s=s⏎"), chips("Move or shoot? (m-s)", lineMode = true))
+        assertEquals((1..6).map { "$it=$it" }, chips("Please choose one of : [123456]"))
     }
 
     @Test
@@ -48,6 +49,26 @@ class PromptChipsTest {
         assertEquals(emptyList(), chips("Score: 0  0.00%"))
         assertEquals(emptyList(), chips("[A-type]"))
         assertEquals(emptyList(), chips(""))
+    }
+
+    @Test
+    fun questionsWithoutAnAnswerKey() {
+        // backgammon, phantasia, cribbage
+        assertEquals(listOf("Yes=y", "No=n"), chips("Do you want the rules of the game?"))
+        assertEquals(listOf("Yes=y⏎", "No=n⏎"), chips("Would you like instructions? N", lineMode = true))
+        assertEquals(listOf("Long=l", "Short=s"), chips("*Long (to 121) or Short (to 61)?"))
+        assertEquals(listOf("Black=b⏎", "White=w⏎"), chips("black or white?", lineMode = true))
+        assertEquals(listOf("Long=l", "Short=s"), chips("Long or short help?"))
+        // Not yes/no: a choice that isn't the whole question, or not a question with an auxiliary
+        assertEquals(emptyList(), chips("Is this a regular game or a tournament game?"))
+        assertEquals(emptyList(), chips("What is your name?"))
+        assertEquals(emptyList(), chips("How many acres do you wish to buy?", lineMode = true))
+    }
+
+    @Test
+    fun tutorPrompt() {
+        assertEquals(listOf("Continue= "), chips("-->", above = "(Remember to hit a space or a newline to continue.)"))
+        assertEquals(listOf("Continue= "), chips("hit a space to continue"))
     }
 
     @Test

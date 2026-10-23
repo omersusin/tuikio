@@ -86,9 +86,26 @@ data class RuntimeSpec(
     val orientation: Orientation,
     /** Word wrap for prose printed line by line (manifest "wrap": "words"); see TerminalEmulator.wordWrap. */
     val wrapWords: Boolean = false,
+    /** Played by typing (manifest "input": "typing"): the keyboard comes up when the game starts. */
+    val typing: Boolean = false,
 )
 
 data class DataFile(val asset: String, val dest: String, val sha256: String)
+
+/**
+ * A key the game uses that its control profile has no button for ("b" places a bomb, "i" opens
+ * the inventory): shown on the game screen as a button with [label]. Sends [text], or the named
+ * [key] (a TermKey name, from [NAMES]).
+ */
+data class GameKey(val label: String, val text: String? = null, val key: String? = null) {
+    companion object {
+        val NAMES = setOf(
+            "UP", "DOWN", "LEFT", "RIGHT", "HOME", "END", "PAGE_UP", "PAGE_DOWN", "INSERT", "DELETE",
+            "ENTER", "ESCAPE", "TAB", "BACKSPACE",
+            "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12",
+        )
+    }
+}
 
 data class Verification(val hostTested: String?, val androidTested: String?, val notes: String)
 
@@ -105,6 +122,12 @@ data class GameManifest(
     val port: PortInfo?,
     val runtime: RuntimeSpec,
     val controls: String,
+    /** Profile actions renamed for this game (action id to label): "select" reads "Reveal". */
+    val controlLabels: Map<String, String> = emptyMap(),
+    /** Profile actions this game has no use for: their buttons are left out. */
+    val controlHide: Set<String> = emptySet(),
+    /** The game's own keys beyond its control profile, in the order they're shown. */
+    val keys: List<GameKey> = emptyList(),
     val savePaths: List<String>,
     val saveNotes: String,
     val dataFiles: List<DataFile>,
@@ -136,7 +159,7 @@ data class GameManifest(
         fun fromJson(r: JsonReader): GameManifest {
             r.requireOnly(
                 "schema_version", "id", "title", "summary", "description", "category", "tags", "players",
-                "origin", "upstream", "port", "runtime", "controls", "saves", "data_files", "network",
+                "origin", "upstream", "port", "runtime", "controls", "control_labels", "control_hide", "keys", "saves", "data_files", "network",
                 "status", "verification",
             )
             val version = r.int("schema_version")
@@ -171,9 +194,11 @@ data class GameManifest(
             }
 
             val rt = r.obj("runtime")
-            rt.requireOnly("backend", "executable", "args", "env", "terminal", "orientation", "wrap")
+            rt.requireOnly("backend", "executable", "args", "env", "terminal", "orientation", "wrap", "input")
             val wrap = rt.stringOrNull("wrap")
             if (wrap != null && wrap != "words") rt.fail("unknown wrap '$wrap'")
+            val input = rt.stringOrNull("input")
+            if (input != null && input != "typing") rt.fail("unknown input '$input'")
             val backend = rt.string("backend")
             if (backend != "native_pty") rt.fail("unsupported backend '$backend'")
             val exe = rt.string("executable")
@@ -195,6 +220,23 @@ data class GameManifest(
             val min = size("min")
             val preferred = size("preferred")
             if (preferred.cols < min.cols || preferred.rows < min.rows) term.fail("preferred size is smaller than min")
+
+            val controlLabels = r.stringMap("control_labels")
+            if (controlLabels.values.any { it.isBlank() || it.length > 14 }) r.fail("control_labels must be 1..14 characters")
+            val controlHide = r.strings("control_hide").toSet()
+            val keys = r.objects("keys").map { k ->
+                k.requireOnly("label", "text", "key")
+                val label = k.string("label")
+                if (label.isBlank() || label.length > 14) k.fail("label must be 1..14 characters")
+                if (k.has("text") == k.has("key")) k.fail("a key needs exactly one of text or key")
+                val text = k.stringOrNull("text")?.also { t ->
+                    if (t.isEmpty() || t.length > 16 || t.any { it < ' ' && it != '\r' }) k.fail("text must be 1..16 printable characters")
+                }
+                val key = k.stringOrNull("key")?.also { if (it !in GameKey.NAMES) k.fail("unknown key '$it'") }
+                GameKey(label, text, key)
+            }
+            if (keys.size > 16) r.fail("at most 16 keys")
+            if (keys.map { it.text ?: it.key!! }.toSet().size != keys.size) r.fail("keys must send different things")
 
             val saves = r.objOrNull("saves")
             saves?.requireOnly("paths", "notes")
@@ -236,8 +278,11 @@ data class GameManifest(
                 origin = Origin.parse(r.string("origin")),
                 upstream = upstream,
                 port = port,
-                runtime = RuntimeSpec(backend, exe, args, env, min, preferred, Orientation.parse(rt.string("orientation")), wrap == "words"),
+                runtime = RuntimeSpec(backend, exe, args, env, min, preferred, Orientation.parse(rt.string("orientation")), wrap == "words", input == "typing"),
                 controls = r.string("controls"),
+                controlLabels = controlLabels,
+                controlHide = controlHide,
+                keys = keys,
                 savePaths = savePaths,
                 saveNotes = saves?.stringOrNull("notes").orEmpty(),
                 dataFiles = dataFiles,
@@ -282,8 +327,12 @@ data class GameManifest(
             ),
             "orientation" to runtime.orientation.id,
             "wrap" to (if (runtime.wrapWords) "words" else null),
+            "input" to (if (runtime.typing) "typing" else null),
         ),
         "controls" to controls,
+        "control_labels" to controlLabels.takeIf { it.isNotEmpty() },
+        "control_hide" to controlHide.takeIf { it.isNotEmpty() }?.toList(),
+        "keys" to keys.takeIf { it.isNotEmpty() }?.map { Json.obj("label" to it.label, "text" to it.text, "key" to it.key) },
         "saves" to Json.obj("paths" to savePaths, "notes" to saveNotes),
         "data_files" to dataFiles.map { Json.obj("asset" to it.asset, "dest" to it.dest, "sha256" to it.sha256) },
         "network" to network.id,

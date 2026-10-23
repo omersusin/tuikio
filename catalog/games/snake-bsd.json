@@ -44,6 +44,21 @@
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_hide": [
+    "select",
+    "space",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "Warp",
+      "text": "w"
+    },
+    {
+      "label": "Quit",
+      "text": "x"
+    }
+  ],
   "saves": {
     "paths": [
       "snake.log",

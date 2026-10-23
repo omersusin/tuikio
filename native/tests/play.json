@@ -93,7 +93,7 @@
       "expect:Press any key to play"
     ],
     "clines": [
-      "expect:|-----------------|",
+      "expect:|-----------------------------------|",
       "key:RIGHT",
       "type: "
     ],
@@ -103,9 +103,9 @@
       "expect:Long (to 121) or Short (to 61)"
     ],
     "csol": [
-      "expect:────",
+      "expect:\u2500\u2500\u2500\u2500",
       "type:s",
-      "expect:────"
+      "expect:\u2500\u2500\u2500\u2500"
     ],
     "ctris": [
       "expect:Press a key to start!",
@@ -205,6 +205,8 @@
       "expect:Command:"
     ],
     "moria": [
+      "expect:press any key to continue",
+      "type: ",
       "expect:Choose a race",
       "type:a",
       "wait:300"

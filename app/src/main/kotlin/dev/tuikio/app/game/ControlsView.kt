@@ -369,7 +369,9 @@ class ControlsView(context: Context, private val profile: ControlProfile) : View
 
     override fun onInitializeAccessibilityNodeInfo(info: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(info)
-        info.text = profile.actions.values.joinToString(", ") { it.label }
+        // The buttons on screen (a game may leave some of its profile's out).
+        info.text = profile.layout(landscape).flatMap { it.bindings.values }.distinct()
+            .mapNotNull { profile.actions[it]?.label }.joinToString(", ")
     }
 
     @Suppress("unused")

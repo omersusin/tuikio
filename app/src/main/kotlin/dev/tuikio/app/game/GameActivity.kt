@@ -41,6 +41,7 @@ import dev.tuikio.app.ui.lp
 import dev.tuikio.app.ui.vstack
 import dev.tuikio.catalog.GameManifest
 import dev.tuikio.catalog.Orientation
+import dev.tuikio.controls.ActionOutput
 import dev.tuikio.controls.ControlDispatcher
 import dev.tuikio.controls.PromptChip
 import dev.tuikio.controls.KeyHints
@@ -100,7 +101,7 @@ class GameActivity : Activity() {
             return
         }
         game = g
-        profile = app.catalog.profile(g.controls)
+        profile = app.catalog.profile(g.controls).forGame(g.controlLabels, g.controlHide)
         requestedOrientation = when (g.runtime.orientation) {
             Orientation.PORTRAIT -> ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
             Orientation.LANDSCAPE -> ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
@@ -173,6 +174,8 @@ class GameActivity : Activity() {
         try {
             s.start()
             startedAt = SystemClock.elapsedRealtime()
+            // Games played by typing start with the keyboard up, once the window can take it.
+            if (game.runtime.typing && !typing) uiHandler.postDelayed({ if (!isFinishing && !typing) setTyping(true) }, 400)
         } catch (e: Exception) {
             showEnded("Couldn't start ${game.title}: ${e.message}")
         }
@@ -184,15 +187,29 @@ class GameActivity : Activity() {
     // becomes Resume once the game says it's paused), and when the game asks a question at its
     // cursor, the answers appear as chips ("Yes"/"No", the letters of "[TSFKCW]", "Continue").
 
+    /** The game's own keys (manifest "keys"), for the strip under the game. */
+    private val gameKeys by lazy {
+        game.keys.map { k -> PromptChip(k.label, k.key?.let { ActionOutput.Key(TermKey.valueOf(it)) } ?: ActionOutput.Text(k.text!!)) }
+    }
+
     private val watchPending = java.util.concurrent.atomic.AtomicBoolean(false)
     private var shownChips: List<PromptChip> = emptyList()
 
-    private val chipRow by lazy { LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER } }
+    /** The chips' rows: one in landscape, up to two upright (where height is to spare). */
+    private val chipRows by lazy { LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER_HORIZONTAL } }
+    private var chipViews: List<View> = emptyList()
+    /** How many chips the first row holds; the rest are on the second. */
+    private var chipSplit = -1
+    /** What the rows were last fitted to: the width, the orientation and the chips. */
+    private var chipFit: Any? = null
     private val chipBar by lazy {
         android.widget.HorizontalScrollView(this).apply {
             isHorizontalScrollBarEnabled = false
+            // Chips that don't fit fade out at the edge, so it's clear there are more.
+            isHorizontalFadingEdgeEnabled = true
+            setFadingEdgeLength(dp(28))
             visibility = View.GONE
-            addView(chipRow, ViewGroup.LayoutParams(WRAP, WRAP))
+            addView(chipRows, ViewGroup.LayoutParams(WRAP, WRAP))
         }
     }
 
@@ -219,27 +236,32 @@ class GameActivity : Activity() {
         }
         controls.updateStates(lines.joinToString("\n"))
         val answers = PromptChips.detect(lines, row, col, lineMode)
+        // While the game asks a question, only its answers (and keys the screen names) are offered;
+        // otherwise the game's own keys stay in the strip.
+        val own = if (answers.isEmpty()) gameKeys.filter { KeyHints.keyId(it.output) !in controls.visibleKeyIds() } else emptyList()
         // Keys the screen names that no button sends: one tap each, after the answers.
-        val covered = controls.visibleKeyIds() + answers.map { KeyHints.keyId(it.output) }
-        val chips = answers + KeyHints.detect(lines, covered, controls.hasPad())
+        val covered = controls.visibleKeyIds() + (answers + own).map { KeyHints.keyId(it.output) }
+        val chips = answers + own + KeyHints.detect(lines, covered, controls.hasPad(), lineMode)
         if (chips != shownChips) showChips(chips, answers.size)
         if (chips.isNotEmpty()) placeChips()
     }
 
     private fun showChips(chips: List<PromptChip>, answers: Int) {
         shownChips = chips
-        chipRow.removeAllViews()
-        chips.forEachIndexed { i, chip ->
+        chipViews = chips.mapIndexed { i, chip ->
             val answer = i < answers
             val style = if (answer && (answers <= 2 || chip.label == "Continue")) ButtonStyle.PRIMARY else ButtonStyle.SECONDARY
-            chipRow.addView(TButton(this, chip.label, style).apply {
-                minWidth = dp(if (chip.label.length == 1) 48 else 72)
+            TButton(this, chip.label, style).apply {
+                minWidth = dp(if (chip.label.length == 1) 44 else 72)
                 minHeight = dp(44)
-                setPadding(dp(12), 0, dp(12), 0)
+                setPadding(dp(if (chip.label.length == 1) 8 else 12), 0, dp(if (chip.label.length == 1) 8 else 12), 0)
                 contentDescription = if (answer) "Answer ${chip.label}" else "Key ${chip.label}"
                 setOnClickListener { dispatcher.emit(chip.output) }
-            }, LinearLayout.LayoutParams(WRAP, WRAP).apply { setMargins(dp(4), 0, dp(4), 0) })
+                layoutParams = LinearLayout.LayoutParams(WRAP, WRAP).apply { setMargins(dp(3), 0, dp(3), 0) }
+            }
         }
+        chipSplit = -1
+        layoutChipRows(chipViews.size)
         chipBar.visibility = if (chips.isEmpty()) View.GONE else View.VISIBLE
         if (chips.isEmpty()) terminal.reservedBottomPx = 0
         if (chips.isNotEmpty()) chipBar.announceForAccessibility("Answers: " + chips.joinToString { it.label })
@@ -249,16 +271,47 @@ class GameActivity : Activity() {
      * At the bottom of the game area, in a strip the terminal keeps free while chips show: the
      * game moves up (and only shrinks if it must), so chips never cover what it draws.
      */
+    private fun layoutChipRows(split: Int) {
+        if (split == chipSplit) return
+        chipSplit = split
+        for (v in chipViews) (v.parent as? ViewGroup)?.removeView(v)
+        chipRows.removeAllViews()
+        listOf(chipViews.take(split), chipViews.drop(split)).filter { it.isNotEmpty() }.forEach { row ->
+            chipRows.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER
+                row.forEach { addView(it) }
+            }, LinearLayout.LayoutParams(WRAP, WRAP).apply { if (chipRows.childCount > 0) topMargin = dp(6) })
+        }
+    }
+
     private fun placeChips() {
         val lp = chipBar.layoutParams as? FrameLayout.LayoutParams ?: return
+        val avail = (if (terminal.width > 0) terminal.width else root.width) - dp(8)
+        // Upright there is height to spare: chips that don't fit one row get a second (digits
+        // 0-9 and a few keys); in landscape the game keeps the height and the row scrolls.
+        val fit = Triple(avail, controls.landscape, chipViews)
+        if (fit != chipFit) {
+            chipFit = fit
+            var split = chipViews.size
+            if (!controls.landscape && avail > 0) {
+                var used = 0
+                for ((i, v) in chipViews.withIndex()) {
+                    v.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                    used += v.measuredWidth + dp(6)
+                    if (used > avail) { split = i; break }
+                }
+            }
+            layoutChipRows(split)
+        }
         val loc = IntArray(2).also { terminal.getLocationInWindow(it) }
         val rootLoc = IntArray(2).also { root.getLocationInWindow(it) }
         val termBottom = loc[1] - rootLoc[1] + terminal.height
         val margin = root.height - termBottom + dp(4)
-        terminal.reservedBottomPx = dp(CHIP_STRIP_DP)
+        terminal.reservedBottomPx = dp(CHIP_STRIP_DP) * chipRows.childCount.coerceAtLeast(1) - (if (chipRows.childCount > 1) dp(4) else 0)
         // As wide as the chips, but never wider than the game area (it scrolls instead).
-        chipRow.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        val width = if (terminal.width > 0) minOf(chipRow.measuredWidth, terminal.width - dp(8)) else WRAP
+        chipRows.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val width = if (avail > 0) minOf(chipRows.measuredWidth, avail) else WRAP
         if (lp.gravity != (Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL) || lp.bottomMargin != margin || lp.topMargin != 0 || lp.width != width) {
             lp.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
             lp.bottomMargin = margin

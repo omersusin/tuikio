@@ -42,7 +42,7 @@
     },
     "orientation": "landscape"
   },
-  "controls": "space-select.v1",
+  "controls": "bomber.v1",
   "saves": {
     "paths": [
       "bdscore"

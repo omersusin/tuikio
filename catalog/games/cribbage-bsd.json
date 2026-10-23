@@ -42,7 +42,8 @@
         24
       ]
     },
-    "orientation": "landscape"
+    "orientation": "landscape",
+    "input": "typing"
   },
   "controls": "text.v1",
   "saves": {

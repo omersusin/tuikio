@@ -4,7 +4,8 @@
   - every activity/alias target/application class in the manifest exists in classes.dex
     (catches shrinker keep-rule mistakes that would crash on launch);
   - the app is not debuggable; it targets the expected SDKs;
-  - every ABI ships the same executables, each matching assets/native/manifest.json;
+  - every ABI ships the same executables, each matching assets/native/manifest.json, and each game
+    binary belongs to a game in the bundled catalog;
   - resources.arsc is stored uncompressed and 4-byte aligned;
   - no private keys, GitHub tokens or client secrets are embedded;
   - license texts and the source listing are present.
@@ -92,6 +93,14 @@ def main():
             if want != got:
                 check(False, f"lib/{a}/{so} matches native manifest")
     check(not failures or all("native manifest" not in f for f in failures), "all native binaries match assets/native/manifest.json")
+
+    # Every game binary belongs to a game in the bundled catalog: nothing ships that the app can't
+    # launch (or that wasn't reviewed with its game).
+    catalog = json.loads(z.read("assets/catalog/catalog.json"))
+    games = catalog.get("games", catalog) if isinstance(catalog, dict) else catalog
+    exes = {f"lib{g['runtime']['executable']}.so" for g in games}
+    stray = sorted(so for so in sets[abis[0]] if so.startswith("libgame_") and so not in exes)
+    check(not stray, f"every game binary belongs to a catalog game{': stray ' + ', '.join(stray) if stray else ''}")
 
     leaks = []
     for n in names:

@@ -29,21 +29,63 @@
   "runtime": {
     "backend": "native_pty",
     "executable": "game_curseofwar",
-    "args": [],
+    "args": [
+      "-W",
+      "19",
+      "-H",
+      "17"
+    ],
     "env": {},
     "terminal": {
       "min": [
-        80,
-        24
+        82,
+        26
       ],
       "preferred": [
-        80,
-        24
+        82,
+        26
       ]
     },
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_labels": {
+    "space": "Flag"
+  },
+  "control_hide": [
+    "select",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "Build",
+      "text": "r"
+    },
+    {
+      "label": "Faster",
+      "text": "f"
+    },
+    {
+      "label": "Slower",
+      "text": "s"
+    },
+    {
+      "label": "Pause",
+      "text": "p"
+    },
+    {
+      "label": "Clear flags",
+      "text": "x"
+    },
+    {
+      "label": "Halve flags",
+      "text": "c"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

@@ -35,11 +35,11 @@
     "terminal": {
       "min": [
         80,
-        24
+        25
       ],
       "preferred": [
         80,
-        24
+        25
       ]
     },
     "orientation": "landscape"

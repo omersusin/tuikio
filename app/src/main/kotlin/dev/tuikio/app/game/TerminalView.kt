@@ -476,10 +476,12 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
             var end = col + 1
             while (end < cols && (line.styles[end] and CellStyle.CELL_FLAGS.inv()) == (style and CellStyle.CELL_FLAGS.inv())) end++
             // Like xterm and most terminals, bold turns the 8 basic colors bright: curses games
-            // draw "bold black" expecting dark gray (nSnake's box shadows, for one).
-            val fgIndex = CellStyle.fg(style).let { if (it < 8 && CellStyle.has(style, CellStyle.BOLD)) it + 8 else it }
+            // draw "bold black" expecting dark gray (nSnake's box shadows, for one). Not onto its
+            // own background, though: bold red on bright red is netToe's heading, not a block.
+            val bgIndex = CellStyle.bg(style)
+            val fgIndex = CellStyle.fg(style).let { if (it < 8 && CellStyle.has(style, CellStyle.BOLD) && it + 8 != bgIndex) it + 8 else it }
             var fg = color(fgIndex, pal, true)
-            var bg = color(CellStyle.bg(style), pal, false)
+            var bg = color(bgIndex, pal, false)
             if (CellStyle.has(style, CellStyle.INVERSE) xor reverse) {
                 val t = fg; fg = bg; bg = t
             }

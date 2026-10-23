@@ -43,6 +43,31 @@
     "orientation": "landscape"
   },
   "controls": "arrows.v1",
+  "control_labels": {
+    "select": "Swap",
+    "back": "Menu"
+  },
+  "control_hide": [
+    "space"
+  ],
+  "keys": [
+    {
+      "label": "Undo",
+      "text": "u"
+    },
+    {
+      "label": "Redo",
+      "text": "y"
+    },
+    {
+      "label": "Fast",
+      "text": "f"
+    },
+    {
+      "label": "Pause",
+      "text": "p"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

@@ -33,17 +33,30 @@
     "env": {},
     "terminal": {
       "min": [
-        40,
-        24
+        37,
+        37
       ],
       "preferred": [
-        40,
-        24
+        37,
+        37
       ]
     },
     "orientation": "portrait"
   },
   "controls": "space-select.v1",
+  "control_labels": {
+    "space": "Select"
+  },
+  "control_hide": [
+    "enter",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."

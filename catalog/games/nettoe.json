@@ -44,6 +44,44 @@
     "orientation": "landscape"
   },
   "controls": "text.v1",
+  "keys": [
+    {
+      "label": "a1",
+      "text": "a1\r"
+    },
+    {
+      "label": "a2",
+      "text": "a2\r"
+    },
+    {
+      "label": "a3",
+      "text": "a3\r"
+    },
+    {
+      "label": "b1",
+      "text": "b1\r"
+    },
+    {
+      "label": "b2",
+      "text": "b2\r"
+    },
+    {
+      "label": "b3",
+      "text": "b3\r"
+    },
+    {
+      "label": "c1",
+      "text": "c1\r"
+    },
+    {
+      "label": "c2",
+      "text": "c2\r"
+    },
+    {
+      "label": "c3",
+      "text": "c3\r"
+    }
+  ],
   "saves": {
     "paths": [],
     "notes": "No saves."
