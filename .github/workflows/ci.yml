@@ -40,11 +40,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Toolchain (pinned zig, qemu for arm smoke tests)
+      - name: Toolchain (pinned zig; qemu for arm smoke tests; flex, bison and ncurses for host-generated game data)
         run: |
           pip install ziglang==0.17.0
           echo "ZIG=$(python -c 'import ziglang, os; print(os.path.join(os.path.dirname(ziglang.__file__), "zig"))')" >> "$GITHUB_ENV"
-          sudo apt-get update && sudo apt-get install -y qemu-user-static
+          sudo apt-get update && sudo apt-get install -y qemu-user-static flex bison libncurses-dev
       - uses: actions/cache@v4
         with:
           path: native/.cache

@@ -1,0 +1,24 @@
+--- a/hack/config.h
++++ b/hack/config.h
+@@ -93,7 +93,8 @@
+  * /usr/share/ -- JEH
+  */
+ #define WIZARD  "root"	/* the person allowed to use the -D option */
+-#define SHAREDIR "/usr/share/games/bsdgames/hack/"
++/* Tuikio: data files live in the hack directory itself (the game chdirs there). */
++#define SHAREDIR ""
+ #define RECORD	"record"/* the file containing the list of topscorers */
+ #define	NEWS	"news"	/* the file containing the latest hack news */
+ #define	HELP	SHAREDIR "help"	/* the file containing a description of the commands */
+--- a/phantasia/pathnames.h.in
++++ b/phantasia/pathnames.h.in
+@@ -31,7 +31,8 @@
+  *	@(#)pathnames.h	8.2 (Berkeley) 4/2/94
+  */
+ 
+-#define	_PATH_GAMEPROG	"@gamesdir@/phantasia"
++/* Tuikio: restart the running executable; there is no games directory on Android. */
++#define	_PATH_GAMEPROG	"/proc/self/exe"
+ #define	_PATH_GOLD	"@phantasia_dir@/gold"
+ #define	_PATH_LASTDEAD	"@phantasia_dir@/lastdead"
+ #define	_PATH_MESS	"@phantasia_dir@/mess"

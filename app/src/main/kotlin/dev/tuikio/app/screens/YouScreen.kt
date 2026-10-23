@@ -365,8 +365,7 @@ class AboutScreen(private val privacy: Boolean = false) : Screen() {
                 addView(T.soft(ctx, "${g.upstream.authors.joinToString(", ")} · ${g.upstream.license}", 13f))
                 addView(ctx.hstack(8) {
                     addView(linkRow(ctx, "Source", g.upstream.sourceUrl), lp(0, WRAP, 1f))
-                    val file = if (g.origin == dev.tuikio.catalog.Origin.TUIKIO_ORIGINAL) "tuikio-GPL-3.0.txt" else "${g.id}.txt"
-                    addView(licenseButton(file, "License"))
+                    addView(licenseButton(g.licenseFile, "License"))
                 })
             })
         }

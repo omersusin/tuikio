@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "vikeys8.v1",
+  "title": "Eight-way vi keys",
+  "help": "The pad sends the classic h j k l y u b n moves in eight directions. Space is the game's main action; Keys opens the keyboard for everything else.",
+  "orientation": "landscape",
+  "actions": [
+    {"id": "n", "label": "North", "output": {"text": "k"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "s", "label": "South", "output": {"text": "j"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "w", "label": "West", "output": {"text": "h"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "e", "label": "East", "output": {"text": "l"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "nw", "label": "North-west", "output": {"text": "y"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "ne", "label": "North-east", "output": {"text": "u"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "sw", "label": "South-west", "output": {"text": "b"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "se", "label": "South-east", "output": {"text": "n"}, "repeat": {"delay_ms": 300, "interval_ms": 120}},
+    {"id": "act", "label": "Space", "output": {"text": " "}},
+    {"id": "enter", "label": "Enter", "icon": "check", "output": {"key": "ENTER"}}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "dpad8", "anchor": "bottom_center", "size": 212, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "bottom_end", "size": 68, "bind": {"press": "act"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_start", "size": 60, "bind": {"press": "enter"}},
+      {"type": "keyboard", "anchor": "top_end", "size": 52}
+    ],
+    "landscape": [
+      {"type": "dpad8", "anchor": "center_start", "size": 188, "bind": {"up": "n", "down": "s", "left": "w", "right": "e", "up_left": "nw", "up_right": "ne", "down_left": "sw", "down_right": "se"}},
+      {"type": "button", "anchor": "center_end", "size": 76, "bind": {"press": "act"}, "style": "primary"},
+      {"type": "button", "anchor": "bottom_end", "size": 56, "bind": {"press": "enter"}},
+      {"type": "keyboard", "anchor": "top_end", "size": 52}
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

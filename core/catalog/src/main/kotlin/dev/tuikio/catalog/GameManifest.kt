@@ -68,6 +68,9 @@ data class PortInfo(
     val recipe: String,
     val sourceArchive: String?,
     val sourceSha256: String?,
+    /** File under LICENSES/ (assets/licenses/) with the game's license text; games built from
+     *  one source tree share it. Defaults to `<id>.txt`. */
+    val licenseFile: String? = null,
 )
 
 data class TerminalSize(val cols: Int, val rows: Int)
@@ -107,12 +110,17 @@ data class GameManifest(
     val status: VerificationStatus,
     val verification: Verification,
 ) {
+    /** The license text under LICENSES/ (bundled as assets/licenses/) that covers this game. */
+    val licenseFile: String
+        get() = if (origin == Origin.TUIKIO_ORIGINAL) "tuikio-GPL-3.0.txt" else port?.licenseFile ?: "$id.txt"
+
     companion object {
         const val SCHEMA_VERSION = 1
         val ID = Regex("^[a-z0-9][a-z0-9-]{1,47}$")
         val EXECUTABLE = Regex("^game_[a-z0-9_]{1,40}$")
         val CATEGORIES = setOf("arcade", "puzzle", "roguelike", "adventure", "strategy", "cards", "words", "simulation")
         val SHA256 = Regex("^[0-9a-f]{64}$")
+        val LICENSE_FILE = Regex("^[A-Za-z0-9][A-Za-z0-9._+-]{0,79}\\.txt$")
         private val ENV_KEY = Regex("^[A-Z][A-Z0-9_]{0,31}$")
 
         /** Variables the runtime owns; a manifest may never override them. */
@@ -146,13 +154,16 @@ data class GameManifest(
             )
 
             val port = r.objOrNull("port")?.let { p ->
-                p.requireOnly("maintainer", "recipe", "source_archive", "source_sha256")
+                p.requireOnly("maintainer", "recipe", "source_archive", "source_sha256", "license_file")
                 PortInfo(
                     maintainer = p.string("maintainer"),
                     recipe = p.string("recipe"),
                     sourceArchive = p.stringOrNull("source_archive"),
                     sourceSha256 = p.stringOrNull("source_sha256")?.also {
                         if (!SHA256.matches(it)) p.fail("source_sha256 must be lowercase hex SHA-256")
+                    },
+                    licenseFile = p.stringOrNull("license_file")?.also {
+                        if (!LICENSE_FILE.matches(it)) p.fail("license_file must be a plain .txt file name")
                     },
                 )
             }
@@ -251,6 +262,7 @@ data class GameManifest(
             Json.obj(
                 "maintainer" to it.maintainer, "recipe" to it.recipe,
                 "source_archive" to it.sourceArchive, "source_sha256" to it.sourceSha256,
+                "license_file" to it.licenseFile,
             )
         },
         "runtime" to Json.obj(

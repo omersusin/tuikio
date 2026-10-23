@@ -55,6 +55,8 @@ data class LaunchSpec(
 
     companion object {
         const val PTY_HELPER = "libtuikio_pty.so"
+        /** native/pty/tuikio_pager.c: games that page their instructions get it as $PAGER. */
+        const val PAGER = "libtuikio_pager.so"
 
         /**
          * Resolves a manifest's executable inside [nativeLibDir] only. Android extracts
@@ -67,7 +69,9 @@ data class LaunchSpec(
             require(exe.parentFile.canonicalPath == nativeLibDir.canonicalPath) { "executable escapes the native library directory" }
             if (!exe.isFile) throw IOException("${manifest.title} is not part of this build (${exe.name} missing)")
             if (!helper.isFile) throw IOException("runtime helper missing (${helper.name})")
-            return LaunchSpec(helper, exe, manifest.runtime.args, home, GameEnvironment.build(home, manifest.runtime.env))
+            val pager = File(nativeLibDir, PAGER)
+            val extra = (if (pager.isFile) mapOf("PAGER" to pager.absolutePath) else emptyMap()) + manifest.runtime.env
+            return LaunchSpec(helper, exe, manifest.runtime.args, home, GameEnvironment.build(home, extra))
         }
     }
 }

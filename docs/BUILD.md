@@ -12,6 +12,7 @@ ProGuard (release), d8 (or dx), zipalign and apksigner. Everything else is plain
 | Python | 3.10+ | `native/build.py`, catalog import, perf tools |
 | Zig | 0.17.0 (`pip install ziglang==0.17.0`) | Cross-compiling games and the PTY helper (static musl) |
 | Android SDK | platform `android-36`, build-tools 36.x | aapt2, d8, zipalign, apksigner, `android.jar` |
+| gcc, make, flex, bison, ncurses headers | any | Host tools that generate game data during the build (bsd-games) |
 | qemu-user-static | optional | Running the arm smoke tests on an x86_64 host |
 
 The SDK is found through `sdk.dir` in `local.properties`, or `ANDROID_HOME` /
@@ -26,16 +27,28 @@ python3 native/build.py              # games + PTY helper for arm64-v8a, armeabi
 ./gradlew :app:assembleDebugApk      # app/build/outputs/apk/debug/tuikio-debug.apk
 ```
 
-`native/build.py` downloads every third-party source listed in `native/sources.lock.json`. It
+`native/build.py` downloads every third-party source listed in `native/sources.lock.json`
+(archives by SHA-256; git sources by commit, archived deterministically and hashed too). It
 refuses any file whose SHA-256 differs, unpacks archives with path and link checks, applies
 `native/ports/<game>/patches`, and writes `native/build/out/`:
 
-- `<abi>/lib<name>.so`: static-PIE executables, packaged as native libraries (see `docs/RUNTIME.md`).
+- `<abi>/lib<name>.so`: static-PIE executables, packaged as native libraries (see `docs/RUNTIME.md`),
+  plus the PTY helper and `libtuikio_pager.so`, the pager games get as `$PAGER`.
 - `assets/games/...`: game data files installed into a game's home on first launch.
-- `assets/licenses/...`: license texts and `SOURCES.txt` (exact source archives and hashes).
 - `manifest.json`: size and SHA-256 per binary. The app checks installed files against it.
 
-Useful flags: `--abi x86_64`, `--game 2048`, `--clean`.
+It also writes `LICENSES/` in the repository (bundled as `assets/licenses/`): each source tree's
+license text and `SOURCES.txt` (exact sources and hashes).
+
+Code layout: `native/tk.py` is the toolkit (sources, Zig wrappers per ABI, helpers);
+`native/recipes/` holds the recipes, one module per source family, each registering its games
+with `@game(...)`; `native/compat/` is linked into every game (Android fixes: uid/gid calls that
+the app sandbox forbids, a missing `/etc/passwd`, stdout buffering; plus `<sys/cdefs.h>` for BSD
+code). A failing recipe doesn't stop the others; the build reports every failure at the end.
+
+Useful flags: `--abi x86_64`, `--game 2048`, `--list`, `--jobs N`, `--keep-going`, `--clean`.
+Pin a new Ubuntu source with `python3 tools/ports/ubuntu_sources.py --lock <package>` (checked
+against the archive's signed index).
 
 The debug APK is signed with a throwaway key that is generated on first use
 (`build/debug-signing/`). For release builds see `docs/RELEASE.md`.

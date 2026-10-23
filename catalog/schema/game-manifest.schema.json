@@ -128,6 +128,11 @@
             "null"
           ]
         },
+        "license_file": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,79}\\.txt$",
+          "description": "License text under LICENSES/ shared by games from one source tree; defaults to <id>.txt"
+        },
         "source_sha256": {
           "oneOf": [
             {

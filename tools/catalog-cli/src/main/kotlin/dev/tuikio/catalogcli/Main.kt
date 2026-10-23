@@ -72,6 +72,7 @@ private fun load(dir: File, problems: MutableList<String>): Loaded {
             val g = GameManifest.parse(f.readText())
             if ("${g.id}.json" != f.name) problems += "${f.name}: id '${g.id}' must match the file name"
             if (g.controls !in profiles) problems += "${f.name}: control profile '${g.controls}' does not exist"
+            if (!File(dir.parentFile, "LICENSES/${g.licenseFile}").isFile) problems += "${f.name}: license text LICENSES/${g.licenseFile} is missing"
             games += g
         } catch (e: Exception) {
             problems += "${f.name}: ${e.message}"
@@ -102,7 +103,9 @@ private fun load(dir: File, problems: MutableList<String>): Loaded {
         if (check is SourceCheck.Ok) byCanonical.getOrPut(check.source.key) { ArrayList() } += e.id
     }
     byCanonical.filterValues { it.size > 1 }.forEach { (url, list) ->
-        val allowed = list.all { it.startsWith("shellgame") || it == "shell-games" || it == "spire-ascent" } ||
+        // Several games from one repository are fine once each is a separate, ported game.
+        val ported = discovery.filter { it.id in list }.all { it.gameId != null }
+        val allowed = ported || list.all { it.startsWith("shellgame") || it == "shell-games" || it == "spire-ascent" } ||
             list.all { it.startsWith("awesome-ttygames") }
         if (!allowed) problems += "possible duplicates for $url: $list"
     }

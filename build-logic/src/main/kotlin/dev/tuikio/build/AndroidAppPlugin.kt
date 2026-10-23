@@ -121,10 +121,14 @@ class AndroidAppPlugin : Plugin<Project> {
             val cap = variant.replaceFirstChar { it.uppercase() }
             val release = variant == "release"
 
-            val shrink = if (release) project.tasks.register("proguard$cap", JavaExec::class.java) {
+            // Both variants go through ProGuard: it also backports the invokedynamic lambdas in
+            // the Kotlin standard library, which Android's runtime can't bootstrap when the
+            // dexer passes them through. Debug builds skip shrinking and renaming.
+            val shrink = project.tasks.register("proguard$cap", JavaExec::class.java) {
                 val t = this
                 t.group = "android"
-                t.description = "Shrinks, optimizes and obfuscates the release bytecode with ProGuard."
+                t.description = if (release) "Shrinks, optimizes and obfuscates the release bytecode with ProGuard."
+                else "Backports invokedynamic in the debug bytecode with ProGuard (no shrinking)."
                 t.dependsOn("classes", linkRes)
                 t.classpath = proguardCfg
                 t.mainClass.set("proguard.ProGuard")
@@ -142,21 +146,18 @@ class AndroidAppPlugin : Plugin<Project> {
                     args += listOf("-printmapping", mapping.get().asFile.absolutePath)
                     args += listOf("-include", linkRes.get().proguardRules.get().asFile.absolutePath)
                     ext.proguardRules.files.forEach { args += listOf("-include", it.absolutePath) }
+                    args += listOf("-target", "1.7")
+                    if (!release) args += listOf("-dontshrink", "-dontoptimize", "-dontobfuscate")
                     mapping.get().asFile.parentFile.mkdirs()
                     t.setArgs(args)
                 }
-            } else null
+            }
 
             val dex = project.tasks.register("dex$cap", DexTask::class.java) {
                 val t = this
                 t.group = "android"
-                if (shrink != null) {
-                    t.dependsOn(shrink)
-                    t.inputs_.from(build.file("intermediates/proguard/$variant/classes.jar"))
-                } else {
-                    t.dependsOn("classes")
-                    t.inputs_.from(mainOutput, runtimeJars)
-                }
+                t.dependsOn(shrink)
+                t.inputs_.from(build.file("intermediates/proguard/$variant/classes.jar"))
                 t.androidJar.set(sdk.androidJar)
                 t.minSdk.set(ext.minSdk)
                 t.dexer.set(sdk.dexer)
@@ -343,6 +344,10 @@ abstract class DexTask @Inject constructor(private val exec: ExecOperations) : D
                 }
             }
         }
+        val indy = staging.walkTopDown().filter { it.isFile && usesInvokeDynamic(it.readBytes()) }.map { it.relativeTo(staging).path }.toList()
+        if (indy.isNotEmpty()) {
+            throw GradleException("invokedynamic would reach the dex (Android can't bootstrap it without desugaring): ${indy.take(10)}")
+        }
         val (kind, jar) = dexer.get().split(":", limit = 2).let { it[0] to it[1] }
         exec.javaexec {
             val spec = this
@@ -361,6 +366,28 @@ abstract class DexTask @Inject constructor(private val exec: ExecOperations) : D
             }
         }
     }
+}
+
+/** True if a class file's constant pool holds an InvokeDynamic or Dynamic entry. */
+internal fun usesInvokeDynamic(bytes: ByteArray): Boolean {
+    val b = java.nio.ByteBuffer.wrap(bytes)
+    if (bytes.size < 10 || b.getInt(0) != 0xCAFEBABE.toInt()) return false
+    val count = b.getShort(8).toInt() and 0xFFFF
+    var pos = 10
+    var i = 1
+    while (i < count) {
+        when (bytes[pos].toInt()) {
+            1 -> pos += 3 + (b.getShort(pos + 1).toInt() and 0xFFFF) // Utf8
+            3, 4, 9, 10, 11, 12 -> pos += 5
+            5, 6 -> { pos += 9; i++ } // Long and Double take two slots
+            7, 8, 16, 19, 20 -> pos += 3
+            15 -> pos += 4
+            17, 18 -> return true // Dynamic, InvokeDynamic
+            else -> throw GradleException("unknown constant pool tag ${bytes[pos]}")
+        }
+        i++
+    }
+    return false
 }
 
 abstract class PackageApkTask : DefaultTask() {

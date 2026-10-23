@@ -48,7 +48,7 @@ def render():
             "| Game | Authors | License | Source | Status |", "|---|---|---|---|---|"]
     for g in games:
         up = g["upstream"]
-        file = "tuikio-GPL-3.0.txt" if g["origin"] == "tuikio_original" else f"{g['id']}.txt"
+        file = "tuikio-GPL-3.0.txt" if g["origin"] == "tuikio_original" else (g.get("port") or {}).get("license_file") or f"{g['id']}.txt"
         out.append(f"| {md(g['title'])} | {md(', '.join(up['authors']))} | {license_link(file, up['license'])} | [{md(up['source_url'].removeprefix('https://'))}]({up['source_url']}) | {g['status']} |")
 
     out += ["", "### Inside the app", "", "| Component | By | License | Used for |", "|---|---|---|---|"]

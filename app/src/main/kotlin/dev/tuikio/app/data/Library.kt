@@ -145,6 +145,9 @@ class Installer(private val context: Context, private val catalog: CatalogRepo, 
             if (sha256(bytes) != df.sha256) throw InstallException("A data file for ${game.title} is damaged, so the install stopped.", "TK-DATA")
             val dst = File(home, df.dest)
             dst.parentFile?.mkdirs()
+            // An empty data file is a placeholder for something the game writes (a score file,
+            // or ".keep" for a directory): create it once, never overwrite what the game saved.
+            if (bytes.isEmpty() && dst.exists()) return@forEachIndexed
             val tmp = File(dst.parentFile, dst.name + ".part")
             tmp.writeBytes(bytes)
             if (!tmp.renameTo(dst)) throw InstallException("Couldn't write game data.", "TK-IO")
@@ -159,7 +162,7 @@ class Installer(private val context: Context, private val catalog: CatalogRepo, 
             home.parentFile?.deleteRecursively()
         } else {
             // Remove only what we installed; everything the game wrote stays.
-            game.dataFiles.forEach { File(home, it.dest).delete() }
+            game.dataFiles.filter { it.sha256 != EMPTY_SHA256 }.forEach { File(home, it.dest).delete() }
             File(home, ".tmp").deleteRecursively()
         }
         library.markRemoved(game.id)
@@ -178,6 +181,8 @@ class Installer(private val context: Context, private val catalog: CatalogRepo, 
             }
             md.digest().joinToString("") { "%02x".format(it) }
         }
+
+        private const val EMPTY_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
         fun sha256(bytes: ByteArray): String = MessageDigest.getInstance("SHA-256").digest(bytes).joinToString("") { "%02x".format(it) }
 

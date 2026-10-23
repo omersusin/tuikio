@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "profile_id": "text.v1",
+  "title": "Type to play",
+  "help": "This game reads typed commands. Tap Keys for the keyboard, type a command and press Enter. Yes, No and Space answer the common prompts.",
+  "orientation": "landscape",
+  "actions": [
+    {"id": "enter", "label": "Enter", "icon": "check", "output": {"key": "ENTER"}},
+    {"id": "yes", "label": "Yes", "output": {"text": "y"}},
+    {"id": "no", "label": "No", "output": {"text": "n"}},
+    {"id": "space", "label": "Space", "output": {"text": " "}},
+    {"id": "erase", "label": "Erase", "icon": "back", "output": {"key": "BACKSPACE"}, "repeat": {"delay_ms": 350, "interval_ms": 80}}
+  ],
+  "layout": {
+    "portrait": [
+      {"type": "keyboard", "anchor": "bottom_center", "size": 104, "style": "primary"},
+      {"type": "button", "anchor": "bottom_end", "size": 80, "bind": {"press": "enter"}},
+      {"type": "button", "anchor": "bottom_start", "size": 64, "bind": {"press": "erase"}},
+      {"type": "button", "anchor": "top_start", "size": 56, "bind": {"press": "yes"}},
+      {"type": "button", "anchor": "top_end", "size": 56, "bind": {"press": "no"}}
+    ],
+    "landscape": [
+      {"type": "keyboard", "anchor": "center_start", "size": 96, "style": "primary"},
+      {"type": "button", "anchor": "center_end", "size": 84, "bind": {"press": "enter"}},
+      {"type": "button", "anchor": "bottom_start", "size": 56, "bind": {"press": "erase"}},
+      {"type": "button", "anchor": "top_end", "size": 54, "bind": {"press": "yes"}},
+      {"type": "button", "anchor": "bottom_end", "size": 54, "bind": {"press": "no"}}
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

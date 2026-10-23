@@ -1,10 +1,11 @@
 Sources of the native programs in this app
 
-Every game binary is built from the exact archives below (checked by SHA-256) with the
-scripts and patches in the native/ directory of https://github.com/omersusin/tuikio
-(build: python3 native/build.py). The Tuikio PTY helper and Lantern Tide are original
-Tuikio code in that repository (GPL-3.0-or-later). Release pages also attach these
-archives, so the corresponding source stays available even if a mirror disappears.
+Every game binary is built from the exact sources below (checked by SHA-256; git sources
+also by commit) with the scripts and patches in the native/ directory of
+https://github.com/omersusin/tuikio (build: python3 native/build.py). The Tuikio PTY helper
+and Lantern Tide are original Tuikio code in that repository (GPL-3.0-or-later). Release
+pages also attach these archives, so the corresponding source stays available even if a
+mirror disappears.
 
 2048-LICENSE
   https://raw.githubusercontent.com/mevdschee/2048.c/main/LICENSE
@@ -13,6 +14,14 @@ archives, so the corresponding source stays available even if a mirror disappear
 2048.c
   https://raw.githubusercontent.com/mevdschee/2048.c/main/2048.c
   sha256 90f794c675a696aa10980dd120d1f0503ee4ed33a61fef92c7df8f443f5b18a8
+
+bsdgames_2.17-33.debian.tar.xz
+  http://archive.ubuntu.com/ubuntu/pool/universe/b/bsdgames/bsdgames_2.17-33.debian.tar.xz
+  sha256 f9847008556c36e976cf26d6c5ee91cdc4fdca1f1355b831aab995f98b3a6b30
+
+bsdgames_2.17.orig.tar.gz
+  http://archive.ubuntu.com/ubuntu/pool/universe/b/bsdgames/bsdgames_2.17.orig.tar.gz
+  sha256 066f924aef6c1c5ea946f588e36f303021f5dfc093944738f025d8edbc6fff60
 
 freesweep_1.0.2.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/f/freesweep/freesweep_1.0.2.orig.tar.gz
@@ -41,6 +50,14 @@ nsnake_3.0.1.orig.tar.gz
 robotfindskitten_2.8284271.702.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/r/robotfindskitten/robotfindskitten_2.8284271.702.orig.tar.gz
   sha256 020172e4f4630f7c4f62c03b6ffe2eeeba5637b60374d3e6952ae5816a9f99af
+
+scowl_2020.12.07-2.debian.tar.xz
+  http://archive.ubuntu.com/ubuntu/pool/main/s/scowl/scowl_2020.12.07-2.debian.tar.xz
+  sha256 17a60633b2ec2b1af1595e1c48008a9deeb9ce8f12754a4ef9c6594daa194df2
+
+scowl_2020.12.07.orig.tar.gz
+  http://archive.ubuntu.com/ubuntu/pool/main/s/scowl/scowl_2020.12.07.orig.tar.gz
+  sha256 5587667caa20c4891390c2d42dbb4d5c4c3f41bee77af1457ece3ba23fb859cc
 
 vitetris_0.59.1.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/v/vitetris/vitetris_0.59.1.orig.tar.gz
