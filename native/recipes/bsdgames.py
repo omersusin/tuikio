@@ -72,6 +72,8 @@ bsd_games_cfg_hangman_wordsfile=./words
 bsd_games_cfg_use_libcrypto=n
 bsd_games_cfg_optimize_flags="-O2"
 bsd_games_cfg_other_cflags="-fcommon"
+bsd_games_cfg_lex="flex --noyywrap"
+bsd_games_cfg_lex_lib=""
 """
 
 # musl has no <sys/cdefs.h>; the tree's own include/sys/cdefs.h wraps the system one.
@@ -218,12 +220,6 @@ def cross_build(abi, gid):
         run(f"{compiler} {CFLAGS} {lang} -D_GNU_SOURCE {abi.curses_cflags} {flags[os.path.dirname(source)]} {COMPAT_INCLUDE} "
             f"-c {source} -o {out}", src, logname=f"build-{abi.name}-{gid}.log")
         objects.append(out)
-    if target == "atc":  # flex's yywrap() normally comes from -lfl
-        stub = os.path.join(work, "yywrap.c")
-        with open(stub, "w") as fh:
-            fh.write("int yywrap(void) { return 1; }\n")
-        run(f"{abi.cc} {CFLAGS} -c {stub} -o {stub[:-2]}.o", work)
-        objects.append(stub[:-2] + ".o")
     libs = " ".join(libs_table.get(target, [])).replace("$(NCURSES_LIB)", abi.curses_libs).replace("$(LEX_LIB)", "")
     exe = os.path.join(work, os.path.basename(target))
     run(f"{abi.cxx if cxx else abi.cc} {' '.join(objects)} -o {exe} {abi.ldflags} {libs}", work)
