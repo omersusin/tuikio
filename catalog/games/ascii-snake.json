@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "ascii-snake",
+  "title": "ASCII Snake",
+  "summary": "Snake against the clock: grab the $ before the timer runs out.",
+  "description": "Steer the snake to the money. Each pick-up makes it longer and resets the timer.",
+  "category": "arcade",
+  "tags": [
+    "snake",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Aleksa Sarai"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://github.com/cyphar/ascii-snake",
+    "version": "git 3107faaa"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "ascii-snake-3107faaa.tar",
+    "source_sha256": "c8576271ef776559174607738234fce3bb530eb04625e822cec21eb7ee36a3ad"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ascii_snake",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        40,
+        26
+      ],
+      "preferred": [
+        40,
+        26
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "arrows4.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: field, snake and timer at 40x26 (it needs 25 rows)."
+  }
+}

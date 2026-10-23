@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import shutil
+import struct
 import subprocess
 import tarfile
 import threading
@@ -32,13 +33,17 @@ ABIS = {
 
 # Hardened, size-optimised static-PIE. 16 KB segment alignment keeps the binaries loadable on
 # Android 15+ devices that use 16 KB memory pages.
-CFLAGS = "-Os -fPIE -ffunction-sections -fdata-sections -fstack-protector-strong -Wno-error"
+# zig cc defines NDEBUG whenever it optimizes; plain C compilers don't, and some games call
+# functions inside assert() (hamurabi reads its input that way), so undefine it again. Assert
+# messages name source files: relative to the repository, not this machine.
+CFLAGS = (f"-Os -UNDEBUG -ffile-prefix-map={ROOT}/= -fPIE -ffunction-sections -fdata-sections "
+          "-fstack-protector-strong -Wno-error")
 # Pre-C99 code in older games: keep it compiling with modern clang. Implicit declarations stay
 # a hard error, though: in old C they silently truncate returned pointers to 32 bits on 64-bit
 # targets, which corrupts memory at run time.
 LEGACY = ("-Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-return-type "
           "-Wno-deprecated-non-prototype -Werror=implicit-function-declaration -fcommon")
-LDFLAGS = "-static -Wl,--gc-sections -Wl,-z,max-page-size=16384 -Wl,-z,relro,-z,now -s"
+LDFLAGS = "-static -pie -Wl,--gc-sections -Wl,-z,max-page-size=16384 -Wl,-z,relro,-z,now -s"
 COMPAT_WRAPS = ("setuid", "setgid", "seteuid", "setegid", "setreuid", "setregid", "setresuid",
                 "setresgid", "setgroups", "getpwuid", "getpwnam")
 
@@ -281,10 +286,35 @@ class Abi:
         return f"-I{self.sysroot}/include -I{self.sysroot}/include/ncursesw -D_XOPEN_SOURCE_EXTENDED -D_DEFAULT_SOURCE"
 
     def install(self, built, name):
+        check_static_pie(built, self)
         dst = os.path.join(self.out, f"lib{name}.so")
         shutil.copyfile(built, dst)
         os.chmod(dst, 0o755)
         return dst
+
+
+ELF_MACHINE = {"arm64-v8a": 183, "armeabi-v7a": 40, "x86_64": 62}
+
+
+def check_static_pie(path, abi):
+    """Every output must be a static-PIE for its ABI: position independent (full ASLR), with no
+    program interpreter. A makefile that quietly used the host compiler fails here."""
+    with open(path, "rb") as fh:
+        head = fh.read(64)
+        if head[:4] != b"\x7fELF":
+            raise BuildError(f"{path}: not an ELF file")
+        is64 = head[4] == 2
+        e_type, e_machine = struct.unpack_from("<HH", head, 16)
+        if e_machine != ELF_MACHINE[abi.name]:
+            raise BuildError(f"{path}: built for machine {e_machine}, not {abi.name}")
+        if e_type != 3:  # ET_DYN
+            raise BuildError(f"{path}: not position independent (link with -static -pie)")
+        phoff, phentsize, phnum = (struct.unpack_from("<Q", head, 32)[0], *struct.unpack_from("<HH", head, 54)) if is64 \
+            else (struct.unpack_from("<I", head, 28)[0], *struct.unpack_from("<HH", head, 42))
+        for i in range(phnum):
+            fh.seek(phoff + i * phentsize)
+            if struct.unpack("<I", fh.read(4))[0] == 3:  # PT_INTERP
+                raise BuildError(f"{path}: dynamically linked")
 
 
 def cc(abi, srcs, out, extra="", libs="", cxx=False, cwd=None):

@@ -33,7 +33,9 @@ refuses any file whose SHA-256 differs, unpacks archives with path and link chec
 `native/ports/<game>/patches`, and writes `native/build/out/`:
 
 - `<abi>/lib<name>.so`: static-PIE executables, packaged as native libraries (see `docs/RUNTIME.md`),
-  plus the PTY helper and `libtuikio_pager.so`, the pager games get as `$PAGER`.
+  plus the PTY helper and `libtuikio_pager.so`, the pager games get as `$PAGER`. Every output is
+  checked before it is installed: the right machine for its ABI, position independent and with no
+  program interpreter. A makefile that quietly used the host compiler fails the build there.
 - `assets/games/...`: game data files installed into a game's home on first launch.
 - `manifest.json`: size and SHA-256 per binary. The app checks installed files against it.
 
@@ -44,7 +46,11 @@ Code layout: `native/tk.py` is the toolkit (sources, Zig wrappers per ABI, helpe
 `native/recipes/` holds the recipes, one module per source family, each registering its games
 with `@game(...)`; `native/compat/` is linked into every game (Android fixes: uid/gid calls that
 the app sandbox forbids, a missing `/etc/passwd`, stdout buffering; plus `<sys/cdefs.h>` for BSD
-code). A failing recipe doesn't stop the others; the build reports every failure at the end.
+code, and `<gettext.h>` and `<termio.h>` for code that expects glibc or System V). A failing
+recipe doesn't stop the others; the build reports every failure at the end.
+
+Games are compiled with `-Os -UNDEBUG`: Zig's `cc` defines `NDEBUG` whenever it optimizes, which
+other compilers don't, and code that calls functions inside `assert()` would lose those calls.
 
 Useful flags: `--abi x86_64`, `--game 2048`, `--list`, `--jobs N`, `--keep-going`, `--clean`.
 Pin a new Ubuntu source with `python3 tools/ports/ubuntu_sources.py --lock <package>` (checked

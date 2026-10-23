@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "profile_id": "wasd-blocks.v1",
+  "title": "Blocks (WASD)",
+  "help": "Left and right slide the piece, Rotate turns it, Drop sends it down.",
+  "orientation": "portrait",
+  "actions": [
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "text": "a"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "text": "d"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "rotate",
+      "label": "Rotate",
+      "icon": "rotate",
+      "output": {
+        "text": "w"
+      }
+    },
+    {
+      "id": "drop",
+      "label": "Drop",
+      "icon": "drop",
+      "output": {
+        "text": "s"
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 184,
+        "bind": {
+          "up": "rotate",
+          "down": "drop",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 96,
+        "bind": {
+          "press": "drop"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 176,
+        "bind": {
+          "up": "rotate",
+          "down": "drop",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 92,
+        "bind": {
+          "press": "drop"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": false
+}

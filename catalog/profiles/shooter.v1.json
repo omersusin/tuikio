@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "profile_id": "shooter.v1",
+  "title": "Shooter",
+  "help": "Hold left or right to slide your cannon; fire with the big button.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      },
+      "repeat": {
+        "delay_ms": 90,
+        "interval_ms": 40
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      },
+      "repeat": {
+        "delay_ms": 90,
+        "interval_ms": 40
+      }
+    },
+    {
+      "id": "fire",
+      "label": "Fire",
+      "icon": "spark",
+      "output": {
+        "text": " "
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 200
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 96,
+        "bind": {
+          "press": "left"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "offset": [
+          108,
+          0
+        ],
+        "size": 96,
+        "bind": {
+          "press": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 104,
+        "bind": {
+          "press": "fire"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          0,
+          -56
+        ],
+        "size": 84,
+        "bind": {
+          "press": "left"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          0,
+          56
+        ],
+        "size": 84,
+        "bind": {
+          "press": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 100,
+        "bind": {
+          "press": "fire"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ]
+  },
+  "gestures": {
+    "swipe_left": "left",
+    "swipe_right": "right"
+  },
+  "pointer": "none",
+  "keyboard": true
+}

@@ -159,7 +159,10 @@ def typespeed(abi):
     src = tree(abi, "typespeed", "typespeed_0.6.5.orig.tar.gz", "typespeed_0.6.5-4.debian.tar.xz")
     # Word lists, rules and the config file are read from the game's home.
     # (autoconf only takes absolute directories; the relative ones go to make)
-    autotools(abi, src, "--disable-nls", make="make -j4 datadir=. sysconfdir=. highscoredir=.")
+    # Its makefile hardcodes CC = gcc; the command line wins over that.
+    # It uses clock_t without including <time.h>, which glibc happens to pull in.
+    autotools(abi, src, "--disable-nls", cflags="-include time.h",
+              make="make -j4 CC=\"$CC\" datadir=. sysconfdir=. highscoredir=.")
     for kind in ("words", "rules"):
         for f in sorted(os.listdir(os.path.join(src, kind))):
             if f.startswith(("words.", "rule.")):

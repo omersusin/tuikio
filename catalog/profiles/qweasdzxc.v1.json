@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "profile_id": "qweasdzxc.v1",
+  "title": "Roguelike (QWE ASD ZXC)",
+  "help": "The pad walks in eight directions; Wait rests a turn. Pick up, the stairs, Items and Look are on the buttons; ` returns to moving, and the keyboard has the rest.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "n",
+      "label": "North",
+      "icon": "arrow_up",
+      "output": {
+        "text": "w"
+      }
+    },
+    {
+      "id": "s",
+      "label": "South",
+      "icon": "arrow_down",
+      "output": {
+        "text": "x"
+      }
+    },
+    {
+      "id": "w",
+      "label": "West",
+      "icon": "arrow_left",
+      "output": {
+        "text": "a"
+      }
+    },
+    {
+      "id": "e",
+      "label": "East",
+      "icon": "arrow_right",
+      "output": {
+        "text": "d"
+      }
+    },
+    {
+      "id": "nw",
+      "label": "North-west",
+      "output": {
+        "text": "q"
+      }
+    },
+    {
+      "id": "ne",
+      "label": "North-east",
+      "output": {
+        "text": "e"
+      }
+    },
+    {
+      "id": "sw",
+      "label": "South-west",
+      "output": {
+        "text": "z"
+      }
+    },
+    {
+      "id": "se",
+      "label": "South-east",
+      "output": {
+        "text": "c"
+      }
+    },
+    {
+      "id": "wait",
+      "label": "Wait",
+      "output": {
+        "text": "s"
+      }
+    },
+    {
+      "id": "pickup",
+      "label": "Pick up",
+      "icon": "bag",
+      "output": {
+        "text": ","
+      }
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "icon": "stairs",
+      "output": {
+        "text": ">"
+      }
+    },
+    {
+      "id": "up",
+      "label": "Up",
+      "output": {
+        "text": "<"
+      }
+    },
+    {
+      "id": "inventory",
+      "label": "Items",
+      "output": {
+        "text": "i"
+      }
+    },
+    {
+      "id": "move",
+      "label": "Move",
+      "icon": "back",
+      "output": {
+        "text": "`"
+      }
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad8",
+        "anchor": "bottom_center",
+        "size": 204,
+        "bind": {
+          "up": "n",
+          "down": "s",
+          "left": "w",
+          "right": "e",
+          "up_left": "nw",
+          "up_right": "ne",
+          "down_left": "sw",
+          "down_right": "se"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 60,
+        "bind": {
+          "press": "wait"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 60,
+        "bind": {
+          "press": "pickup"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 52,
+        "bind": {
+          "press": "down"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "size": 52,
+        "bind": {
+          "press": "inventory"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 48,
+        "bind": {
+          "press": "move"
+        }
+      },
+      {
+        "type": "keyboard",
+        "anchor": "top_start",
+        "size": 48
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad8",
+        "anchor": "center_start",
+        "size": 184,
+        "bind": {
+          "up": "n",
+          "down": "s",
+          "left": "w",
+          "right": "e",
+          "up_left": "nw",
+          "up_right": "ne",
+          "down_left": "sw",
+          "down_right": "se"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 64,
+        "bind": {
+          "press": "wait"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 54,
+        "bind": {
+          "press": "down"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 50,
+        "bind": {
+          "press": "move"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 50,
+        "bind": {
+          "press": "pickup"
+        }
+      },
+      {
+        "type": "keyboard",
+        "anchor": "top_start",
+        "size": 48
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

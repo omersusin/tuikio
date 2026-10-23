@@ -201,6 +201,136 @@
     "moria_5.7.13-1.debian.tar.xz": {
       "url": "http://archive.ubuntu.com/ubuntu/pool/universe/m/moria/moria_5.7.13-1.debian.tar.xz",
       "sha256": "7f26b91183654f9798d4f95d10dd2192c2dd6f6e93adde40ea20b8a7828615ea"
+    },
+    "ascii-invaders-05685db4.tar": {
+      "git": "https://github.com/macdice/ascii-invaders",
+      "commit": "05685db4b640caafda8f153576f98a691bdbf3dc",
+      "sha256": "6a6bb60c16aedfe85de2642be6161d0a011d9f46680c6a111b27e068b2e46997"
+    },
+    "unix-aliens-94b5eb2e.tar": {
+      "git": "https://github.com/troglobit/aliens",
+      "commit": "94b5eb2e1fb054b25d6daf5ac0ead3adc3672ee4",
+      "sha256": "7940d23bbe6d8bd9ebd88b4c5856668971fbb6ad606423c751166bf9fbf4a4e2"
+    },
+    "ascii-pacman-196fd6a9.tar": {
+      "git": "https://github.com/MarquisdeGeek/pacman",
+      "commit": "196fd6a9117de942a22598ade865d3a9a3210949",
+      "sha256": "4182b55cce0089d3ac7bb8bdd4fd05d25c10be594e6a4a0180b1a448450d280f"
+    },
+    "tornado-1148312f.tar": {
+      "git": "https://github.com/kouya/tornado",
+      "commit": "1148312f0b94a23304561c3b25c50cf7d6646bb7",
+      "sha256": "4961372b97d95e129265e6242021bd44ce6ccf41a5e7a82d074ce47e71c7ad33"
+    },
+    "xonitix-8d0eba81.tar": {
+      "git": "https://github.com/garu/Xonitix",
+      "commit": "8d0eba81ff0984d4f1415214c5edb5a8ab1566d0",
+      "sha256": "2c8c08fb36e06bc27c1b213654d81a5e64ff91140657399225d5181c301d6d34"
+    },
+    "2048-cli-67439255.tar": {
+      "git": "https://github.com/Tiehuis/2048-cli",
+      "commit": "67439255df7d4f70209ca628d65128cd41d33e8d",
+      "sha256": "8f76e69fc6d3788ff1776508179f9fd24d9fd16a6f806796547dd5e1fe8f0285"
+    },
+    "threes-c-369a0087.tar": {
+      "git": "https://github.com/harshjv/threes-c",
+      "commit": "369a0087f965571f971b3261081e766ade4c1e98",
+      "sha256": "6aea9575f0916df9174fed3519968e576c1bb96fc40d98b5015e3b642c1c0d2b"
+    },
+    "tinytetris-38d4cc33.tar": {
+      "git": "https://github.com/taylorconor/tinytetris",
+      "commit": "38d4cc33cd31fc30ac4599df793164b3ff3c3327",
+      "sha256": "814022b44db7c2ab8415b0157a991554559f5943f50c57e87040d503dc5cf9bc"
+    },
+    "ctris-9db20c4a.tar": {
+      "git": "https://github.com/dominikhackl/ctris",
+      "commit": "9db20c4aa60589bc9ea1509d9c81519b1ccde526",
+      "sha256": "c7ebbeae09b8f1cf9d0165f90261bf608e5849a3233090d2aa757806d088f227"
+    },
+    "ascii-tetris-f983b048.tar": {
+      "git": "https://github.com/Gregwar/ASCII-Tetris",
+      "commit": "f983b0488a43bfea9ab1637f31596bbb94a1135e",
+      "sha256": "8ee152355565f58c5f40bbfe33248c08547a62969e618b9cc3bcb7a92eb35fa0"
+    },
+    "tinycols-9ad7a26f.tar": {
+      "git": "https://github.com/zedr/tinycols",
+      "commit": "9ad7a26f7ade3ad18ad9a41167cf7cb8329ec49d",
+      "sha256": "9560fe610cd5e5eb926e03e48f8d323c042a39ff8db9a560c3af8cc7f1521255"
+    },
+    "ascii-snake-3107faaa.tar": {
+      "git": "https://github.com/cyphar/ascii-snake",
+      "commit": "3107faaac71ada7091135c0beb6c98fb033de487",
+      "sha256": "c8576271ef776559174607738234fce3bb530eb04625e822cec21eb7ee36a3ad"
+    },
+    "tetris-31d441a8.tar": {
+      "git": "https://github.com/berk76/tetris",
+      "commit": "31d441a840dff7ad3839087b9a5a594250841342",
+      "sha256": "86215ebebbf77e6fddebd34c6b5e2792389368e1156edc8a764733efe64ffec5"
+    },
+    "nuzzle-7f2822dd.tar": {
+      "git": "https://github.com/dead-end/nuzzle",
+      "commit": "7f2822ddd2e569243d3a30a331c6103a978e8809",
+      "sha256": "2191374e4b63e02a2b47e595f08786d85e317dd6b1a4bba725d4c81900bf508a"
+    },
+    "morpion-solitaire-187d2c68.tar": {
+      "git": "https://github.com/gre/morpion-solitaire",
+      "commit": "187d2c68f0c932db8bd5e14224f9f407a7fd1c3c",
+      "sha256": "c8b2f324a10c65826c8746e94a4a82fb4ff60bf745795f1ad4de996b1cb99681"
+    },
+    "ascii-chess-f8cb9f10.tar": {
+      "git": "https://github.com/Parigyan/ASCII-Chess",
+      "commit": "f8cb9f102caa9188bbac511fe7c6df4f5759e821",
+      "sha256": "a235a0d83291bddf3ab40fc22098d652743946f3eea2a7e883fda9086f27ddb5"
+    },
+    "wander-d3f07807.tar": {
+      "git": "https://github.com/shmup/wander",
+      "commit": "d3f0780736f8d511429388cef2acd96b238caa49",
+      "sha256": "0b6ad127a204441eebca0fb3559fcdc24332bcde7c809229cafc263404383da0"
+    },
+    "nchess-74897115.tar": {
+      "git": "https://github.com/billyvinning/nchess",
+      "commit": "7489711575df0e6bb816724319854767a923039d",
+      "sha256": "15fa4a6b517d7154b6872cffba0e3018b61593c14936da792b497aa0efcaa74b"
+    },
+    "hamurabi-994563d7.tar": {
+      "git": "https://github.com/blt/hamurabi",
+      "commit": "994563d7ab48f661471f3aaddca05f18c3a5fa1b",
+      "sha256": "0e7def1b45fd59dd6d95430338badba76f68fa1e667f35eacabd7a904a105ca6"
+    },
+    "msnake-830967fc.tar": {
+      "git": "https://github.com/mogria/msnake",
+      "commit": "830967fc8195216120fedcac1574113b367a0f9a",
+      "sha256": "119172f73ed111ad9b3e9ef7305b03e985b551953eccd46fa1aaa940fa9f674d"
+    },
+    "clines-410ae26c.tar": {
+      "git": "https://github.com/veselov/clines",
+      "commit": "410ae26cc0ba76c6627ca6f52a9b92497d2af697",
+      "sha256": "bbcb82ee03a17f626e08f413774a1fc5e930f089862cce2cd00239fdd18df78b"
+    },
+    "termrex-18d381ad.tar": {
+      "git": "https://github.com/SATYADAHAL/termrex",
+      "commit": "18d381ad9edbeced1386d45b8d7fd3d6c7333876",
+      "sha256": "84f536b90019d4d2d69cfa8ee882968f04e79eb22ca6488b338c3102c4910b38"
+    },
+    "trog-b0a88433.tar": {
+      "git": "https://github.com/JohnAnthony/TROG",
+      "commit": "b0a88433c2bff947d3d9acfbdcea23e858491110",
+      "sha256": "713cf3e89a807cc01292ca89c805fa74e16bc4da2a2e9fb7d8203c60e8196aba"
+    },
+    "csol-b3bd1938.tar": {
+      "git": "https://github.com/nielssp/csol",
+      "commit": "b3bd1938e20d890b5eafe9d620d74621aef1bf80",
+      "sha256": "723df4951d4aa7a22e6148a9da7f2b62fed6560872d89fba04293909c1ac4b09"
+    },
+    "freecell-ng-e1d0f912.tar": {
+      "git": "https://github.com/ostrosablin/freecell",
+      "commit": "e1d0f91275ea1e8bfb35e8c9b404a80a47715325",
+      "sha256": "b1cbce52e522aac831623dd4ee01c27d59eab768d21922ba7976827899d6fb73"
+    },
+    "ularn-ef421842.tar": {
+      "git": "https://github.com/joshbressers/ularn",
+      "commit": "ef421842add954c55639656c5973042963c9b258",
+      "sha256": "c15ada21d3f817924a6f8f91d99b53c8c0e791f929c7a74523df06785ed0b408"
     }
   }
 }

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "morpion-solitaire",
+  "title": "Morpion Solitaire",
+  "summary": "Join Five: draw lines of five points on the cross and see how far you get.",
+  "description": "Each move adds one point that completes a line of five. Lines may touch but not overlap. Help shows every line you can play.",
+  "category": "puzzle",
+  "tags": [
+    "pencil and paper",
+    "solitaire",
+    "lines"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Gaëtan Renaudeau"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/gre/morpion-solitaire",
+    "version": "git 187d2c68"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "morpion-solitaire-187d2c68.tar",
+    "source_sha256": "c8b2f324a10c65826c8746e94a4a82fb4ff60bf745795f1ad4de996b1cb99681"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_morpion",
+    "args": [
+      "--new",
+      "Kio"
+    ],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        46
+      ],
+      "preferred": [
+        80,
+        46
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "morpion.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: new game for Kio, full grid at 80x46."
+  }
+}

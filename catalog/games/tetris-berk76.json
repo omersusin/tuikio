@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "tetris-berk76",
+  "title": "Tetris (berk76)",
+  "summary": "Tetris, Addtris (add up to ten) and X-Tris, with ASCII art all around.",
+  "description": "Start picks classic Tetris; Addtris and X-Tris are 1 and 3 on the keyboard. Down drops the piece, p pauses, h shows the rules of the current game.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "tetris",
+    "variants"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Jaroslav Beran"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://github.com/berk76/tetris",
+    "version": "git 31d441a8"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "tetris-31d441a8.tar",
+    "source_sha256": "86215ebebbf77e6fddebd34c6b5e2792389368e1156edc8a764733efe64ffec5"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_tetris_berk76",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "berk-tetris.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: menu and a Tetris game."
+  }
+}

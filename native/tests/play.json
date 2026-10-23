@@ -1,6 +1,15 @@
 {
   "comment": "Scripted first moves for ported games, run by core/runtime PlayScriptsTest against the x86_64 build exactly as the app starts them. Steps: \"expect:<text on screen>\", \"type:<text>\" (\\n is Enter), \"key:<TermKey>\", \"wait:<ms>\". Games without a script are still started by SuspendResumeTest.",
   "games": {
+    "2048-cli": [
+      "expect:Score:",
+      "key:LEFT",
+      "key:UP",
+      "key:RIGHT",
+      "key:DOWN",
+      "type:q",
+      "wait:300"
+    ],
     "adventure-bsd": [
       "expect:Would you like instructions",
       "type:n\n",
@@ -13,6 +22,32 @@
       "type:0\n",
       "expect:=   0"
     ],
+    "ascii-chess": [
+      "expect:TYPE IN YOUR MOVE"
+    ],
+    "ascii-invaders": [
+      "expect:github.com/macdice/ascii-invaders",
+      "type: ",
+      "expect:{@@}"
+    ],
+    "ascii-pacman": [
+      "expect:ASCII Pacman",
+      "type:x",
+      "wait:600",
+      "expect:Level : 1"
+    ],
+    "ascii-snake": [
+      "expect:Score: 0",
+      "type:d",
+      "wait:500",
+      "expect:+------------------------------+"
+    ],
+    "ascii-tetris": [
+      "expect:LEVEL: 1",
+      "type:q",
+      "type: ",
+      "expect:SCORE"
+    ],
     "atc-bsd": [
       "expect:Time:",
       "expect:Safe:"
@@ -20,8 +55,12 @@
     "backgammon-bsd": [
       "expect:rules"
     ],
-    "teachgammon-bsd": [
-      "expect:Backgammon"
+    "battleship-nb": [
+      "expect:Choose type of the game",
+      "type:1",
+      "expect:Set your board",
+      "key:ENTER",
+      "expect:Put your"
     ],
     "battlestar-bsd": [
       "expect:stateroom"
@@ -31,18 +70,74 @@
       "type: ",
       "expect:Type '?' for help"
     ],
+    "bombardier": [
+      "expect:Bombardier",
+      "type: ",
+      "wait:500"
+    ],
     "canfield-bsd": [
       "expect:instructions",
       "type:n\n",
       "expect:CANFIELD"
+    ],
+    "cavezofphear": [
+      "expect:0.5.1"
+    ],
+    "checkers-nb": [
+      "expect:Choose type of the black player",
+      "type:H",
+      "expect:white player",
+      "type:c",
+      "wait:300"
+    ],
+    "chroma": [
+      "expect:Press any key to play"
+    ],
+    "clines": [
+      "expect:|-----------------|",
+      "key:RIGHT",
+      "type: "
     ],
     "cribbage-bsd": [
       "expect:instructions for cribbage",
       "type:n",
       "expect:Long (to 121) or Short (to 61)"
     ],
+    "csol": [
+      "expect:────",
+      "type:s",
+      "expect:────"
+    ],
+    "ctris": [
+      "expect:Press a key to start!",
+      "type: ",
+      "expect:Time:"
+    ],
+    "curseofwar": [
+      "expect:/\\^",
+      "type: "
+    ],
     "dab-bsd": [
       "expect:S c:"
+    ],
+    "darrt-nb": [
+      "expect:Score:"
+    ],
+    "empire": [
+      "expect:Choose a difficulty level",
+      "type:0\n",
+      "wait:500"
+    ],
+    "fifteen-nb": [
+      "expect:IFTEEN",
+      "key:ENTER"
+    ],
+    "fisher-nb": [
+      "expect:Hooks:",
+      "key:DOWN"
+    ],
+    "freecell-ng": [
+      "expect:0 moves, 0 undos"
     ],
     "go-fish-bsd": [
       "expect:Would you like instructions",
@@ -52,6 +147,9 @@
     "gomoku-bsd": [
       "expect:black",
       "expect:A B C D E F G H J K L M N O P Q R S T"
+    ],
+    "gtypist": [
+      "expect:Series selection menu"
     ],
     "hack-bsd": [
       "expect:Who are you?",
@@ -63,85 +161,17 @@
       "expect:welcome to hack",
       "expect:Level 1"
     ],
+    "hamurabi": [
+      "expect:How many acres do you wish to buy?",
+      "type:5\n",
+      "expect:feed your people",
+      "type:100\n",
+      "expect:plant with seed"
+    ],
     "hangman-bsd": [
       "expect:Guessed:",
       "type:e",
       "expect:Word #:"
-    ],
-    "mille-bsd": [
-      "expect:Milestones",
-      "expect:Hand Total"
-    ],
-    "monop-bsd": [
-      "expect:How many players?",
-      "type:2\n",
-      "expect:Player 1's name",
-      "type:Ada\n",
-      "type:Kio\n",
-      "expect:goes first",
-      "expect:Command:"
-    ],
-    "phantasia-bsd": [
-      "expect:P h a n t a s i a"
-    ],
-    "quiz-bsd": [
-      "expect:Subjects",
-      "type:q",
-      "expect:Type two subjects",
-      "type:europe capital\n",
-      "expect:?"
-    ],
-    "robots-bsd": [
-      "expect:Directions:",
-      "type:t",
-      "expect:Score:"
-    ],
-    "sail-bsd": [
-      "expect:Constitution"
-    ],
-    "snake-bsd": [
-      "expect:$"
-    ],
-    "tetris-bsd": [
-      "expect:Score:",
-      "expect:j - left"
-    ],
-    "trek-bsd": [
-      "expect:S T A R   T R E K"
-    ],
-    "worm-bsd": [
-      "expect:Worm"
-    ],
-    "wump-bsd": [
-      "expect:Instructions?",
-      "type:n\n",
-      "expect:You are in room",
-      "expect:Move or shoot?"
-    ],
-    "battleship-nb": [
-      "expect:Choose type of the game",
-      "type:1",
-      "expect:Set your board",
-      "key:ENTER",
-      "expect:Put your"
-    ],
-    "checkers-nb": [
-      "expect:Choose type of the black player",
-      "type:H",
-      "expect:white player",
-      "type:c",
-      "wait:300"
-    ],
-    "darrt-nb": [
-      "expect:Score:"
-    ],
-    "fifteen-nb": [
-      "expect:IFTEEN",
-      "key:ENTER"
-    ],
-    "fisher-nb": [
-      "expect:Hooks:",
-      "key:DOWN"
     ],
     "jewels-nb": [
       "expect:j,l-Move",
@@ -156,19 +186,86 @@
       "expect:IKETRON",
       "key:UP"
     ],
+    "mille-bsd": [
+      "expect:Milestones",
+      "expect:Hand Total"
+    ],
     "mines-nb": [
       "expect:Mines:10",
       "key:RIGHT",
       "type: ",
       "expect:Flags:1"
     ],
+    "monop-bsd": [
+      "expect:How many players?",
+      "type:2\n",
+      "expect:Player 1's name",
+      "type:Ada\n",
+      "type:Kio\n",
+      "expect:goes first",
+      "expect:Command:"
+    ],
+    "moria": [
+      "expect:Choose a race",
+      "type:a",
+      "wait:300"
+    ],
+    "morpion-solitaire": [
+      "expect:Hello, Kio",
+      "key:RIGHT",
+      "expect:Move your cursor"
+    ],
+    "msnake": [
+      "expect:Start the game",
+      "type:1",
+      "expect:####"
+    ],
     "muncher-nb": [
       "expect:UNCHER",
       "key:LEFT"
     ],
+    "netris": [
+      "expect:Netris 0.52"
+    ],
+    "nettoe": [
+      "expect:Main Menu",
+      "type:1",
+      "wait:500"
+    ],
+    "nudoku": [
+      "expect:nudoku 2.1.0",
+      "key:RIGHT",
+      "type:5"
+    ],
+    "nuzzle": [
+      "expect:Four-Colors",
+      "key:DOWN",
+      "expect:Squares-and-Lines"
+    ],
+    "pacman4console": [
+      "expect:PACMAN",
+      "type: ",
+      "wait:500",
+      "key:LEFT"
+    ],
+    "petris": [
+      "expect:Choose level",
+      "key:ENTER",
+      "wait:500"
+    ],
+    "phantasia-bsd": [
+      "expect:P h a n t a s i a"
+    ],
     "pipes-nb": [
       "expect:IPES",
       "key:ENTER"
+    ],
+    "quiz-bsd": [
+      "expect:Subjects",
+      "type:q",
+      "expect:Type two subjects",
+      "type:europe capital\n",
+      "expect:?"
     ],
     "rabbithole-nb": [
       "expect:Carrots left",
@@ -187,12 +284,23 @@
       "type:c",
       "wait:300"
     ],
+    "robots-bsd": [
+      "expect:Directions:",
+      "type:t",
+      "expect:Score:"
+    ],
+    "sail-bsd": [
+      "expect:Constitution"
+    ],
     "scissor-nb": [
       "expect:CISSOR"
     ],
     "sjump-nb": [
       "expect:Combo:",
       "key:ENTER"
+    ],
+    "snake-bsd": [
+      "expect:$"
     ],
     "snakeduel-nb": [
       "expect:Your wins:",
@@ -203,68 +311,85 @@
       "type:H",
       "wait:300"
     ],
+    "sudoku": [
+      "expect:Su-Do-Ku!",
+      "key:RIGHT",
+      "type:5"
+    ],
     "sudoku-nb": [
       "expect:Solved:",
       "key:RIGHT"
     ],
-    "trsr-nb": [
-      "expect:Choose type of the # player",
-      "type:H",
-      "wait:300"
+    "teachgammon-bsd": [
+      "expect:Backgammon"
     ],
-    "tugow-nb": [
-      "expect:UG"
+    "termrex": [
+      "expect:PRESS SPACE TO START"
     ],
-    "tty-solitaire": [
-      "expect:Welcome to tty-solitaire",
-      "type: ",
-      "wait:300"
+    "tetris-berk76": [
+      "expect:Addtris",
+      "type:2",
+      "expect:Score:",
+      "key:LEFT",
+      "key:UP",
+      "expect:Pause .. P"
+    ],
+    "tetris-bsd": [
+      "expect:Score:",
+      "expect:j - left"
+    ],
+    "threes-c": [
+      "expect:q(quit)",
+      "type:a",
+      "expect:q(quit)"
     ],
     "tint": [
       "expect:Choose a level to start",
       "type:1",
       "wait:500"
     ],
-    "pacman4console": [
-      "expect:PACMAN",
+    "tinycols": [
+      "expect:class:",
+      "key:LEFT",
+      "key:UP",
+      "expect:jewels:"
+    ],
+    "tinytetris": [
+      "expect:Score: 0",
+      "type:a",
+      "type:w",
+      "type:s",
+      "expect:Score:"
+    ],
+    "tornado": [
+      "expect:Please enter your name Player 1",
+      "type:Kio\n",
+      "type:Computer\n",
+      "expect:Highscores"
+    ],
+    "trader": [
+      "expect:Enter number of players",
+      "type:1\n",
+      "wait:500"
+    ],
+    "trek-bsd": [
+      "expect:S T A R   T R E K"
+    ],
+    "trog": [
+      "expect:Press any key to begin"
+    ],
+    "trsr-nb": [
+      "expect:Choose type of the # player",
+      "type:H",
+      "wait:300"
+    ],
+    "tty-solitaire": [
+      "expect:Welcome to tty-solitaire",
       "type: ",
-      "wait:500",
-      "key:LEFT"
+      "wait:300"
     ],
-    "sudoku": [
-      "expect:Su-Do-Ku!",
-      "key:RIGHT",
-      "type:5"
-    ],
-    "curseofwar": [
-      "expect:/\\^",
-      "type: "
-    ],
-    "cavezofphear": [
-      "expect:0.5.1"
-    ],
-    "empire": [
-      "expect:Choose a difficulty level",
-      "type:0\n",
-      "wait:500"
-    ],
-    "petris": [
-      "expect:Choose level",
-      "key:ENTER",
-      "wait:500"
-    ],
-    "bombardier": [
-      "expect:Bombardier",
-      "type: ",
-      "wait:500"
-    ],
-    "netris": [
-      "expect:Netris 0.52"
-    ],
-    "nudoku": [
-      "expect:nudoku 2.1.0",
-      "key:RIGHT",
-      "type:5"
+    "tugow-nb": [
+      "expect:UG"
     ],
     "typespeed": [
       "expect:Test Your Speed",
@@ -273,26 +398,35 @@
       "key:ENTER",
       "wait:500"
     ],
-    "gtypist": [
-      "expect:Series selection menu"
+    "ularn": [
+      "expect:Pick a character class",
+      "type:b",
+      "expect:Welcome to the game of Ularn"
     ],
-    "trader": [
-      "expect:Enter number of players",
-      "type:1\n",
-      "wait:500"
+    "unix-aliens": [
+      "expect:Alien invasion in progress",
+      "type:3",
+      "expect:I N V A S I O N",
+      "type: ",
+      "expect:Lasers"
     ],
-    "nettoe": [
-      "expect:Main Menu",
-      "type:1",
-      "wait:500"
+    "wander": [
+      "expect:Aldebaran III spaceport",
+      "type:look\n",
+      "expect:credit card"
     ],
-    "moria": [
-      "expect:Choose a race",
-      "type:a",
-      "wait:300"
+    "worm-bsd": [
+      "expect:Worm"
     ],
-    "chroma": [
-      "expect:Press any key to play"
+    "wump-bsd": [
+      "expect:Instructions?",
+      "type:n\n",
+      "expect:You are in room",
+      "expect:Move or shoot?"
+    ],
+    "xonitix": [
+      "expect:arrows move, space fires",
+      "expect:Level 1"
     ]
   }
 }

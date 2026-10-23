@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "tinycols",
+  "title": "TinyCols",
+  "summary": "Columns: drop stacks of jewels and line up three of a colour.",
+  "description": "Cycle the jewels in the falling column and drop it so three or more of the same colour line up in any direction.",
+  "category": "arcade",
+  "tags": [
+    "columns",
+    "match-3",
+    "jewels"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Rigel Di Scala"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/zedr/tinycols",
+    "version": "git 9ad7a26f"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "tinycols-9ad7a26f.tar",
+    "source_sha256": "9560fe610cd5e5eb926e03e48f8d323c042a39ff8db9a560c3af8cc7f1521255"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_tinycols",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        38,
+        16
+      ],
+      "preferred": [
+        38,
+        16
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "columns.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: well, stats and falling column at 38x16."
+  }
+}

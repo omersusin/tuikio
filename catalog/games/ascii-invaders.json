@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "ascii-invaders",
+  "title": "ASCII Invaders",
+  "summary": "Space Invaders drawn in ASCII art, wave after wave.",
+  "description": "Slide your cannon under the marching aliens and shoot them down before they land.",
+  "category": "arcade",
+  "tags": [
+    "shooter",
+    "space invaders",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Thomas Munro"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://github.com/macdice/ascii-invaders",
+    "version": "git 05685db4"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "ascii-invaders-05685db4.tar",
+    "source_sha256": "6a6bb60c16aedfe85de2642be6161d0a011d9f46680c6a111b27e068b2e46997"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ascii_invaders",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "shooter.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: title screen, first wave, fire."
+  }
+}

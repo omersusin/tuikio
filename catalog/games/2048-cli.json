@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "2048-cli",
+  "title": "2048 (cli)",
+  "summary": "The 2048 sliding-tile puzzle with colours and animation.",
+  "description": "Slide the tiles with the pad; equal tiles merge. Reach 2048, then keep going.",
+  "category": "puzzle",
+  "tags": [
+    "2048",
+    "numbers",
+    "sliding"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Marc Tiehuis"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/Tiehuis/2048-cli",
+    "version": "git 67439255"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "2048-cli-67439255.tar",
+    "source_sha256": "8f76e69fc6d3788ff1776508179f9fd24d9fd16a6f806796547dd5e1fe8f0285"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_2048_cli",
+    "args": [],
+    "env": {
+      "XDG_DATA_HOME": "."
+    },
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "arrows4.v1",
+  "saves": {
+    "paths": [
+      "2048/highscore"
+    ],
+    "notes": "High score"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: board, moves, high score saved."
+  }
+}

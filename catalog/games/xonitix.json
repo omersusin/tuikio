@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "xonitix",
+  "title": "Xonitix",
+  "summary": "Claim the line: run along it, drop barriers and trap the enemies.",
+  "description": "You gain points by claiming space on the line while enemies bounce around. Barriers close off sections; don't get caught.",
+  "category": "arcade",
+  "tags": [
+    "xonix",
+    "action"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Breno G. de Oliveira"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/garu/Xonitix",
+    "version": "git 8d0eba81"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "xonitix-8d0eba81.tar",
+    "source_sha256": "2c8c08fb36e06bc27c1b213654d81a5e64ff91140657399225d5181c301d6d34"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_xonitix",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "xonitix.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: level 1 drawn."
+  }
+}

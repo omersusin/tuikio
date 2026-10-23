@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "ascii-tetris",
+  "title": "ASCII-Tetris",
+  "summary": "Plain ASCII Tetris: no curses, no colours, just X's.",
+  "description": "Left and right slide the piece, Rotate turns it and Down speeds it up.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "tetris",
+    "minimal"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Grégoire Passault"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/Gregwar/ASCII-Tetris",
+    "version": "git f983b048"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "ascii-tetris-f983b048.tar",
+    "source_sha256": "8ee152355565f58c5f40bbfe33248c08547a62969e618b9cc3bcb7a92eb35fa0"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ascii_tetris",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "qsd-blocks.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: well drawn, pieces fall."
+  }
+}

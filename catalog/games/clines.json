@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "clines",
+  "title": "Color Lines",
+  "summary": "Color Lines: move the balls to make rows of five and clear them.",
+  "description": "Space picks a ball and Space again moves it, if there's a path. Five in a row disappear; every other move brings new balls.",
+  "category": "puzzle",
+  "tags": [
+    "lines",
+    "color lines",
+    "logic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Pawel S. Veselov"
+    ],
+    "license": "GPL-3.0-only",
+    "source_url": "https://github.com/veselov/clines",
+    "version": "git 410ae26c"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "clines-410ae26c.tar",
+    "source_sha256": "bbcb82ee03a17f626e08f413774a1fc5e930f089862cce2cd00239fdd18df78b"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_clines",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "space-select.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: board."
+  }
+}

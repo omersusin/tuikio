@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "id": "wander",
+  "title": "Wander",
+  "summary": "Peter Langston's 1974 text adventure engine, with the Aldebaran III mission.",
+  "description": "You are a diplomat's assistant on Aldebaran III. Type commands like LOOK, GO WEST or TAKE CARD. SAVE keeps your place.",
+  "category": "adventure",
+  "tags": [
+    "text adventure",
+    "interactive fiction",
+    "history"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Peter S. Langston"
+    ],
+    "license": "GPL-3.0-only",
+    "source_url": "https://github.com/shmup/wander",
+    "version": "git d3f07807"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "wander-d3f07807.tar",
+    "source_sha256": "0b6ad127a204441eebca0fb3559fcdc24332bcde7c809229cafc263404383da0"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_wander",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/wander/a3.misc",
+      "dest": "a3.misc",
+      "sha256": "ca6d459804375dd753593f785e935c001b65bf34c463e49033e224f735b65227"
+    },
+    {
+      "asset": "games/wander/a3.wrld",
+      "dest": "a3.wrld",
+      "sha256": "346bfe54110cda5a26eadfeb31036e41b33d2987bdc72882ecac9cec87d6c71a"
+    },
+    {
+      "asset": "games/wander/castle.misc",
+      "dest": "castle.misc",
+      "sha256": "4396c8db66315cfd60c49b661c486ab985ce4f5df6444ce365a7494ce509165e"
+    },
+    {
+      "asset": "games/wander/castle.wrld",
+      "dest": "castle.wrld",
+      "sha256": "2a52d3da1dd7fc9351175feae74d133e0617e6937920e6dc5a29f3bce28e9434"
+    },
+    {
+      "asset": "games/wander/library.misc",
+      "dest": "library.misc",
+      "sha256": "6cd71632ca4d4e42461aa7380d9029aa1b697ce4c47e1d4151fb0f9f641b2991"
+    },
+    {
+      "asset": "games/wander/library.wrld",
+      "dest": "library.wrld",
+      "sha256": "a2610f8e39cb3e7d0c06903394550cc05c3ab335ef88b1d3a5bf0d6153a2663f"
+    },
+    {
+      "asset": "games/wander/misc.nr",
+      "dest": "misc.nr",
+      "sha256": "de58c6f9e597a86fbacf8d9ec25dbc1152f5d67bf6f9c1f3501099c33fa040ae"
+    },
+    {
+      "asset": "games/wander/tut.misc",
+      "dest": "tut.misc",
+      "sha256": "3f2c4499fe42983bb4f998462b2f1b4d78312bc1702c821c5f1e215593cbbc90"
+    },
+    {
+      "asset": "games/wander/tut.wrld",
+      "dest": "tut.wrld",
+      "sha256": "87a75c488ab36522621dbc9a91f7d395bb1c4f8db2ab78326c24919c6c842b47"
+    },
+    {
+      "asset": "games/wander/wander.nr",
+      "dest": "wander.nr",
+      "sha256": "fe244dd6167f5c294d1915f25dd03681c06e59051bed1ea3fda3d6bda1029ecb"
+    },
+    {
+      "asset": "games/wander/wrld.nr",
+      "dest": "wrld.nr",
+      "sha256": "bb0900e033c2aad8262456d1b6f09ea887c23793f40cefbda2a4976cce42c1c5"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: opening scene."
+  }
+}

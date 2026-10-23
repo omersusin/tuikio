@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "id": "nuzzle",
+  "title": "Nuzzle",
+  "summary": "Three colour puzzles: Lines, Squares-and-Lines and Four-Colors.",
+  "description": "Pick a game from the menu with the pad and Select. Each puzzle shows its own rules.",
+  "category": "puzzle",
+  "tags": [
+    "colours",
+    "logic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "dead-end"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/dead-end/nuzzle",
+    "version": "git 7f2822dd"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "nuzzle-7f2822dd.tar",
+    "source_sha256": "2191374e4b63e02a2b47e595f08786d85e317dd6b1a4bba725d4c81900bf508a"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_nuzzle",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "arrows.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/nuzzle/share/games/nuzzle/5-shapes.cfg",
+      "dest": "share/games/nuzzle/5-shapes.cfg",
+      "sha256": "a6a908765538ae9aaa81d5ae11c9648264b0b43aba64da9ec3d237a957c51550"
+    },
+    {
+      "asset": "games/nuzzle/share/games/nuzzle/color.cfg",
+      "dest": "share/games/nuzzle/color.cfg",
+      "sha256": "40e40d6cc4c7c270eff28c3692ba7606061ea4fb882d0fb40ad1363ebce3466e"
+    },
+    {
+      "asset": "games/nuzzle/share/games/nuzzle/nuzzle.cfg",
+      "dest": "share/games/nuzzle/nuzzle.cfg",
+      "sha256": "b888641ffcfd9990edbf5d05249eb4db9ef028404fa9692b911d31f763560945"
+    },
+    {
+      "asset": "games/nuzzle/share/games/nuzzle/shapes-lines.cfg",
+      "dest": "share/games/nuzzle/shapes-lines.cfg",
+      "sha256": "4332630f059079f64d3bb7d53c1d14899383e10e392186dca2b691bfa6fc1366"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: menu."
+  }
+}

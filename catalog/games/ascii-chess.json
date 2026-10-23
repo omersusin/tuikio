@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "ascii-chess",
+  "title": "ASCII-Chess",
+  "summary": "Chess against the computer on a big block-art board.",
+  "description": "Type your move as the piece number, its square and the target square (for example 1 b1 c1), then Enter.",
+  "category": "strategy",
+  "tags": [
+    "chess",
+    "board",
+    "ai"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Parigyan Chandra Goyal",
+      "Sharat Shankar"
+    ],
+    "license": "GPL-3.0-or-later",
+    "source_url": "https://github.com/Parigyan/ASCII-Chess",
+    "version": "git f8cb9f10"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "ascii-chess-f8cb9f10.tar",
+    "source_sha256": "a235a0d83291bddf3ab40fc22098d652743946f3eea2a7e883fda9086f27ddb5"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ascii_chess",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        72,
+        40
+      ],
+      "preferred": [
+        72,
+        40
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: board and move prompt."
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "tornado",
+  "title": "Tornado",
+  "summary": "Two houses, one sky: wreck the other house with rain, snow, hail, lightning and tornadoes.",
+  "description": "Take turns choosing the weather and aiming it at your opponent's house; the computer can play either side. Type a name for each player at the start (\"Computer\" makes it play).",
+  "category": "strategy",
+  "tags": [
+    "two players",
+    "weather",
+    "turn-based"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Oliver Feiler",
+      "Rene Puls"
+    ],
+    "license": "GPL-2.0-or-later",
+    "source_url": "https://github.com/kouya/tornado",
+    "version": "git 1148312f"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "tornado-1148312f.tar",
+    "source_sha256": "4961372b97d95e129265e6242021bd44ce6ccf41a5e7a82d074ce47e71c7ad33"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_tornado",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "tornado.v1",
+  "saves": {
+    "paths": [
+      "tornado.scores"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: name prompt."
+  }
+}

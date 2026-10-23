@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "hamurabi",
+  "title": "Hamurabi",
+  "summary": "Rule ancient Sumeria for ten years: buy land, feed people, plant grain.",
+  "description": "Answer each question with a number and Enter. Don't starve your people.",
+  "category": "strategy",
+  "tags": [
+    "simulation",
+    "classic",
+    "text"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Brian L. Troutwine"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/blt/hamurabi",
+    "version": "git 994563d7"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "hamurabi-994563d7.tar",
+    "source_sha256": "0e7def1b45fd59dd6d95430338badba76f68fa1e667f35eacabd7a904a105ca6"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_hamurabi",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "text.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: a full year of answers."
+  }
+}

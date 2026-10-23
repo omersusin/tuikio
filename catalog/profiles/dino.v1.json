@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "profile_id": "dino.v1",
+  "title": "Runner",
+  "help": "Jump over the cacti; hold Duck to slide under the flying ones.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "jump",
+      "label": "Jump",
+      "icon": "arrow_up",
+      "output": {
+        "text": " "
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "duck",
+      "label": "Duck",
+      "icon": "arrow_down",
+      "output": {
+        "key": "DOWN"
+      },
+      "repeat": {
+        "delay_ms": 100,
+        "interval_ms": 100
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 112,
+        "bind": {
+          "press": "jump"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 96,
+        "bind": {
+          "press": "duck"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 104,
+        "bind": {
+          "press": "jump"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "size": 96,
+        "bind": {
+          "press": "duck"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ]
+  },
+  "gestures": {
+    "swipe_up": "jump",
+    "swipe_down": "duck"
+  },
+  "pointer": "none",
+  "keyboard": true
+}

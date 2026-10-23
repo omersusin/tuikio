@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "tinytetris",
+  "title": "TinyTetris",
+  "summary": "Tetris in 80 lines of code-golfed C++.",
+  "description": "Small, fast and complete: slide, rotate and drop. The score is the number of lines.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "tetris",
+    "tiny"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Conor Taylor"
+    ],
+    "license": "Apache-2.0",
+    "source_url": "https://github.com/taylorconor/tinytetris",
+    "version": "git 38d4cc33"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "tinytetris-38d4cc33.tar",
+    "source_sha256": "814022b44db7c2ab8415b0157a991554559f5943f50c57e87040d503dc5cf9bc"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_tinytetris",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        22,
+        22
+      ],
+      "preferred": [
+        22,
+        22
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "wasd-blocks.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: well drawn, pieces fall (it sizes itself to 22x22)."
+  }
+}

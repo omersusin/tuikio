@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "msnake",
+  "title": "msnake",
+  "summary": "Snake with a menu, high scores and a growing speed.",
+  "description": "Start from the menu (1 or Enter), steer with the pad and eat the fruit. p pauses.",
+  "category": "arcade",
+  "tags": [
+    "snake",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Mogria"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/mogria/msnake",
+    "version": "git 830967fc"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "msnake-830967fc.tar",
+    "source_sha256": "119172f73ed111ad9b3e9ef7305b03e985b551953eccd46fa1aaa940fa9f674d"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_msnake",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "snake.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: menu."
+  }
+}

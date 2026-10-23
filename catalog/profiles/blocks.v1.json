@@ -82,7 +82,7 @@
       },
       "states": [
         {
-          "when": "(?i)-- ?pause ?--|\\bpaused\\b",
+          "when": "(?i)-- ?pause ?--|\\bpaused\\b|p a u s e",
           "label": "Resume",
           "icon": "play"
         }

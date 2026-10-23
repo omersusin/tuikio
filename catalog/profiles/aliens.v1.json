@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "profile_id": "aliens.v1",
+  "title": "Aliens",
+  "help": "Left and right set your laser base moving; Stop halts it. Fire shoots. Start begins \"Invasion of the Aliens\"; the keyboard picks the other games (1, 2 or 4).",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      }
+    },
+    {
+      "id": "stop",
+      "label": "Stop",
+      "output": {
+        "text": "k"
+      }
+    },
+    {
+      "id": "fire",
+      "label": "Fire",
+      "icon": "spark",
+      "output": {
+        "text": " "
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 200
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "start",
+      "label": "Start",
+      "icon": "play",
+      "output": {
+        "text": "3"
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 96,
+        "bind": {
+          "press": "left"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "offset": [
+          108,
+          0
+        ],
+        "size": 96,
+        "bind": {
+          "press": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 104,
+        "bind": {
+          "press": "fire"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 56,
+        "bind": {
+          "press": "stop"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "start"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          0,
+          -56
+        ],
+        "size": 84,
+        "bind": {
+          "press": "left"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          0,
+          56
+        ],
+        "size": 84,
+        "bind": {
+          "press": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 100,
+        "bind": {
+          "press": "fire"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "start"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "stop"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

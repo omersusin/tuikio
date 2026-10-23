@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "termrex",
+  "title": "Termrex",
+  "summary": "The offline dinosaur runner, as big ASCII sprites.",
+  "description": "Jump the cacti and duck the birds. It needs a wide screen: play it in landscape.",
+  "category": "arcade",
+  "tags": [
+    "runner",
+    "dinosaur",
+    "endless"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Satya Pr. Dahal"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/SATYADAHAL/termrex",
+    "version": "git 18d381ad"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "termrex-18d381ad.tar",
+    "source_sha256": "84f536b90019d4d2d69cfa8ee882968f04e79eb22ca6488b338c3102c4910b38"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_termrex",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        140,
+        28
+      ],
+      "preferred": [
+        140,
+        28
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "dino.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: intro at 140x28 (its minimum)."
+  }
+}

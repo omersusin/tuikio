@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "id": "csol",
+  "title": "csol",
+  "summary": "Klondike, FreeCell, Yukon and more solitaires in one, with card themes.",
+  "description": "Klondike starts. Select picks a card (twice sends it to the foundation), Move drops it under the cursor, Stock deals. R starts a new game.",
+  "category": "cards",
+  "tags": [
+    "solitaire",
+    "klondike",
+    "freecell",
+    "cards"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Niels Sonnich Poulsen"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/nielssp/csol",
+    "version": "git b3bd1938"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "csol-b3bd1938.tar",
+    "source_sha256": "723df4951d4aa7a22e6148a9da7f2b62fed6560872d89fba04293909c1ac4b09"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_csol",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "csol.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/csol/csolrc",
+      "dest": "csolrc",
+      "sha256": "6e96397fdf9b099e7b10dbed73cc3b5619a9a0cf6aef59d4b69d9b61ba648029"
+    },
+    {
+      "asset": "games/csol/games/eightoff",
+      "dest": "games/eightoff",
+      "sha256": "a0a096313be02e4c927e6fed664a93b1f59cca4e258c3247fc64ecddbe4ef830"
+    },
+    {
+      "asset": "games/csol/games/freecell",
+      "dest": "games/freecell",
+      "sha256": "a7affd226b1fcb8cf3098378f9775587084da197222e353c6e4f3b318507a35a"
+    },
+    {
+      "asset": "games/csol/games/golf",
+      "dest": "games/golf",
+      "sha256": "0f7c4657e6688410e9c4acb06f9665630cd6f9c4557349697fb4ec186639aa5f"
+    },
+    {
+      "asset": "games/csol/games/klondike",
+      "dest": "games/klondike",
+      "sha256": "d73ef5bbf9fcd404b7716575a16516f5eec102bd61786c397ce49bc1c426d8d2"
+    },
+    {
+      "asset": "games/csol/games/klondikefc",
+      "dest": "games/klondikefc",
+      "sha256": "71e1404986c4a8adbe20d8659c619a80065b72c0b765a0011804ef727e175d40"
+    },
+    {
+      "asset": "games/csol/games/russian",
+      "dest": "games/russian",
+      "sha256": "fa29fd6c7ae41420f876141b97c7524f2b46912c7c9e7cbfd559f1141c6e1a5e"
+    },
+    {
+      "asset": "games/csol/games/spider1",
+      "dest": "games/spider1",
+      "sha256": "7d8664b8de85aa298415ee7d8980554042a6e160a10968edd0e817c4bc189efd"
+    },
+    {
+      "asset": "games/csol/games/spider2",
+      "dest": "games/spider2",
+      "sha256": "666090b41f2a4c16e39faa0cc6a1177f938060aa556e3e5fdba85e7d167362b5"
+    },
+    {
+      "asset": "games/csol/games/spider4",
+      "dest": "games/spider4",
+      "sha256": "4e8a001e5d14fec8768f3ce59a3a42c1845d027bfa3775978d672b2f468c9812"
+    },
+    {
+      "asset": "games/csol/games/yukon",
+      "dest": "games/yukon",
+      "sha256": "eae8e59e513fb44d4eef2e17b70747220a0d02b6bd769498b0e42be4b5696932"
+    },
+    {
+      "asset": "games/csol/games/yukonfc",
+      "dest": "games/yukonfc",
+      "sha256": "de099dfa9a3b6f4c86d34f23c871bb47c619c6a2fb9bd59b9a8cf58d5efe1bd6"
+    },
+    {
+      "asset": "games/csol/themes/ascii",
+      "dest": "themes/ascii",
+      "sha256": "43bdf69eb8f4903e21021c8563f1d52aa132b8b70348f1bf31ba3e3ec929cfdb"
+    },
+    {
+      "asset": "games/csol/themes/compact",
+      "dest": "themes/compact",
+      "sha256": "d2956a1354640a908da6660170fe27a67080a33267002b6e8e739fd7cf7b1c7e"
+    },
+    {
+      "asset": "games/csol/themes/compact-ascii",
+      "dest": "themes/compact-ascii",
+      "sha256": "eef1cc3309bc201e775908382182c1bfb910f060342223ba41638e0f7f0b061f"
+    },
+    {
+      "asset": "games/csol/themes/corners",
+      "dest": "themes/corners",
+      "sha256": "69320f556d37ebf34c3a0163755c18e21842778e4438c992a9aea9d09befcaa9"
+    },
+    {
+      "asset": "games/csol/themes/cp437",
+      "dest": "themes/cp437",
+      "sha256": "909d87003e6ae0cb946ecc630bd85caf43d8e057e7cbf56d804c6f1c049a8e02"
+    },
+    {
+      "asset": "games/csol/themes/default",
+      "dest": "themes/default",
+      "sha256": "6f03dd1f0feee06a5e5b9b8caf6b91c579c5d4aa331f2d0d302c48014defb7a9"
+    },
+    {
+      "asset": "games/csol/themes/default-xl",
+      "dest": "themes/default-xl",
+      "sha256": "87751ef730ec4121f79f331f9755c817aa4161e108b90346c1b2e3b4e4e90c23"
+    },
+    {
+      "asset": "games/csol/themes/ultracompact",
+      "dest": "themes/ultracompact",
+      "sha256": "0bd914e1042d7034fccae7957e62bbdfe65c147a333d1b67c874ed5721790790"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: Klondike deal."
+  }
+}

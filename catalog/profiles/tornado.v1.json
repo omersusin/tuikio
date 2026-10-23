@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "profile_id": "tornado.v1",
+  "title": "Tornado",
+  "help": "Pick your weather: rain, snow, hail, lightning or a tornado. Type how far to aim when asked and press Enter. Scores shows the points so far.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "tornado",
+      "label": "Tornado",
+      "icon": "spark",
+      "output": {
+        "text": "t"
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "rain",
+      "label": "Rain",
+      "output": {
+        "text": "r"
+      }
+    },
+    {
+      "id": "snow",
+      "label": "Snow",
+      "output": {
+        "text": "s"
+      }
+    },
+    {
+      "id": "hail",
+      "label": "Hail",
+      "output": {
+        "text": "h"
+      }
+    },
+    {
+      "id": "lightning",
+      "label": "Lightning",
+      "output": {
+        "text": "l"
+      }
+    },
+    {
+      "id": "scores",
+      "label": "Scores",
+      "output": {
+        "text": "c"
+      }
+    },
+    {
+      "id": "enter",
+      "label": "Enter",
+      "icon": "check",
+      "output": {
+        "key": "ENTER"
+      }
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "keyboard",
+        "anchor": "bottom_center",
+        "size": 96
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 84,
+        "bind": {
+          "press": "tornado"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 64,
+        "bind": {
+          "press": "enter"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 56,
+        "bind": {
+          "press": "rain"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 56,
+        "bind": {
+          "press": "snow"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "size": 56,
+        "bind": {
+          "press": "hail"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 56,
+        "bind": {
+          "press": "lightning"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "keyboard",
+        "anchor": "center_start",
+        "size": 88
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 84,
+        "bind": {
+          "press": "tornado"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "rain"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "snow"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 56,
+        "bind": {
+          "press": "enter"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 52,
+        "bind": {
+          "press": "hail"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

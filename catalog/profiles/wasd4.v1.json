@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "profile_id": "wasd4.v1",
+  "title": "WASD",
+  "help": "The pad sends W, A, S and D. Quit ends the game.",
+  "orientation": "portrait",
+  "actions": [
+    {
+      "id": "up",
+      "label": "Up",
+      "icon": "arrow_up",
+      "output": {
+        "text": "w"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "icon": "arrow_down",
+      "output": {
+        "text": "s"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "text": "a"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "text": "d"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 184,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 64,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 176,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "quit"
+        }
+      }
+    ]
+  },
+  "gestures": {
+    "swipe_up": "up",
+    "swipe_down": "down",
+    "swipe_left": "left",
+    "swipe_right": "right"
+  },
+  "pointer": "none",
+  "keyboard": true
+}

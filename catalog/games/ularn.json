@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "id": "ularn",
+  "title": "Ularn",
+  "summary": "Ultra Larn: save your daughter by finding the cure in the caverns.",
+  "description": "A Larn variant with character classes. Move with the pad; the keyboard has every command (? lists them).",
+  "category": "roguelike",
+  "tags": [
+    "roguelike",
+    "larn",
+    "dungeon"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Phil Cordier",
+      "Josh Bressers"
+    ],
+    "license": "GPL-2.0-only",
+    "source_url": "https://github.com/joshbressers/ularn",
+    "version": "git ef421842"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "ularn-ef421842.tar",
+    "source_sha256": "c15ada21d3f817924a6f8f91d99b53c8c0e791f929c7a74523df06785ed0b408"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ularn",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "roguelike.v1",
+  "saves": {
+    "paths": [
+      "Ularn/Uscore",
+      "Ularn.sav"
+    ],
+    "notes": "Scoreboard and saved game"
+  },
+  "data_files": [
+    {
+      "asset": "games/ularn/Ularn/Ufortune",
+      "dest": "Ularn/Ufortune",
+      "sha256": "e789b885c1763a701583653c1dab3bd4672e766c66c899f67f842547030a2aab"
+    },
+    {
+      "asset": "games/ularn/Ularn/Uhelp",
+      "dest": "Ularn/Uhelp",
+      "sha256": "abe5b98c6d547c346de5be1d4fa750f62e74cfa8ea70e1cd8b03634eeadd01b8"
+    },
+    {
+      "asset": "games/ularn/Ularn/Umaps",
+      "dest": "Ularn/Umaps",
+      "sha256": "e76d997bfec14eb1d6d70707c57c4e4fddd575213773d65310e1d8584caa4070"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: class menu and intro."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "comment": "Keys RenderShotsTest sends before capturing a game (./gradlew :app:test --tests '*RenderShotsTest*' -Pshots=...). Steps: \"text:<chars>\" (\\n is Enter), \"key:<ENTER|ESCAPE|UP|DOWN|LEFT|RIGHT|SPACE>\", \"wait:<ms>\".",
+  "games": {
+    "vitetris": ["key:ENTER", "wait:400", "key:ENTER", "wait:1500", "key:LEFT", "key:LEFT", "wait:800"],
+    "robotfindskitten": ["key:ENTER", "wait:600", "key:RIGHT", "key:DOWN", "wait:300"],
+    "nsnake": ["key:ENTER", "wait:1200"],
+    "moon-buggy": ["text: ", "wait:1200"],
+    "ninvaders": ["text: ", "wait:1200"],
+    "lantern-tide": ["text: ", "wait:800"],
+    "hack-bsd": ["text:Kio\n", "wait:300", "text:y", "wait:300", "text:F", "wait:800"],
+    "adventure-bsd": ["text:n\n", "wait:500"],
+    "tetris-bsd": ["wait:1500", "text:j", "wait:500"]
+  }
+}

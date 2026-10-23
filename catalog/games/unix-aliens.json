@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "unix-aliens",
+  "title": "UNIX Aliens",
+  "summary": "The 1979 Unix Space Invaders, with four game modes.",
+  "description": "Start begins \"Invasion of the Aliens\"; the keyboard picks Bloodbath (1), We come in peace (2) or Invisible Alien Weasels (4). Your base keeps moving until you stop it.",
+  "category": "arcade",
+  "tags": [
+    "shooter",
+    "space invaders",
+    "unix history"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Jude Miller",
+      "Mark Horton",
+      "Joachim Wiberg"
+    ],
+    "license": "Unlicense",
+    "source_url": "https://github.com/troglobit/aliens",
+    "version": "git 94b5eb2e"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "unix-aliens-94b5eb2e.tar",
+    "source_sha256": "7940d23bbe6d8bd9ebd88b4c5856668971fbb6ad606423c751166bf9fbf4a4e2"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_unix_aliens",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "aliens.v1",
+  "saves": {
+    "paths": [
+      "aliens.score"
+    ],
+    "notes": "High scores"
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: instructions screen."
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "ascii-pacman",
+  "title": "ASCII Pacman",
+  "summary": "Pac-Man in curses from 2002: eat the dots, dodge the ghosts.",
+  "description": "The pad steers with the game's own keys (x, c, k and m). Power pills turn the ghosts blue.",
+  "category": "arcade",
+  "tags": [
+    "maze",
+    "pac-man",
+    "classic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Steven Goodwin"
+    ],
+    "license": "GPL-2.0-only",
+    "source_url": "https://github.com/MarquisdeGeek/pacman",
+    "version": "git 196fd6a9"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "ascii-pacman-196fd6a9.tar",
+    "source_sha256": "4182b55cce0089d3ac7bb8bdd4fd05d25c10be594e6a4a0180b1a448450d280f"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ascii_pacman",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "xckm.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: maze drawn, Pac-Man moves and scores."
+  }
+}

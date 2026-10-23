@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "ctris",
+  "title": "CTRIS",
+  "summary": "A colourful Tetris clone with levels and a high score table.",
+  "description": "Any key starts. Up rotates, Down drops faster, Drop sends the piece to the floor, Pause pauses.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "tetris"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Dominik Hackl"
+    ],
+    "license": "GPL-2.0-only",
+    "source_url": "https://github.com/dominikhackl/ctris",
+    "version": "git 9db20c4a"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/github.py",
+    "source_archive": "ctris-9db20c4a.tar",
+    "source_sha256": "c7ebbeae09b8f1cf9d0165f90261bf608e5849a3233090d2aa757806d088f227"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ctris",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "blocks.v1",
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: start screen."
+  }
+}
