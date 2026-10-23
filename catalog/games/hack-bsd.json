@@ -88,8 +88,8 @@
       "sha256": "34eec3fa22419c91db1be39004e27135f51a013e86332721ae435ba2efb4ad89"
     },
     {
-      "asset": "games/hack-bsd/hack/save/.keep",
-      "dest": "hack/save/.keep",
+      "asset": "games/hack-bsd/hack/save/keep",
+      "dest": "hack/save/keep",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],

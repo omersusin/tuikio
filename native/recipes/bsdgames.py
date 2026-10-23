@@ -22,7 +22,7 @@ DEBIAN = "bsdgames_2.17-33.debian.tar.xz"
 SCOWL = "scowl_2020.12.07.orig.tar.gz"
 
 # catalog id -> (exec.objs target, data files staged for it). A data path ending in "/" is a
-# directory the game writes into; it gets an empty ".keep" placeholder.
+# directory the game writes into; it gets an empty "keep" placeholder (aapt2 drops hidden files).
 GAMES = {
     "adventure-bsd": ("adventure", []),
     "arithmetic-bsd": ("arithmetic", []),
@@ -152,7 +152,7 @@ def stage_asset(gid, stage, rel):
         files = sorted(f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))) if os.path.isdir(path) else []
         if not files:  # a directory the game writes into
             os.makedirs(os.path.join(dst_root, rel), exist_ok=True)
-            open(os.path.join(dst_root, rel, ".keep"), "w").close()
+            open(os.path.join(dst_root, rel, "keep"), "w").close()
         for f in files:
             os.makedirs(os.path.join(dst_root, rel), exist_ok=True)
             shutil.copyfile(os.path.join(path, f), os.path.join(dst_root, rel, f))

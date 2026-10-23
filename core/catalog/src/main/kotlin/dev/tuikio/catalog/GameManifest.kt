@@ -200,6 +200,8 @@ data class GameManifest(
                 d.requireOnly("asset", "dest", "sha256")
                 val asset = d.string("asset")
                 SafePath.requireRelative(asset)
+                // aapt2 leaves hidden files and directories out of the APK.
+                if (asset.split('/').any { it.startsWith(".") }) d.fail("asset '$asset' has a hidden path component, which APK packaging drops")
                 val dest = d.string("dest")
                 SafePath.requireRelative(dest)
                 val sha = d.string("sha256")
