@@ -85,6 +85,7 @@ def manifest(fam, g, lock):
             "env": d.get("env", {}),
             "terminal": {"min": list(term_min), "preferred": list(term_pref)},
             "orientation": d.get("orientation", "landscape"),
+            **({"wrap": d["wrap"]} if d.get("wrap") else {}),
         },
         "controls": d["controls"],
         "saves": {"paths": saves, "notes": save_notes},

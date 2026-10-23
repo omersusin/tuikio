@@ -28,7 +28,12 @@ GAMES = {
     "xonitix": entry("xonitix-8d0eba81.tar", ["xonitix.cpp"], "game_xonitix", cxx=True, flags="-std=c++17"),
     "2048-cli": entry("2048-cli-67439255.tar", ["src/ai.c", "src/engine.c", "src/highscore.c", "src/main.c",
                                                 "src/options.c", "src/merge_std.c", "src/gfx_curses.c"],
-                      "game_2048_cli", flags=f"-std=gnu99 -Wno-incompatible-pointer-types -DINVERT_COLORS -DVT100 {COMPAT}"),
+                      "game_2048_cli", flags=f"-std=gnu99 -Wno-incompatible-pointer-types -DINVERT_COLORS -DVT100 {COMPAT}",
+                      # A new score file starts empty, and every first game opened with "Failed to
+                      # parse highscore file": start it at 0.
+                      subst=[("src/highscore.c", '    if (fd == NULL)\n        fd = fopen(hsfile, "w+");\n',
+                              '    if (fd == NULL && (fd = fopen(hsfile, "w+")) != NULL) {\n'
+                              '        fputs("0", fd);\n        rewind(fd);\n    }\n')]),
     "threes-c": entry("threes-c-369a0087.tar", ["src/threes.c"], "game_threes", flags="-Iinclude", libs="-lm"),
     # Its int functions mostly end without a return; C++ makes that undefined and clang turns it
     # into "unreachable", which crashed at start. -fno-strict-return keeps plain returns.

@@ -33,15 +33,16 @@
     "env": {},
     "terminal": {
       "min": [
-        80,
-        24
+        48,
+        32
       ],
       "preferred": [
-        80,
-        24
+        48,
+        32
       ]
     },
-    "orientation": "landscape"
+    "orientation": "portrait",
+    "wrap": "words"
   },
   "controls": "text.v1",
   "saves": {

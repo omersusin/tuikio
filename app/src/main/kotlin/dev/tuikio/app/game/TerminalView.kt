@@ -51,6 +51,7 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     var palette: Palette? = null
         set(v) {
             field = v
+            legibleCache.clear()
             fullRedraw = true
             requestFrame()
         }
@@ -98,6 +99,20 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
             if (!value) requestFrame()
         }
 
+    /**
+     * Space kept free at the bottom (for answer chips): the game is fitted and centered above it,
+     * so nothing the game draws is ever covered.
+     */
+    var reservedBottomPx = 0
+        set(value) {
+            if (field == value) return
+            field = value
+            refit()
+            requestFrame()
+        }
+
+    private val contentHeight: Int get() = (height - reservedBottomPx).coerceAtLeast(1)
+
     /** Measured redraw cost, shown in Settings › Diagnostics. */
     var lastFrameMicros = 0L
         private set
@@ -135,6 +150,12 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     // The box only grows (reset when the grid changes size), so it settles within the first
     // frames instead of jumping around during play.
 
+    // Content framing: the box of cells the game draws in, which the view fits and centers.
+    // Per-row ink extents follow the screen; the applied box grows at once (nothing may be cut
+    // off) but only shrinks once a smaller layout has held for SHRINK_AFTER_MS, so a wide title
+    // or help screen doesn't leave the game itself drawn small for good.
+    private var rowFirst = IntArray(0)
+    private var rowLast = IntArray(0)
     private var boxC0 = Int.MAX_VALUE
     private var boxR0 = Int.MAX_VALUE
     private var boxC1 = -1
@@ -142,33 +163,68 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     private var boxCols = 0
     private var boxRows = 0
     private var refitPending = false
+    private var shrinkCandidate: IntArray? = null
+    private var shrinkSince = 0L
+    private val shrinkCheck = Runnable { requestFrame() }
 
     private fun resetFraming() {
         boxC0 = Int.MAX_VALUE; boxR0 = Int.MAX_VALUE; boxC1 = -1; boxR1 = -1
         boxCols = 0; boxRows = 0
+        rowFirst = IntArray(0); rowLast = IntArray(0)
+        shrinkCandidate = null
     }
 
-    /** Grows the box with row [r]'s drawn cells; returns true if it changed. */
-    private fun frameRow(emu: TerminalEmulator, r: Int, cols: Int): Boolean {
+    /** Records row [r]'s drawn cells. Blank cells count only if they show a color of their own. */
+    private fun frameRow(emu: TerminalEmulator, r: Int, cols: Int) {
         val line = emu.screen[r]
         var first = -1
         var last = -1
         for (c in 0 until cols) {
             val cp = line.chars[c]
             val st = line.styles[c]
-            val ink = (cp != 0 && cp != ' '.code) || CellStyle.bg(st) != TermColor.DEFAULT || CellStyle.has(st, CellStyle.INVERSE)
+            val bg = CellStyle.bg(st)
+            // Games often paint the whole screen black: that is still empty screen.
+            val ink = (cp != 0 && cp != ' '.code) || (bg != TermColor.DEFAULT && bg != 0) || CellStyle.has(st, CellStyle.INVERSE)
             if (ink) {
                 if (first < 0) first = c
                 last = c
             }
         }
-        if (first < 0) return false
-        var changed = false
-        if (first < boxC0) { boxC0 = first; changed = true }
-        if (last > boxC1) { boxC1 = last; changed = true }
-        if (r < boxR0) { boxR0 = r; changed = true }
-        if (r > boxR1) { boxR1 = r; changed = true }
-        return changed
+        rowFirst[r] = first
+        rowLast[r] = last
+    }
+
+    /** Updates the applied box from the rows' extents; returns true when it changed. */
+    private fun updateBox(rows: Int, now: Long): Boolean {
+        var c0 = Int.MAX_VALUE; var c1 = -1; var r0 = Int.MAX_VALUE; var r1 = -1
+        for (r in 0 until rows) {
+            if (rowFirst[r] < 0) continue
+            c0 = minOf(c0, rowFirst[r]); c1 = maxOf(c1, rowLast[r])
+            r0 = minOf(r0, r); r1 = maxOf(r1, r)
+        }
+        if (c1 < 0) return false // a cleared screen is a moment between two layouts, not a layout
+        if (boxC1 < 0 || c0 < boxC0 || c1 > boxC1 || r0 < boxR0 || r1 > boxR1) {
+            boxC0 = minOf(boxC0, c0); boxC1 = maxOf(boxC1, c1); boxR0 = minOf(boxR0, r0); boxR1 = maxOf(boxR1, r1)
+            shrinkCandidate = null
+            return true
+        }
+        val shrinkBy = (boxC1 - boxC0 - (c1 - c0)) + (boxR1 - boxR0 - (r1 - r0)) + (c0 - boxC0) + (r0 - boxR0)
+        if (shrinkBy < SHRINK_MIN_CELLS) {
+            shrinkCandidate = null
+            return false
+        }
+        val cand = shrinkCandidate
+        if (cand == null || !(cand[0] == c0 && cand[1] == r0 && cand[2] == c1 && cand[3] == r1)) {
+            shrinkCandidate = intArrayOf(c0, r0, c1, r1)
+            shrinkSince = now
+            removeCallbacks(shrinkCheck)
+            postDelayed(shrinkCheck, SHRINK_AFTER_MS + 50)
+            return false
+        }
+        if (now - shrinkSince < SHRINK_AFTER_MS) return false
+        boxC0 = c0; boxR0 = r0; boxC1 = c1; boxR1 = r1
+        shrinkCandidate = null
+        return true
     }
 
     /** Cells to fit and center: what the game drew so far, or the whole grid before that. */
@@ -191,9 +247,18 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         val lineH = fm.descent - fm.ascent
         val forW = width / bc.toFloat() / advance * 100f
         // Cell height is rounded up to whole pixels, so fit against the floor of the share.
-        val forH = Math.floor(height / br.toDouble()).toFloat() / lineH * 100f
+        val forH = Math.floor(contentHeight / br.toDouble()).toFloat() / lineH * 100f
         val forMax = Math.floor(maxCellPx.toDouble()).toFloat() / lineH * 100f
-        val size = minOf(forW, forH, forMax).coerceAtLeast(6f / lineH * 100f)
+        var size = minOf(forW, forH, forMax).coerceAtLeast(6f / lineH * 100f)
+        // Text width isn't exactly proportional to its size (hinting): check the fit at the size
+        // itself, or a game that fills the width loses a sliver of its first and last columns.
+        repeat(8) {
+            measurePaint.textSize = size
+            val w = measurePaint.measureText("M") * bc
+            val h = Math.ceil((measurePaint.fontMetrics.let { it.descent - it.ascent }).toDouble()).toFloat() * br
+            if ((w <= width || size <= 6f) && (h <= contentHeight || size <= 6f)) return@repeat
+            size *= minOf(width / w, contentHeight / h, 0.995f)
+        }
         if (Math.abs(size - currentSize) > 0.25f) applyFontSize(size) else requestFrame()
     }
 
@@ -286,18 +351,20 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
                 resetFraming()
                 boxCols = cols
                 boxRows = rows
+                rowFirst = IntArray(rows) { -1 }
+                rowLast = IntArray(rows) { -1 }
+                fullRedraw = true
             }
-            var boxGrew = false
             if (fullRedraw || anyDamage) {
                 for (r in 0 until rows) {
                     if (fullRedraw || dirty[r]) {
                         drawRow(c, emu, r, cols, pal)
-                        if (frameRow(emu, r, cols)) boxGrew = true
+                        frameRow(emu, r, cols)
                     }
                 }
                 fullRedraw = false
             }
-            if (boxGrew && !refitPending) {
+            if (updateBox(rows, SystemClock.uptimeMillis()) && !refitPending) {
                 refitPending = true
                 post { refit() }
             }
@@ -312,7 +379,7 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         val contentW = (box[2] - box[0] + 1) * cellW
         val contentH = (box[3] - box[1] + 1) * cellH
         originX = Math.floor(((width - contentW) / 2f - box[0] * cellW).toDouble()).toFloat()
-        originY = Math.floor(((height - contentH) / 2f - box[1] * cellH).toDouble()).toFloat()
+        originY = Math.floor(((contentHeight - contentH) / 2f - box[1] * cellH).toDouble()).toFloat()
         canvas.drawColor(pal.screen)
         canvas.drawBitmap(bmp, originX, originY, null)
 
@@ -365,6 +432,22 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         }
     }
 
+    private val legibleCache = HashMap<Long, Int>()
+
+    /**
+     * The text color to draw on [bg]. Games choose color pairs for other palettes (white on a blue
+     * that is light here, black on navy), so a pair too close to read gets whichever of the
+     * screen's light or dark ink reads better. Equal colors stay: that's a solid block on purpose.
+     */
+    private fun legible(fg: Int, bg: Int, pal: Palette): Int {
+        if (fg == bg) return fg
+        val key = (fg.toLong() shl 32) or (bg.toLong() and 0xFFFFFFFFL)
+        return legibleCache.getOrPut(key) {
+            if (contrast(fg, bg) >= MIN_CONTRAST) fg
+            else if (contrast(pal.screenInk, bg) >= contrast(DARK_INK, bg)) pal.screenInk else DARK_INK
+        }
+    }
+
     private fun color(c: Int, pal: Palette, fg: Boolean): Int = when {
         c == TermColor.DEFAULT -> if (fg) pal.screenInk else pal.screen
         TermColor.isRgb(c) -> 0xFF000000.toInt() or TermColor.rgbValue(c)
@@ -400,6 +483,7 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
             if (CellStyle.has(style, CellStyle.INVERSE) xor reverse) {
                 val t = fg; fg = bg; bg = t
             }
+            fg = legible(fg, bg, pal)
             if (bg != pal.screen) {
                 fillPaint.color = bg
                 c.drawRect(col * cellW, y, end * cellW, y + cellH, fillPaint)
@@ -573,5 +657,26 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
     fun screenRect(out: Rect) {
         val b = buffer ?: return out.setEmpty()
         out.set(originX.toInt(), originY.toInt(), (originX + b.width).toInt(), (originY + b.height).toInt())
+    }
+
+    companion object {
+        /** How long a smaller layout must hold before the view zooms in on it. */
+        private const val SHRINK_AFTER_MS = 1500L
+        /** Shrinking by less than this many cells (both sides, both axes) isn't worth a zoom. */
+        private const val SHRINK_MIN_CELLS = 4
+        /** WCAG's minimum for large text; below it a text color is swapped for a readable one. */
+        private const val MIN_CONTRAST = 3.0
+        private const val DARK_INK = 0xFF14121F.toInt()
+
+        private fun luminance(c: Int): Double {
+            fun ch(v: Int): Double = (v / 255.0).let { if (it <= 0.03928) it / 12.92 else Math.pow((it + 0.055) / 1.055, 2.4) }
+            return 0.2126 * ch((c shr 16) and 0xFF) + 0.7152 * ch((c shr 8) and 0xFF) + 0.0722 * ch(c and 0xFF)
+        }
+
+        internal fun contrast(a: Int, b: Int): Double {
+            val la = luminance(a)
+            val lb = luminance(b)
+            return (maxOf(la, lb) + 0.05) / (minOf(la, lb) + 0.05)
+        }
     }
 }

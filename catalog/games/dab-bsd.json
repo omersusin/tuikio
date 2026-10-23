@@ -30,16 +30,19 @@
   "runtime": {
     "backend": "native_pty",
     "executable": "game_dab_bsd",
-    "args": [],
+    "args": [
+      "8",
+      "6"
+    ],
     "env": {},
     "terminal": {
       "min": [
-        80,
-        24
+        40,
+        18
       ],
       "preferred": [
-        80,
-        24
+        40,
+        18
       ]
     },
     "orientation": "landscape"

@@ -61,6 +61,7 @@ GAMES = [
          archive="empire_1.16.orig.tar.gz", saves=(["empsave.dat"], "Saved game"),
          test_notes="Host test: difficulty prompt."),
     dict(id="petris", title="Petris", exe="game_petris", controls="petris.v1", orientation="portrait",
+         terminal=((50, 24), (50, 24)),
          summary="Peter's Tetris: small, quick and colourful.",
          description="Choose a level, then slide, rotate and drop the falling pieces.",
          category="arcade", tags=["blocks", "classic"], authors=["Peter Seidler"],
@@ -74,7 +75,8 @@ GAMES = [
          source_url="https://packages.debian.org/source/sid/bombardier", version="0.8.3+nmu3",
          archive="bombardier_0.8.3+nmu3.tar.xz", terminal=((80, 25), (80, 25)), saves=(["bdscore"], "Hall of fame"),
          test_notes="Host test: title screen at 80x25."),
-    dict(id="netris", title="Netris", exe="game_netris", controls="jkl-blocks.v1", orientation="portrait",
+    # Landscape: its title line is 77 columns and wraps over the board in anything narrower.
+    dict(id="netris", title="Netris", exe="game_netris", controls="jkl-blocks.v1", orientation="landscape",
          summary="Falling blocks with a twist: play against the built-in robot or over the network.",
          description="j and l slide, k rotates, Space drops. Started on its own it's a classic single game.",
          category="arcade", tags=["blocks", "classic"], authors=["Mark H. Weaver"], license="GPL-2.0-or-later",

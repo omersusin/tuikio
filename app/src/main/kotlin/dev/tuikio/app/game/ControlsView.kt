@@ -347,6 +347,20 @@ class ControlsView(context: Context, private val profile: ControlProfile) : View
     fun padAction(direction: String): String? =
         placed.firstOrNull { it.element.type == ElementType.DPAD4 || it.element.type == ElementType.DPAD8 }?.element?.bindings?.get(direction)
 
+    /** Whether a direction pad is on screen (hints for moving are left to it). */
+    fun hasPad(): Boolean = profile.layout(landscape).any { it.type == ElementType.DPAD4 || it.type == ElementType.DPAD8 }
+
+    /** What the controls on screen send (KeyHints ids): keys the screen asks for that need no chip. */
+    fun visibleKeyIds(): Set<String> {
+        val out = HashSet<String>()
+        for (el in profile.layout(landscape)) for (id in el.bindings.values) {
+            val a = profile.actions[id] ?: continue
+            out += dev.tuikio.controls.KeyHints.keyId(a.output)
+            a.states.forEach { st -> st.output?.let { out += dev.tuikio.controls.KeyHints.keyId(it) } }
+        }
+        return out
+    }
+
     /** Primary and secondary button actions, for gamepad A/B. */
     fun buttonActions(): List<String> = profile.layout(landscape)
         .filter { it.type == ElementType.BUTTON }

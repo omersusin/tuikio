@@ -25,6 +25,8 @@ object PromptChips {
     private val PAIR = Regex("""[(\[]\s*([A-Za-z0-9])\s*(?:/|\||or)\s*([A-Za-z0-9])\s*[)\]]""")
     private val LETTERS = Regex("""\[([A-Za-z]{2,8})\]""")
     private val RANGE = Regex("""[(\[]\s*(\d)\s*(?:-|\.\.|to)\s*(\d)\s*[)\]]""")
+    /** "(m-s)": two letters with a dash (a dash between digits is a range). */
+    private val LETTER_PAIR = Regex("""[(\[]\s*([A-Za-z])\s*-\s*([A-Za-z])\s*[)\]]""")
 
     fun detect(lines: List<String>, cursorRow: Int, cursorCol: Int, lineMode: Boolean): List<PromptChip> {
         if (cursorRow !in lines.indices) return emptyList()
@@ -45,6 +47,10 @@ object PromptChips {
             val lo = m.groupValues[1].toInt()
             val hi = m.groupValues[2].toInt()
             if (hi > lo && hi - lo < MAX) return (lo..hi).map { PromptChip("$it", answer("$it")) }
+        }
+        LETTER_PAIR.findAll(tail).lastOrNull()?.let { m ->
+            val (a, b) = m.destructured
+            if (!a.equals(b, ignoreCase = true)) return listOf(PromptChip(a, answer(a)), PromptChip(b, answer(b)))
         }
         LETTERS.findAll(tail).lastOrNull()?.let { m ->
             val letters = m.groupValues[1]

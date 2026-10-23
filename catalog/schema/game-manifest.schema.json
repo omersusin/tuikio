@@ -218,6 +218,12 @@
             "landscape",
             "any"
           ]
+        },
+        "wrap": {
+          "description": "words: the game prints prose line by line and never moves the cursor; long lines wrap at word boundaries.",
+          "enum": [
+            "words"
+          ]
         }
       }
     },

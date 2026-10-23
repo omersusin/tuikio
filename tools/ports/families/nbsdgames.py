@@ -48,7 +48,7 @@ GAMES = [
     g("jewels", "Jewels", "Falling jewels: line up three of a kind to clear them.",
       "Slide and rotate the falling column of jewels; matching three or more in a line clears them.",
       "puzzle", ["blocks", "match three"], "playfield and key line", controls="jkl-blocks.v1",
-      orientation="portrait", scores=True),
+      orientation="portrait", terminal=((40, 24), (40, 24)), scores=True),
     g("memoblocks", "Memory Blocks", "Turn over pairs of blocks and remember where everything is.",
       "Reveal two blocks at a time with Enter; matching pairs stay open.", "puzzle",
       ["memory", "cards"], "board drawn"),

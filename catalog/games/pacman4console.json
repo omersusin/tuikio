@@ -49,58 +49,58 @@
   },
   "data_files": [
     {
-      "asset": "games/pacman4console/pacman/Levels/README",
-      "dest": "pacman/Levels/README",
+      "asset": "games/pacman4console/pacman4console/Levels/README",
+      "dest": "pacman4console/Levels/README",
       "sha256": "ce87b6c1ddf5360dddc6047ac085d1e6970b2bc786797aefe2602ae63ffd0ea8"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level01.dat",
-      "dest": "pacman/Levels/level01.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level01.dat",
+      "dest": "pacman4console/Levels/level01.dat",
       "sha256": "50cf6919c82368a5ee136464a7743d2bb1f958bea6f5c23e7a390d160d44be45"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level02.dat",
-      "dest": "pacman/Levels/level02.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level02.dat",
+      "dest": "pacman4console/Levels/level02.dat",
       "sha256": "808650c679dd5b8976291f0c3267bc374e5218ac03475d5f03f810058de25877"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level03.dat",
-      "dest": "pacman/Levels/level03.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level03.dat",
+      "dest": "pacman4console/Levels/level03.dat",
       "sha256": "993e129d2a90bfbecad08917bf9c9352c19be3323c4a1a5ad1bc82f57bd878f4"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level04.dat",
-      "dest": "pacman/Levels/level04.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level04.dat",
+      "dest": "pacman4console/Levels/level04.dat",
       "sha256": "cee1257bbd552816040bdb33714987cf0b709cc15d8b9481579137797532f131"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level05.dat",
-      "dest": "pacman/Levels/level05.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level05.dat",
+      "dest": "pacman4console/Levels/level05.dat",
       "sha256": "6deb4a921a3dc251e4b3f7a8bb8f162395eb75074d4921b6b0e1bb6a1147cafb"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level06.dat",
-      "dest": "pacman/Levels/level06.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level06.dat",
+      "dest": "pacman4console/Levels/level06.dat",
       "sha256": "d0a34d33d8f46c42cccdf848f98d77965509b5164454ecc1c0eda374fc412a0f"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level07.dat",
-      "dest": "pacman/Levels/level07.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level07.dat",
+      "dest": "pacman4console/Levels/level07.dat",
       "sha256": "fa7bd408952d0206aa980b1a776f28cf7eb7d10f4e9748a360ea5cf4660cf675"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level08.dat",
-      "dest": "pacman/Levels/level08.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level08.dat",
+      "dest": "pacman4console/Levels/level08.dat",
       "sha256": "0b57c24410def30e9701da1950a5d8aa2e9c0b7e867aacdfaa01c3078870bdf2"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/level09.dat",
-      "dest": "pacman/Levels/level09.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/level09.dat",
+      "dest": "pacman4console/Levels/level09.dat",
       "sha256": "7165051b644b9a49c990dbaebc54ef628824e212f6137fcfeb7b65619b689d4f"
     },
     {
-      "asset": "games/pacman4console/pacman/Levels/template.dat",
-      "dest": "pacman/Levels/template.dat",
+      "asset": "games/pacman4console/pacman4console/Levels/template.dat",
+      "dest": "pacman4console/Levels/template.dat",
       "sha256": "4fc25ea1e20240255d91dde3e6e07ae114e6db26fbf194dc943ba9ed5831dbee"
     }
   ],

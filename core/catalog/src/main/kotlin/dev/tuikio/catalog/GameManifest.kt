@@ -84,6 +84,8 @@ data class RuntimeSpec(
     val minTerminal: TerminalSize,
     val preferredTerminal: TerminalSize,
     val orientation: Orientation,
+    /** Word wrap for prose printed line by line (manifest "wrap": "words"); see TerminalEmulator.wordWrap. */
+    val wrapWords: Boolean = false,
 )
 
 data class DataFile(val asset: String, val dest: String, val sha256: String)
@@ -169,7 +171,9 @@ data class GameManifest(
             }
 
             val rt = r.obj("runtime")
-            rt.requireOnly("backend", "executable", "args", "env", "terminal", "orientation")
+            rt.requireOnly("backend", "executable", "args", "env", "terminal", "orientation", "wrap")
+            val wrap = rt.stringOrNull("wrap")
+            if (wrap != null && wrap != "words") rt.fail("unknown wrap '$wrap'")
             val backend = rt.string("backend")
             if (backend != "native_pty") rt.fail("unsupported backend '$backend'")
             val exe = rt.string("executable")
@@ -232,7 +236,7 @@ data class GameManifest(
                 origin = Origin.parse(r.string("origin")),
                 upstream = upstream,
                 port = port,
-                runtime = RuntimeSpec(backend, exe, args, env, min, preferred, Orientation.parse(rt.string("orientation"))),
+                runtime = RuntimeSpec(backend, exe, args, env, min, preferred, Orientation.parse(rt.string("orientation")), wrap == "words"),
                 controls = r.string("controls"),
                 savePaths = savePaths,
                 saveNotes = saves?.stringOrNull("notes").orEmpty(),
@@ -277,6 +281,7 @@ data class GameManifest(
                 "preferred" to listOf(runtime.preferredTerminal.cols, runtime.preferredTerminal.rows),
             ),
             "orientation" to runtime.orientation.id,
+            "wrap" to (if (runtime.wrapWords) "words" else null),
         ),
         "controls" to controls,
         "saves" to Json.obj("paths" to savePaths, "notes" to saveNotes),

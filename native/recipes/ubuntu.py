@@ -58,11 +58,13 @@ def tint(abi):
 def pacman4console(abi):
     src = tree(abi, "pacman4console", "pacman4console_1.3.orig.tar.gz", "pacman4console_1.3-1build3.debian.tar.xz")
     exe = os.path.join(src, "pacman4console")
+    # The header fixes its levels under /usr/share (a -D can't override it): read them from the
+    # game's home instead.
+    replace_in(os.path.join(src, "pacman.h"), '#define DATAROOTDIR "/usr/share"', '#define DATAROOTDIR "."')
     # Its functions are used before they are defined; none returns a pointer, so implicit
     # declarations are harmless here.
-    cc(abi, [os.path.join(src, "pacman.c")], exe, f'{LEGACY} -Wno-error=implicit-function-declaration -DDATAROOTDIR=\\".\\"',
-       abi.curses_libs)
-    assets("pacman4console", src, "Levels", "pacman/Levels")
+    cc(abi, [os.path.join(src, "pacman.c")], exe, f'{LEGACY} -Wno-error=implicit-function-declaration', abi.curses_libs)
+    assets("pacman4console", src, "Levels", "pacman4console/Levels")
     return {"game_pacman4console": exe}
 
 

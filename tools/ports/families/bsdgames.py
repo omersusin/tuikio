@@ -14,9 +14,12 @@ DEFAULTS = dict(
 )
 
 TEXT = dict(controls="text.v1", terminal=((40, 16), (80, 24)), orientation="any")
+# Prose printed line by line: a phone-width terminal with word wrap reads like a page; 80 columns
+# would be tiny upright.
+PROSE = dict(TEXT, terminal=((48, 32), (48, 32)), orientation="portrait", wrap="words")
 
 GAMES = [
-    dict(TEXT, id="adventure-bsd", title="Colossal Cave Adventure", exe="game_adventure_bsd",
+    dict(PROSE, id="adventure-bsd", title="Colossal Cave Adventure", exe="game_adventure_bsd",
          summary="The original text adventure: explore a cave full of treasure, magic and a hungry dwarf or two.",
          description="Crowther and Woods' 1977 Adventure, the game that named a genre. Type two-word commands "
                      "such as \"go north\", \"get lamp\" or \"xyzzy\". Type \"save\" to keep your place.",
@@ -39,18 +42,18 @@ GAMES = [
          category="strategy", tags=["simulation", "real-time", "classic"],
          authors=["Ed James"], saves=(["atc_score"], "High scores"),
          test_notes="Host test: airspace map and plane list."),
-    dict(TEXT, id="backgammon-bsd", title="Backgammon", exe="game_backgammon_bsd",
+    dict(TEXT, id="backgammon-bsd", orientation="landscape", title="Backgammon", exe="game_backgammon_bsd",
          summary="Backgammon against the computer, the BSD way.",
          description="Move your pieces home and bear them off before the computer does. Moves are typed as "
                      "from-to pairs such as 1-5 or 12-18.",
          category="strategy", tags=["board", "dice", "classic"], authors=["Alan Char"],
          discovery="backgammon-bsd", test_notes="Host test: rules prompt."),
-    dict(TEXT, id="teachgammon-bsd", title="Backgammon Tutor", exe="game_teachgammon_bsd",
+    dict(TEXT, id="teachgammon-bsd", orientation="landscape", title="Backgammon Tutor", exe="game_teachgammon_bsd",
          summary="Learn backgammon with a guided practice game.",
          description="Explains the rules of backgammon, then plays a tutorial game with you.",
          category="strategy", tags=["board", "tutorial", "classic"], authors=["Alan Char"],
          test_notes="Host test: rules text."),
-    dict(TEXT, id="battlestar-bsd", title="Battlestar", exe="game_battlestar_bsd",
+    dict(PROSE, id="battlestar-bsd", title="Battlestar", exe="game_battlestar_bsd",
          summary="A text adventure aboard a battlestar and the planet below it.",
          description="Explore the ship, find your way to the planet and save the day. Commands are words "
                      "such as \"look\", \"take\", \"north\". \"save\" keeps your game.",
@@ -81,14 +84,14 @@ GAMES = [
          category="cards", tags=["cards", "classic"], authors=["Earl T. Cohen", "Ken Arnold"],
          discovery="cribbage-bsd", saves=(["criblog"], "Game log"),
          test_notes="Host test: instructions prompt."),
-    dict(id="dab-bsd", title="Dots and Boxes", exe="game_dab_bsd", controls="vikeys8.v1",
+    dict(id="dab-bsd", args=["8", "6"], terminal=((40, 18), (40, 18)), title="Dots and Boxes", exe="game_dab_bsd", controls="vikeys8.v1",
          license="BSD-2-Clause",
          summary="Take turns drawing lines; close a box to claim it and move again.",
          description="Move the cursor with the pad (the diagonals switch between rows of lines) and press "
                      "Space to draw a line. Completing a box scores it and gives you another turn.",
          category="puzzle", tags=["board", "two player", "classic"], authors=["Christos Zoulas"],
          test_notes="Host test: board drawn."),
-    dict(TEXT, id="go-fish-bsd", title="Go Fish", exe="game_go_fish_bsd",
+    dict(PROSE, id="go-fish-bsd", title="Go Fish", exe="game_go_fish_bsd",
          summary="The children's card game against the computer: collect books of four.",
          description="Ask for a rank you hold; if the computer has none, go fish. Type a card name such as "
                      "A, 7 or K, or p for a smarter opponent.",
@@ -123,7 +126,7 @@ GAMES = [
                      "u uses a card, d discards, then the card's number.",
          category="cards", tags=["cards", "racing", "classic"], authors=["Ken Arnold"],
          discovery="mille-bsd", test_notes="Host test: hand and score table."),
-    dict(TEXT, id="monop-bsd", title="Monopoly", exe="game_monop_bsd",
+    dict(PROSE, id="monop-bsd", title="Monopoly", exe="game_monop_bsd",
          summary="The property-trading board game, for one or more players at one phone.",
          description="Buy, trade and build. Commands are words (\"roll\", \"buy\", \"trade\"); press ? at "
                      "any prompt to see them. \"save\" keeps the game.",
@@ -138,7 +141,7 @@ GAMES = [
          category="roguelike", tags=["rpg", "fantasy", "classic"], authors=["Edward Estes", "Chris Robertson"],
          saves=(["phantasia/characs", "phantasia/scoreboard"], "Characters and the scoreboard"),
          test_notes="Host test: welcome screen."),
-    dict(TEXT, id="quiz-bsd", title="Quiz", exe="game_quiz_bsd",
+    dict(PROSE, id="quiz-bsd", title="Quiz", exe="game_quiz_bsd",
          summary="Trivia drills: capitals, elements, Shakespeare, Morse code and more.",
          description="Lists every subject, then asks for two to pair up, such as \"Europe capital\" or "
                      "\"element symbol\". Type answers and press Enter; an empty line shows the right one.",
@@ -164,8 +167,9 @@ GAMES = [
                      "through #.",
          category="arcade", tags=["turn-based", "classic"], authors=["The BSD authors"],
          saves=(["snake.log", "snakerawscores"], "Scores"), test_notes="Host test: field, player and money."),
+    # Landscape: its key line needs 72+ columns and garbles the score in anything narrower.
     dict(id="tetris-bsd", title="Tetris (BSD)", exe="game_tetris_bsd", controls="jkl-blocks.v1",
-         orientation="portrait",
+         orientation="landscape",
          summary="The compact BSD Tetris that started as an obfuscated C contest winner.",
          description="Slide, rotate and drop falling pieces to clear rows.",
          category="arcade", tags=["blocks", "classic"],
@@ -182,7 +186,7 @@ GAMES = [
          description="Steer with the pad; each number you eat makes the worm that much longer.",
          category="arcade", tags=["snake", "classic"], authors=["Michael Toy"],
          test_notes="Host test: field and worm."),
-    dict(TEXT, id="wump-bsd", title="Hunt the Wumpus", exe="game_wump_bsd",
+    dict(PROSE, id="wump-bsd", title="Hunt the Wumpus", exe="game_wump_bsd",
          summary="Hunt the Wumpus through a cave of tunnels, bats and bottomless pits.",
          description="Move between rooms and shoot crooked arrows. You smell the Wumpus when it's near.",
          category="adventure", tags=["text", "classic"], authors=["Dave Taylor"], discovery="wump-bsd",

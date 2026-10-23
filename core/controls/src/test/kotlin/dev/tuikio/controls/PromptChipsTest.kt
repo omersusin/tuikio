@@ -28,6 +28,7 @@ class PromptChipsTest {
         assertEquals(listOf("T=T", "S=S", "F=F", "K=K", "C=C", "W=W"), chips("         a Knight, a Cave-man or a Wizard? [TSFKCW]"))
         assertEquals(listOf("H=H", "c=c"), chips("Choose type of the black player(H/c)"))
         assertEquals((1..9).map { "$it=$it" }, chips("Choose a level to start [1-9]:"))
+        assertEquals(listOf("m=m⏎", "s=s⏎"), chips("Move or shoot? (m-s)", lineMode = true))
     }
 
     @Test

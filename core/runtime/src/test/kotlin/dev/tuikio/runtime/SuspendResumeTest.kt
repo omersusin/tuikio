@@ -23,6 +23,7 @@ class SuspendResumeTest {
             if (src.isFile) src.copyTo(File(home, d.dest).apply { parentFile.mkdirs() }, overwrite = true)
         }
         val s = GameSession(LaunchSpec.forManifest(m, out, home), m.runtime.preferredTerminal.cols, m.runtime.preferredTerminal.rows)
+        s.terminal.wordWrap = m.runtime.wrapWords // as the game screen does
         s.start()
         return s
     }

@@ -43,6 +43,7 @@ import dev.tuikio.catalog.GameManifest
 import dev.tuikio.catalog.Orientation
 import dev.tuikio.controls.ControlDispatcher
 import dev.tuikio.controls.PromptChip
+import dev.tuikio.controls.KeyHints
 import dev.tuikio.controls.PromptChips
 import dev.tuikio.controls.ControlProfile
 import dev.tuikio.controls.Scheduler
@@ -65,6 +66,12 @@ object GameLauncher {
  * frozen (SIGSTOP) while the activity is in the background and resumed (SIGCONT) on return,
  * so a real-time game neither burns battery nor runs on unattended. Leaving always ends it.
  */
+/** Height of the strip kept free under the game for answer chips. */
+private const val CHIP_STRIP_DP = 54
+
+/** Height of the Esc/Tab/Ctrl/F-keys row shown above the phone keyboard. */
+private const val EXTRA_KEYS_DP = 48
+
 class GameActivity : Activity() {
     private lateinit var game: GameManifest
     private lateinit var profile: ControlProfile
@@ -114,6 +121,7 @@ class GameActivity : Activity() {
             hapticsEnabled = app.prefs.haptics
         }
         setContentView(root)
+        root.viewTreeObserver.addOnGlobalLayoutListener { watchIme() }
         // Only after setContentView: before it the window has no decor view, and
         // Window.getInsetsController() throws on Android 11+ (crash seen on Android 17).
         immersive()
@@ -134,6 +142,7 @@ class GameActivity : Activity() {
             return
         }
         val s = GameSession(spec, cols, rows)
+        s.terminal.wordWrap = game.runtime.wrapWords
         session = s
         terminal.emulator = s.terminal
         dispatcher = ControlDispatcher(profile, s.keys, HandlerScheduler(uiHandler)) { bytes -> s.send(bytes) }
@@ -148,7 +157,7 @@ class GameActivity : Activity() {
                 s.mouse.encode(dev.tuikio.terminal.MouseEncoder.Action.RELEASE, 0, col, row)?.let { s.send(it) }
             } ?: terminal.requestFocus()
         }
-        terminal.onText = { text -> s.send(s.keys.text(text)) }
+        terminal.onText = { text -> s.send(s.keys.text(text, extraKeys.takeMods())) }
         terminal.onKey = { e -> handleKey(e) }
         dispatcher.stateOf = { controls.stateOf(it) }
         s.listener = object : GameSession.Listener {
@@ -209,43 +218,52 @@ class GameActivity : Activity() {
             lineMode = s.lineInput ?: !emu.isAltScreen
         }
         controls.updateStates(lines.joinToString("\n"))
-        val chips = PromptChips.detect(lines, row, col, lineMode)
-        if (chips != shownChips) showChips(chips)
+        val answers = PromptChips.detect(lines, row, col, lineMode)
+        // Keys the screen names that no button sends: one tap each, after the answers.
+        val covered = controls.visibleKeyIds() + answers.map { KeyHints.keyId(it.output) }
+        val chips = answers + KeyHints.detect(lines, covered, controls.hasPad())
+        if (chips != shownChips) showChips(chips, answers.size)
         if (chips.isNotEmpty()) placeChips()
     }
 
-    private fun showChips(chips: List<PromptChip>) {
+    private fun showChips(chips: List<PromptChip>, answers: Int) {
         shownChips = chips
         chipRow.removeAllViews()
-        for (chip in chips) {
-            chipRow.addView(TButton(this, chip.label, if (chips.size <= 2 || chip.label == "Continue") ButtonStyle.PRIMARY else ButtonStyle.SECONDARY).apply {
-                minWidth = dp(if (chip.label.length == 1) 48 else 88)
+        chips.forEachIndexed { i, chip ->
+            val answer = i < answers
+            val style = if (answer && (answers <= 2 || chip.label == "Continue")) ButtonStyle.PRIMARY else ButtonStyle.SECONDARY
+            chipRow.addView(TButton(this, chip.label, style).apply {
+                minWidth = dp(if (chip.label.length == 1) 48 else 72)
                 minHeight = dp(44)
-                setPadding(dp(14), 0, dp(14), 0)
-                contentDescription = "Answer ${chip.label}"
+                setPadding(dp(12), 0, dp(12), 0)
+                contentDescription = if (answer) "Answer ${chip.label}" else "Key ${chip.label}"
                 setOnClickListener { dispatcher.emit(chip.output) }
             }, LinearLayout.LayoutParams(WRAP, WRAP).apply { setMargins(dp(4), 0, dp(4), 0) })
         }
         chipBar.visibility = if (chips.isEmpty()) View.GONE else View.VISIBLE
+        if (chips.isEmpty()) terminal.reservedBottomPx = 0
         if (chips.isNotEmpty()) chipBar.announceForAccessibility("Answers: " + chips.joinToString { it.label })
     }
 
-    /** Above the controls by default; at the top of the game area if that would hide the cursor's line. */
+    /**
+     * At the bottom of the game area, in a strip the terminal keeps free while chips show: the
+     * game moves up (and only shrinks if it must), so chips never cover what it draws.
+     */
     private fun placeChips() {
         val lp = chipBar.layoutParams as? FrameLayout.LayoutParams ?: return
         val loc = IntArray(2).also { terminal.getLocationInWindow(it) }
         val rootLoc = IntArray(2).also { root.getLocationInWindow(it) }
-        val termTop = loc[1] - rootLoc[1]
-        val termBottom = termTop + terminal.height
-        val barH = dp(56)
-        val cBottom = terminal.cursorRowSpan().second
-        val bottomBarTop = termBottom - barH
-        val atTop = termTop + cBottom > bottomBarTop
-        val gravity = (if (atTop) Gravity.TOP else Gravity.BOTTOM) or Gravity.CENTER_HORIZONTAL
-        val margin = if (atTop) termTop + dp(4) else root.height - termBottom + dp(4)
-        if (lp.gravity != gravity || (if (atTop) lp.topMargin else lp.bottomMargin) != margin) {
-            lp.gravity = gravity
-            if (atTop) { lp.topMargin = margin; lp.bottomMargin = 0 } else { lp.bottomMargin = margin; lp.topMargin = 0 }
+        val termBottom = loc[1] - rootLoc[1] + terminal.height
+        val margin = root.height - termBottom + dp(4)
+        terminal.reservedBottomPx = dp(CHIP_STRIP_DP)
+        // As wide as the chips, but never wider than the game area (it scrolls instead).
+        chipRow.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val width = if (terminal.width > 0) minOf(chipRow.measuredWidth, terminal.width - dp(8)) else WRAP
+        if (lp.gravity != (Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL) || lp.bottomMargin != margin || lp.topMargin != 0 || lp.width != width) {
+            lp.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            lp.bottomMargin = margin
+            lp.topMargin = 0
+            lp.width = width
             chipBar.layoutParams = lp
         }
     }
@@ -334,6 +352,7 @@ class GameActivity : Activity() {
             fitTerminal()
             if (shownChips.isNotEmpty()) placeChips()
         }
+        applyTypingLayout()
         if (paused) showPauseSheet()
     }
 
@@ -476,11 +495,55 @@ class GameActivity : Activity() {
         sheet = Sheet(root, content).show()
     }
 
-    private fun toggleKeyboard() {
-        terminal.requestFocus()
+    // ------------------------------------------------------------------ typing
+
+    /** Typing mode: the phone keyboard is up, with Esc/Tab/Ctrl/F-keys above it; the game's controls step aside. */
+    private var typing = false
+    private var imeSeen = false
+    private val extraKeys by lazy {
+        ExtraKeysBar(this, { key, mods -> session?.let { s -> s.send(s.keys.encode(key, mods)) } }, { setTyping(false) })
+    }
+
+    private fun toggleKeyboard() = setTyping(!typing)
+
+    private fun setTyping(on: Boolean) {
+        typing = on
+        imeSeen = false
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        @Suppress("DEPRECATION")
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        if (on) {
+            terminal.requestFocus()
+            @Suppress("DEPRECATION")
+            imm.showSoftInput(terminal, InputMethodManager.SHOW_FORCED)
+        } else {
+            imm.hideSoftInputFromWindow(terminal.windowToken, 0)
+            extraKeys.takeMods()
+        }
+        applyTypingLayout()
+    }
+
+    private fun applyTypingLayout() {
+        (extraKeys.parent as? ViewGroup)?.removeView(extraKeys)
+        controls.visibility = if (typing) View.GONE else View.VISIBLE
+        val barH = dp(EXTRA_KEYS_DP)
+        val column = terminal.parent as? LinearLayout
+        if (column != null) {
+            if (typing) column.addView(extraKeys, LinearLayout.LayoutParams(MATCH, barH))
+        } else {
+            (terminal.layoutParams as? FrameLayout.LayoutParams)?.let { lp ->
+                lp.bottomMargin = if (typing) barH + dp(4) else dp(8)
+                terminal.layoutParams = lp
+            }
+            if (typing) root.addView(extraKeys, FrameLayout.LayoutParams(MATCH, barH, Gravity.BOTTOM))
+        }
+    }
+
+    /** Leaves typing mode when the keyboard goes away (back key, the keyboard's own hide button). */
+    private fun watchIme() {
+        if (!typing) return
+        val r = android.graphics.Rect().also { root.getWindowVisibleDisplayFrame(it) }
+        val screenH = root.rootView.height
+        val shown = screenH > 0 && screenH - r.bottom > screenH * 0.2f
+        if (shown) imeSeen = true else if (imeSeen) setTyping(false)
     }
 
     // ------------------------------------------------------------------ hardware input
@@ -547,6 +610,7 @@ class GameActivity : Activity() {
         if (e.isShiftPressed) mods = mods or KeyMods.SHIFT
         if (e.isAltPressed) mods = mods or KeyMods.ALT
         if (e.isCtrlPressed) mods = mods or KeyMods.CTRL
+        if (typing) mods = mods or extraKeys.takeMods()
         val key = when (e.keyCode) {
             KeyEvent.KEYCODE_DPAD_UP -> TermKey.UP
             KeyEvent.KEYCODE_DPAD_DOWN -> TermKey.DOWN

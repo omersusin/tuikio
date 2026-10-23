@@ -31,7 +31,8 @@ import org.robolectric.shadows.ShadowBuild
  * of what a phone would show, portrait and landscape: the way to look at layout and text
  * rendering without a device. Runs only when asked:
  *
- *     ./gradlew :app:test --tests '*RenderShotsTest*' -Pshots=greed,vitetris   (or -Pshots=all)
+ *     ./gradlew :app:test --tests '*RenderShotsTest*' -Pshots=greed,vitetris   (or all, or primary:
+ *     every game in the orientation it runs in)
  *
  * Images land in app/build/shots/.
  */
@@ -63,10 +64,12 @@ class RenderShotsTest {
         }
     }
 
+    /** Keys to send before the shot: native/tests/shots.json, else the game's play script (native/tests/play.json). */
     private val scripts: Map<String, List<String>> by lazy {
         val root = generateSequence(File(System.getProperty("user.dir")).absoluteFile) { it.parentFile }.first { File(it, "native/tests").isDirectory }
-        val games = (Json.parse(File(root, "native/tests/shots.json").readText()) as Json.Obj).fields["games"] as Json.Obj
-        games.fields.mapValues { (_, v) -> (v as Json.Arr).items.map { (it as Json.Str).value } }
+        fun load(name: String) = ((Json.parse(File(root, "native/tests/$name").readText()) as Json.Obj).fields["games"] as Json.Obj)
+            .fields.mapValues { (_, v) -> (v as Json.Arr).items.map { (it as Json.Str).value } }
+        load("play.json") + load("shots.json")
     }
 
     private val KEYS = mapOf(
@@ -96,7 +99,14 @@ class RenderShotsTest {
         val a = c.get()
         repeat(30) { idle(50); Thread.sleep(40) }
         val term = views(a.window.decorView).filterIsInstance<TerminalView>().first()
-        val before = render(term)
+        // Wait for a settled screen: chips for the game's "Hit '?' for help" make room under it.
+        var before = render(term)
+        for (i in 0 until 40) {
+            idle(100); Thread.sleep(60)
+            val next = render(term)
+            if (next.sameAs(before)) break
+            before = next
+        }
         term.refit()
         term.palette = term.palette // forces every row to be redrawn
         idle(50)
@@ -129,7 +139,15 @@ class RenderShotsTest {
         val app = setUpApp()
         Motion.setUserReduced(app, true)
         val out = File(System.getProperty("tuikio.shotsDir", "build/shots")).apply { mkdirs() }
-        val ids = if (wanted == "all") app.catalog.games.map { it.id } else wanted.split(',').map { it.trim() }
+        // "primary": every game, only in the orientation(s) it runs in.
+        val ids = when (wanted) {
+            "all" -> app.catalog.games.map { it.id }
+            "primary" -> app.catalog.games.filter {
+                it.runtime.orientation == dev.tuikio.catalog.Orientation.ANY ||
+                    (it.runtime.orientation == dev.tuikio.catalog.Orientation.LANDSCAPE) == (tag == "land")
+            }.map { it.id }
+            else -> wanted.split(',').map { it.trim() }
+        }
         for (id in ids) {
             val game = app.catalog.games.firstOrNull { it.id == id } ?: continue
             app.installer.install(game) {}
@@ -149,6 +167,13 @@ class RenderShotsTest {
                         term0.onKey?.invoke(KeyEvent(KeyEvent.ACTION_DOWN, code)) // the view forwards key-downs only
                     }
                     "wait" -> settle(arg.toLong())
+                    "expect" -> {
+                        val emu = term0.emulator
+                        val end = System.currentTimeMillis() + 6000
+                        while (System.currentTimeMillis() < end && emu != null &&
+                            !synchronized(emu.lock) { emu.screen.text().joinToString("\n").contains(arg) }) settle(100)
+                    }
+                    "type" -> term0.onText?.invoke(arg.replace("\n", "\r"))
                 }
                 settle(120)
             }
@@ -174,6 +199,16 @@ class RenderShotsTest {
             File(out, "$id-$tag.cells").writeText(flags.joinToString("\n"))
             File(out, "$id-$tag.txt").writeText("view ${term.width}x${term.height} cell ${term.cellW}x${term.cellH} grid ${emu.cols}x${emu.rows}\n" +
                 text.joinToString("\n") { "|$it" } + "\n")
+            // For the audit: what the screen offers besides the game, and how big the game is drawn.
+            val chips = views(root).filterIsInstance<dev.tuikio.app.ui.TButton>()
+                .filter { it.isShown && it.contentDescription?.let { d -> d.startsWith("Answer ") || d.startsWith("Key ") } == true }
+                .map { it.text.toString() }.toList()
+            val (cr, cc) = synchronized(emu.lock) { emu.cursorRow to emu.cursorCol }
+            File(out, "$id-$tag.json").writeText(Json.obj(
+                "id" to id, "tag" to tag, "view" to listOf(term.width, term.height), "cell" to listOf(term.cellW.toDouble(), term.cellH.toDouble()),
+                "grid" to listOf(emu.cols, emu.rows), "density" to app.resources.displayMetrics.density.toDouble(),
+                "cursor" to listOf(cr, cc), "chips" to chips,
+            ).write(pretty = true))
             frameView = null
             c.pause().stop().destroy()
         }

@@ -26,6 +26,28 @@ class TerminalEmulatorTest {
     }
 
     @Test
+    fun wordWrapMovesTheBrokenWordToTheNextLine() {
+        val t = term(20, 4)
+        t.wordWrap = true
+        t.feed("You are standing at the end of a road.\r\n")
+        assertEquals(listOf("You are standing at", "the end of a road.", "", ""), t.lines().map { it.trimEnd() })
+        t.feed("A small stream flows out of the building")
+        assertEquals("A small stream flows", t.lines()[2].trimEnd(), "a space at the break isn't carried over")
+        assertEquals("out of the building", t.lines()[3].trimEnd())
+    }
+
+    @Test
+    fun wordWrapLeavesWordsTooLongToMoveAndIsOffByDefault() {
+        val t = term(10, 3)
+        t.wordWrap = true
+        t.feed("abcdefghijklmn")
+        assertEquals(listOf("abcdefghij", "klmn", ""), t.lines(), "no space to break at: hard wrap")
+        val plain = term(10, 3)
+        plain.feed("aaaa bbbbbbb")
+        assertEquals(listOf("aaaa bbbbb", "bb", ""), plain.lines())
+    }
+
+    @Test
     fun carriageReturnClearsPendingWrap() {
         val t = term(5, 3)
         t.feed("abcde\rX")

@@ -108,6 +108,33 @@ class AdaptiveControlsTest {
         waitFor("the game to take input again", a) { screen(a).contains("Tide") }
     }
 
+    /** A menu's keys are one tap away even though the profile has no buttons for them. */
+    @Test
+    fun menusOfferTheirKeysAsChips() {
+        val a = launch("nettoe")
+        waitFor("the main menu", a) { screen(a).contains("Main Menu") }
+        fun keyChips() = views(a.window.decorView).filterIsInstance<TButton>()
+            .filter { it.contentDescription?.startsWith("Key ") == true && it.isShown }.map { it.text.toString() }.toList()
+        waitFor("a chip per menu entry", a) { keyChips().take(2) == listOf("1 Player vs", "2 Player vs") }
+        assertTrue("Quit is offered too: ${keyChips()}", keyChips().contains("q Quit"))
+    }
+
+    /** The keyboard comes with the keys a phone keyboard lacks, and the game controls make room. */
+    @Test
+    fun typingModeAddsEscTabCtrlAndFunctionKeys() {
+        val a = launch("nettoe")
+        waitFor("the main menu", a) { screen(a).contains("Main Menu") }
+        val controls = views(a.window.decorView).filterIsInstance<ControlsView>().first()
+        fun shown(desc: String) = views(a.window.decorView).any { it.contentDescription == desc && it.isShown }
+        views(a.window.decorView).first { it.contentDescription == "Show keyboard" }.performClick()
+        shadowOf(Looper.getMainLooper()).idle()
+        assertTrue("Esc, Tab and F1 are on screen", shown("Escape") && shown("Tab") && shown("F1"))
+        assertTrue("controls step aside while typing", !controls.isShown)
+        views(a.window.decorView).first { it.contentDescription == "Hide the keyboard" }.performClick()
+        shadowOf(Looper.getMainLooper()).idle()
+        assertTrue("the keys go away with the keyboard", !shown("Escape") && controls.isShown)
+    }
+
     @Test
     fun questionsOfferTheirAnswersAsChips() {
         val a = launch("hack-bsd")

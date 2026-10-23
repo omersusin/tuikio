@@ -7,11 +7,10 @@
       "key:UP",
       "key:RIGHT",
       "key:DOWN",
-      "type:q",
-      "wait:300"
+      "expect:Score:"
     ],
     "adventure-bsd": [
-      "expect:Would you like instructions",
+      "expect:Would you like",
       "type:n\n",
       "expect:end of a road",
       "type:enter building\n",
@@ -164,7 +163,7 @@
     "hamurabi": [
       "expect:How many acres do you wish to buy?",
       "type:5\n",
-      "expect:feed your people",
+      "expect:How many bushels",
       "type:100\n",
       "expect:plant with seed"
     ],
@@ -245,8 +244,9 @@
     "pacman4console": [
       "expect:PACMAN",
       "type: ",
-      "wait:500",
-      "key:LEFT"
+      "expect:Level: 1",
+      "key:LEFT",
+      "expect:Score:"
     ],
     "petris": [
       "expect:Choose level",
@@ -261,7 +261,7 @@
       "key:ENTER"
     ],
     "quiz-bsd": [
-      "expect:Subjects",
+      "expect:--More--",
       "type:q",
       "expect:Type two subjects",
       "type:europe capital\n",

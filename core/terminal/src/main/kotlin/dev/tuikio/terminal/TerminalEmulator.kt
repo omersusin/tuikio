@@ -60,6 +60,13 @@ class TerminalEmulator(
         private set
     var autoWrap = true
         private set
+
+    /**
+     * Word wrap for programs that print prose line by line: a word that runs past the right edge
+     * moves to the next line whole, and the space a line break lands on isn't carried over. Off by
+     * default; only games that never address the cursor turn it on (manifest runtime.wrap).
+     */
+    var wordWrap = false
     var originMode = false
         private set
     var insertMode = false
@@ -279,8 +286,19 @@ class TerminalEmulator(
         }
         if (pendingWrap && autoWrap) {
             screen[cursorRow].wrapped = true
+            if (wordWrap && cp == ' '.code) {
+                // The break falls on this space: the next line starts with the next word.
+                cursorCol = 0
+                lineFeed()
+                return
+            }
+            val carried = if (wordWrap) takeTrailingWord(cursorRow) else null
             cursorCol = 0
             lineFeed()
+            if (carried != null) {
+                for (i in carried.first.indices) putCell(cursorRow, i, carried.first[i], carried.second[i])
+                cursorCol = carried.first.size
+            }
         }
         pendingWrap = false
         if (w == 2 && cursorCol == cols - 1) {
@@ -310,6 +328,28 @@ class TerminalEmulator(
         } else {
             cursorCol += w
         }
+    }
+
+    /**
+     * Cuts the word at the end of [row] (letters back to the last space) for word wrap, blanking
+     * it there. Null if the line has no space to break at, or the word is too long to move.
+     */
+    private fun takeTrailingWord(row: Int): Pair<IntArray, LongArray>? {
+        val line = screen[row]
+        var start = cols - 1
+        while (start > 0 && line.chars[start - 1] != ' '.code && line.chars[start - 1] != 0) start--
+        val len = cols - start
+        if (start == 0 || len > cols / 3 || line.chars[cols - 1] == ' '.code) return null
+        val chars = IntArray(len) { line.chars[start + it] }
+        val styles = LongArray(len) { line.styles[start + it] }
+        val blank = CellStyle.erased(pen)
+        for (c in start until cols) {
+            line.chars[c] = ' '.code
+            line.styles[c] = blank
+            line.combining?.remove(c)
+        }
+        screen.markDirty(row)
+        return chars to styles
     }
 
     /** Writes one cell, repairing any wide character it partially overwrites. */

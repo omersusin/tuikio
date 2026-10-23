@@ -46,6 +46,7 @@ class PlayScriptsTest {
         }
         File(home, ".tmp").mkdirs()
         val s = GameSession(LaunchSpec.forManifest(m, out, home), m.runtime.preferredTerminal.cols, m.runtime.preferredTerminal.rows)
+        s.terminal.wordWrap = m.runtime.wrapWords // as the game screen does
         s.start()
         try {
             for (step in steps) {
