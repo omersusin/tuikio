@@ -93,6 +93,22 @@ data class RuntimeSpec(
 data class DataFile(val asset: String, val dest: String, val sha256: String)
 
 /**
+ * A picture of the game for its card: a few rows of its real screen, captured from the game
+ * (tools/catalog/capture_art.py). [fg] and [bg] hold a code per cell: '.' is the screen's own
+ * ink (fg) or nothing (bg), any other character indexes [palette] by its place in [CODES].
+ * Palette entries: "d" default, "s"/"i" the screen's background/ink, "a0".."a15" the theme's
+ * ANSI colours, "x16".."x255" xterm's, "#rrggbb" exact.
+ */
+data class GameArt(val rows: List<String>, val fg: List<String>, val bg: List<String>, val palette: List<String>) {
+    val cols: Int get() = rows.firstOrNull()?.let { it.codePointCount(0, it.length) } ?: 0
+
+    companion object {
+        const val CODES = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        val COLOR = Regex("^(d|s|i|a(1[0-5]|[0-9])|x(1[6-9]|[2-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])|#[0-9a-f]{6})$")
+    }
+}
+
+/**
  * A key the game uses that its control profile has no button for ("b" places a bomb, "i" opens
  * the inventory): shown on the game screen as a button with [label]. Sends [text], or the named
  * [key] (a TermKey name, from [NAMES]).
@@ -128,6 +144,8 @@ data class GameManifest(
     val controlHide: Set<String> = emptySet(),
     /** The game's own keys beyond its control profile, in the order they're shown. */
     val keys: List<GameKey> = emptyList(),
+    /** Its card picture, from its real screen; null draws the generic one. */
+    val art: GameArt? = null,
     val savePaths: List<String>,
     val saveNotes: String,
     val dataFiles: List<DataFile>,
@@ -159,7 +177,7 @@ data class GameManifest(
         fun fromJson(r: JsonReader): GameManifest {
             r.requireOnly(
                 "schema_version", "id", "title", "summary", "description", "category", "tags", "players",
-                "origin", "upstream", "port", "runtime", "controls", "control_labels", "control_hide", "keys", "saves", "data_files", "network",
+                "origin", "upstream", "port", "runtime", "controls", "control_labels", "control_hide", "keys", "art", "saves", "data_files", "network",
                 "status", "verification",
             )
             val version = r.int("schema_version")
@@ -238,6 +256,25 @@ data class GameManifest(
             if (keys.size > 16) r.fail("at most 16 keys")
             if (keys.map { it.text ?: it.key!! }.toSet().size != keys.size) r.fail("keys must send different things")
 
+            val art = r.objOrNull("art")?.let { a ->
+                a.requireOnly("rows", "fg", "bg", "palette")
+                val rows = a.strings("rows")
+                val fg = a.strings("fg")
+                val bg = a.strings("bg")
+                val palette = a.strings("palette")
+                if (rows.isEmpty() || rows.size > 16 || fg.size != rows.size || bg.size != rows.size) a.fail("art needs 1..16 rows, with fg and bg for each")
+                val cols = rows[0].codePointCount(0, rows[0].length)
+                if (cols !in 1..48) a.fail("art rows must be 1..48 columns")
+                if (palette.size > GameArt.CODES.length || palette.any { !GameArt.COLOR.matches(it) }) a.fail("art palette has an invalid colour")
+                val codes = GameArt.CODES.take(palette.size).toSet() + '.'
+                for (i in rows.indices) {
+                    if (rows[i].codePointCount(0, rows[i].length) != cols || fg[i].length != cols || bg[i].length != cols) a.fail("art row $i is not $cols cells wide")
+                    if (rows[i].codePoints().anyMatch { it < 0x20 }) a.fail("art row $i has a control character")
+                    if (fg[i].any { it !in codes } || bg[i].any { it !in codes }) a.fail("art row $i uses a colour code not in its palette")
+                }
+                GameArt(rows, fg, bg, palette)
+            }
+
             val saves = r.objOrNull("saves")
             saves?.requireOnly("paths", "notes")
             val savePaths = saves?.strings("paths").orEmpty().onEach { SafePath.requireRelative(it) }
@@ -283,6 +320,7 @@ data class GameManifest(
                 controlLabels = controlLabels,
                 controlHide = controlHide,
                 keys = keys,
+                art = art,
                 savePaths = savePaths,
                 saveNotes = saves?.stringOrNull("notes").orEmpty(),
                 dataFiles = dataFiles,
@@ -332,6 +370,7 @@ data class GameManifest(
         "controls" to controls,
         "control_labels" to controlLabels.takeIf { it.isNotEmpty() },
         "control_hide" to controlHide.takeIf { it.isNotEmpty() }?.toList(),
+        "art" to art?.let { Json.obj("rows" to it.rows, "fg" to it.fg, "bg" to it.bg, "palette" to it.palette) },
         "keys" to keys.takeIf { it.isNotEmpty() }?.map { Json.obj("label" to it.label, "text" to it.text, "key" to it.key) },
         "saves" to Json.obj("paths" to savePaths, "notes" to saveNotes),
         "data_files" to dataFiles.map { Json.obj("asset" to it.asset, "dest" to it.dest, "sha256" to it.sha256) },

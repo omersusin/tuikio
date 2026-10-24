@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "id": "tetro-tui",
+  "title": "Tetro TUI",
+  "summary": "A modern falling-tetromino game: hold, previews, rotation systems, replays and stats.",
+  "description": "Pick New Game from the menu. Turn rotates, Hold stores a piece, Up drops it hard. Menu pauses and has settings for handling and graphics.",
+  "category": "arcade",
+  "tags": [
+    "blocks",
+    "tetris",
+    "modern"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Lucas W. (Strophox)"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/Strophox/tetro-tui",
+    "version": "git 4b6c7cb3"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "tetro-tui-4b6c7cb3.tar",
+    "source_sha256": "86c1f549d5caac0fcba89727bf7fdc15487952d67a5ee91d4ea56b5b2b7aab9f"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_tetro_tui",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "tetro.v1",
+  "art": {
+    "rows": [
+      "║      ░░░░░░░░      ║",
+      "║  ████  ██          ║",
+      "║████████████        ║",
+      "║    ████████████    ║",
+      "║      ██████  ████  ║",
+      "╙▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀╜"
+    ],
+    "fg": [
+      ".......00000000.......",
+      "...1111..22...........",
+      ".111133332222.........",
+      ".....333322445555.....",
+      ".......444444..5555...",
+      "......................"
+    ],
+    "bg": [
+      "......................",
+      "......................",
+      "......................",
+      "......................",
+      "......................",
+      "......................"
+    ],
+    "palette": [
+      "#00c7c6",
+      "#6cbd46",
+      "#a482ff",
+      "#efaf32",
+      "#f57a3e",
+      "#ff577e"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: title menu."
+  }
+}

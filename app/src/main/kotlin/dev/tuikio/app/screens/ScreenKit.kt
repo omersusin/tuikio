@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 import android.text.TextUtils
 import android.util.TypedValue
@@ -18,6 +19,8 @@ import android.widget.ScrollView
 import android.widget.TextView
 import dev.tuikio.app.TuikioApp
 import dev.tuikio.app.data.CatalogRepo
+import dev.tuikio.app.game.TerminalView
+import dev.tuikio.catalog.GameArt
 import dev.tuikio.catalog.GameManifest
 import dev.tuikio.catalog.Origin
 import dev.tuikio.catalog.VerificationStatus
@@ -36,6 +39,7 @@ import dev.tuikio.app.ui.hstack
 import dev.tuikio.app.ui.iconButton
 import dev.tuikio.app.ui.lp
 import dev.tuikio.app.ui.vstack
+import dev.tuikio.terminal.TermColor
 
 /** A vertically scrolling page that respects system bars and leaves room for the dock. */
 fun Context.page(withDock: Boolean = true, gapDp: Int = 18, block: LinearLayout.() -> Unit): View {
@@ -93,11 +97,22 @@ fun statusChip(ctx: Context, game: GameManifest, small: Boolean = false): Status
     }
 }
 
-/** A tiny dark "screen" showing a game's ASCII vignette in its theme ink. */
+/**
+ * A tiny dark "screen" with a picture of the game: rows of its real screen in their own colours
+ * when the catalog has them ([cells], captured from the game), else an ASCII vignette in its
+ * theme ink.
+ */
 @SuppressLint("ViewConstructor")
-class MiniScreen(context: Context, private val art: String, private val ink: Int, private val radiusDp: Float = 16f) : View(context) {
+class MiniScreen(
+    context: Context,
+    private val art: String,
+    private val ink: Int,
+    private val radiusDp: Float = 16f,
+    private val cells: GameArt? = null,
+) : View(context) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val lines = art.lines()
+    private val clip = Path()
 
     init {
         importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
@@ -108,7 +123,17 @@ class MiniScreen(context: Context, private val art: String, private val ink: Int
         paint.style = Paint.Style.FILL
         paint.color = p.screen
         val r = dpf(Math.min(radiusDp, Theme.shapes.cornerDp.coerceAtLeast(2f)))
-        canvas.drawRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), r, r, paint)
+        val box = RectF(0f, 0f, width.toFloat(), height.toFloat())
+        canvas.drawRoundRect(box, r, r, paint)
+        cells?.let {
+            clip.reset()
+            clip.addRoundRect(box, r, r, Path.Direction.CW)
+            canvas.save()
+            canvas.clipPath(clip)
+            drawCells(canvas, it)
+            canvas.restore()
+            return
+        }
         val cols = lines.maxOfOrNull { it.length } ?: 1
         val pad = dpf(10f)
         val cell = Math.min((width - 2 * pad) / cols / 0.6f, (height - 2 * pad) / lines.size / 1.18f).coerceAtMost(dpf(15f))
@@ -122,6 +147,64 @@ class MiniScreen(context: Context, private val art: String, private val ink: Int
         for (l in lines) {
             canvas.drawText(l, x0, y, paint)
             y += cell * 1.18f
+        }
+    }
+
+    private fun drawCells(canvas: Canvas, a: GameArt) {
+        val p = Theme.palette
+        val rows = a.rows.size
+        val cols = a.cols
+        val pad = dpf(6f)
+        paint.typeface = Theme.mono(context, 600)
+        paint.textSize = Math.min((width - 2 * pad) / cols / 0.6f, (height - 2 * pad) / rows / 1.18f).coerceAtMost(dpf(15f))
+        val cw = paint.measureText("M")
+        val ch = Math.ceil(paint.fontMetrics.let { it.descent - it.ascent }.toDouble()).toFloat()
+        val baseline = -paint.fontMetrics.ascent
+        val x0 = (width - cols * cw) / 2
+        val y0 = (height - rows * ch) / 2
+        val colours = a.palette.map { colour(it) }
+        fun at(codes: String, i: Int): Int? = codes[i].let { if (it == '.') null else colours.getOrNull(GameArt.CODES.indexOf(it)) }
+        for (r in 0 until rows) {
+            val cps = a.rows[r].codePoints().toArray()
+            val y = y0 + r * ch
+            for (c in 0 until cols) {
+                val x = x0 + c * cw
+                val bg = at(a.bg[r], c)
+                if (bg != null) {
+                    paint.color = bg
+                    canvas.drawRect(x, y, x + cw + 0.5f, y + ch + 0.5f, paint)
+                }
+                val cp = cps.getOrElse(c) { ' '.code }
+                if (cp == ' '.code) continue
+                val under = bg ?: p.screen
+                var fg = at(a.fg[r], c) ?: p.screenInk
+                // As on the game screen: ink too close to its background is drawn readable.
+                if (fg != under && TerminalView.contrast(fg, under) < TerminalView.MIN_CONTRAST) {
+                    fg = if (TerminalView.contrast(p.screenInk, under) >= TerminalView.contrast(TerminalView.DARK_INK, under)) p.screenInk else TerminalView.DARK_INK
+                }
+                paint.color = fg
+                val s = String(Character.toChars(cp))
+                val w = paint.measureText(s)
+                if (w > cw * 1.05f) {
+                    canvas.save()
+                    canvas.scale(cw / w, 1f, x, y)
+                    canvas.drawText(s, x, y + baseline, paint)
+                    canvas.restore()
+                } else {
+                    canvas.drawText(s, x + (cw - w) / 2, y + baseline, paint)
+                }
+            }
+        }
+    }
+
+    private fun colour(code: String): Int {
+        val p = Theme.palette
+        return when {
+            code == "d" || code == "i" -> p.screenInk
+            code == "s" -> p.screen
+            code.startsWith("a") -> 0xFF000000.toInt() or p.ansi[code.drop(1).toInt()]
+            code.startsWith("x") -> 0xFF000000.toInt() or TermColor.xterm256(code.drop(1).toInt())
+            else -> 0xFF000000.toInt() or code.drop(1).toInt(16)
         }
     }
 }
@@ -150,7 +233,7 @@ class Cartridge(context: Context, val game: GameManifest, onOpen: () -> Unit) : 
         isClickable = true
         isFocusable = true
         contentDescription = "${game.title}. ${statusChip(context, game).text}. Opens details."
-        val screen = MiniScreen(context, TuikioApp.instance.catalog.art(game), artInk(game))
+        val screen = MiniScreen(context, TuikioApp.instance.catalog.art(game), artInk(game), cells = game.art)
         addView(screen, LayoutParams(MATCH, dp(92)))
         addView(T.body(context, game.title, 15f, Theme.palette.ink, 800).apply {
             maxLines = 1

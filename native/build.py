@@ -99,6 +99,7 @@ def write_notices(games):
             text = "\n\n".join(tar_text(name, r) for r in rel)
         else:
             text = tar_text(name, rel)
+        text += tk.EXTRA_NOTICES.get(comp, "")
         with open(os.path.join(LICENSES, f"{comp}.txt"), "w") as fh:
             fh.write(text)
     musl = os.path.join(os.path.dirname(os.path.realpath(tk.zig())), "lib", "libc", "musl", "COPYRIGHT")

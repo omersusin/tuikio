@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "profile_id": "scoundrel.v1",
+  "title": "Scoundrel",
+  "help": "Pick a card in the room with the pad; Use plays it (fight, equip or drink). Fight uses your blade, Bare fights without it, Avoid sends the room to the bottom of the deck.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      }
+    },
+    {
+      "id": "use",
+      "label": "Use",
+      "icon": "check",
+      "output": {
+        "key": "ENTER"
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "fight",
+      "label": "Fight",
+      "icon": "spark",
+      "output": {
+        "text": "f"
+      }
+    },
+    {
+      "id": "bare",
+      "label": "Bare",
+      "output": {
+        "text": "b"
+      }
+    },
+    {
+      "id": "avoid",
+      "label": "Avoid",
+      "icon": "back",
+      "output": {
+        "text": "a"
+      }
+    },
+    {
+      "id": "new",
+      "label": "New",
+      "icon": "refresh",
+      "output": {
+        "text": "n"
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 84,
+        "bind": {
+          "press": "left"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "offset": [
+          96,
+          0
+        ],
+        "size": 84,
+        "bind": {
+          "press": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 96,
+        "bind": {
+          "press": "use"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 60,
+        "bind": {
+          "press": "fight"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "size": 60,
+        "bind": {
+          "press": "bare"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "avoid"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 52,
+        "bind": {
+          "press": "new"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          0,
+          -50
+        ],
+        "size": 80,
+        "bind": {
+          "press": "left"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          0,
+          50
+        ],
+        "size": 80,
+        "bind": {
+          "press": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 88,
+        "bind": {
+          "press": "use"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "fight"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "avoid"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 52,
+        "bind": {
+          "press": "bare"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

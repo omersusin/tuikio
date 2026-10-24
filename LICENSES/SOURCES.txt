@@ -47,6 +47,14 @@ ascii-tetris-f983b048.tar
   https://github.com/Gregwar/ASCII-Tetris @ f983b0488a43bfea9ab1637f31596bbb94a1135e
   sha256 8ee152355565f58c5f40bbfe33248c08547a62969e618b9cc3bcb7a92eb35fa0
 
+balatrotui-01bbb9ac.tar
+  https://github.com/Passeriform/BalatroTUI @ 01bbb9ac1b62f6dba4c9c737329034e82d30c81d
+  sha256 b0561097bd11f510dce6a20c5a7fe33886271e3b35ee4c7e45977f1f4b3af76b
+
+blackguard-294bfd37.tar
+  https://github.com/ElnurBDa/blackguard @ 294bfd379255cfc0249531c899250e4d1fa9ca45
+  sha256 1bb864df770b588a9266ca6d584b76cf8d0795d50480c37d8dc005de6a5c38b4
+
 bombardier_0.8.3+nmu3.tar.xz
   http://archive.ubuntu.com/ubuntu/pool/universe/b/bombardier/bombardier_0.8.3+nmu3.tar.xz
   sha256 ead8d6c2d2edfd5325a7cfbc25451d2763dc78c83af2d924d7495316aabfcd13
@@ -122,6 +130,18 @@ gtypist_2.9.5.orig.tar.gz
 hamurabi-994563d7.tar
   https://github.com/blt/hamurabi @ 994563d7ab48f661471f3aaddca05f18c3a5fa1b
   sha256 0e7def1b45fd59dd6d95430338badba76f68fa1e667f35eacabd7a904a105ca6
+
+inertia-80886289.tar
+  https://github.com/aclfe/inertia @ 80886289ed4165134e4c650aa69c22933b7b28b9
+  sha256 685a5a2398988c5fb6616ee73b5e8696c7ac880fb242fdea64c42a77cdd095f2
+
+minesweep-rs-6ca1c255.tar
+  https://github.com/cpcloud/minesweep-rs @ 6ca1c255ae1088f811499808499d5b4e18ae7f4f
+  sha256 0fc23ac372867ea132f21c962e3f4791a3d6bb7ae7c6907305b75bf71c695a13
+
+minesweeper-4d-rs-c9480eec.tar
+  https://github.com/itabesamesa/minesweeper_4d_rs @ c9480eec5aa8af533d66315489bdd148ddafd5c4
+  sha256 5667848c4ea66a007012c07ae8ab4abd674aeb6eb6b32c9c9f28a0cac4ada793
 
 moon-buggy_1.0.51.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/m/moon-buggy/moon-buggy_1.0.51.orig.tar.gz
@@ -215,6 +235,10 @@ petris_1.0.1.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/p/petris/petris_1.0.1.orig.tar.gz
   sha256 33f6f0e929262314e0ab1ed81f0ad85224285398238eadcada0d5d9faa8d4dde
 
+rhex-dd1b6b66.tar
+  https://github.com/dpc/rhex @ dd1b6b66b051d8eccc7ff4ba2edd82b165daa133
+  sha256 eca50840408ff4c0884b2f38ec58675d6bf22158f225e676a57c2ccaec45ae02
+
 robotfindskitten_2.8284271.702.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/r/robotfindskitten/robotfindskitten_2.8284271.702.orig.tar.gz
   sha256 020172e4f4630f7c4f62c03b6ffe2eeeba5637b60374d3e6952ae5816a9f99af
@@ -226,6 +250,10 @@ scowl_2020.12.07-2.debian.tar.xz
 scowl_2020.12.07.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/main/s/scowl/scowl_2020.12.07.orig.tar.gz
   sha256 5587667caa20c4891390c2d42dbb4d5c4c3f41bee77af1457ece3ba23fb859cc
+
+sudoku-rs-c8b6572a.tar
+  https://github.com/MitchelPaulin/sudoku-rs @ c8b6572aa1fcdcea69dcfa88dd4b8765b04fd97c
+  sha256 e2ad3ac427827fe9004dfec3e2f29283597e1f0670c89c9903a3a3b99c11be63
 
 sudoku_1.0.5-2.1.debian.tar.xz
   http://archive.ubuntu.com/ubuntu/pool/universe/s/sudoku/sudoku_1.0.5-2.1.debian.tar.xz
@@ -242,6 +270,10 @@ termrex-18d381ad.tar
 tetris-31d441a8.tar
   https://github.com/berk76/tetris @ 31d441a840dff7ad3839087b9a5a594250841342
   sha256 86215ebebbf77e6fddebd34c6b5e2792389368e1156edc8a764733efe64ffec5
+
+tetro-tui-4b6c7cb3.tar
+  https://github.com/Strophox/tetro-tui @ 4b6c7cb354c135fe503ef7a5c20b622a325eccb7
+  sha256 86c1f549d5caac0fcba89727bf7fdc15487952d67a5ee91d4ea56b5b2b7aab9f
 
 threes-c-369a0087.tar
   https://github.com/harshjv/threes-c @ 369a0087f965571f971b3261081e766ade4c1e98
@@ -282,6 +314,10 @@ tty-solitaire_1.3.1-1.debian.tar.xz
 tty-solitaire_1.3.1.orig.tar.gz
   http://archive.ubuntu.com/ubuntu/pool/universe/t/tty-solitaire/tty-solitaire_1.3.1.orig.tar.gz
   sha256 f2b80c8d5317e67db43c1dbf3b0f5f3dfea5e826c18744562615f1b1536ae433
+
+ttyper-e218bad9.tar
+  https://github.com/max-niederman/ttyper @ e218bad9d5c546ff31c1b2a141a42c2eebf50d23
+  sha256 1a3f74901ab5fd6e4a174d738682ae6745f8df49df2b78a14b14a67bfce1642e
 
 typespeed_0.6.5-4.debian.tar.xz
   http://archive.ubuntu.com/ubuntu/pool/universe/t/typespeed/typespeed_0.6.5-4.debian.tar.xz

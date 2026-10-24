@@ -200,6 +200,10 @@ class Prefs(context: Context) {
     var haptics: Boolean
         get() = p.getBoolean("haptics", true)
         set(v) = p.edit().putBoolean("haptics", v).apply()
+    /** The terminal bell games ring (a mistake, a hit, an alarm), as a short sound. */
+    var gameSounds: Boolean
+        get() = p.getBoolean("game_sounds", true)
+        set(v) = p.edit().putBoolean("game_sounds", v).apply()
     var leftHanded: Boolean
         get() = p.getBoolean("left_handed", false)
         set(v) = p.edit().putBoolean("left_handed", v).apply()

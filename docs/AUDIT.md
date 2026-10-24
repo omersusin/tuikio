@@ -117,11 +117,38 @@ phone.
 - Everything here was checked in a phone-sized emulation (Robolectric, 411×914 dp) and on the
   build machine, not on a real phone.
 
+## Round 3: card pictures, sounds and nine Rust games (2026-10-24)
+
+- **Card pictures from the games themselves.** Every card on Discover, Library and a game's
+  page showed the same `>_` sketch. Now it shows a piece of the game's real screen, in the
+  game's colours: the board, the map, the cards. `tools/catalog/capture_art.py` takes it from
+  the screenshots RenderShotsTest leaves (`<id>-<tag>.screen.json`, every cell's character and
+  colours), picking the liveliest part (box and block drawing, colour, a board rather than prose)
+  or, where that picks a help column or a title box, a part named in its `PIN` table. It's stored
+  in the manifest as `art` and drawn with the theme's colours, using the game screen's rule for
+  ink too close to its background. Kio: Lantern Tide keeps its drawn picture. Text adventures show
+  their opening text, which is what they are.
+- **Screenshots past the menus.** For 31 more games `native/tests/shots.json` now plays into the
+  game before the shot (Umoria's town, Cribbage's dealt hand, Star Trek's sector scan, Treasure
+  Mines' board, rhex's hex map, a few pieces dropped in each falling-block game), so their
+  pictures and audit shots show play, not a question.
+- **Game sounds.** Games that beep (BEL: a wrong move, a hit, an alarm) beep on the phone: a
+  short, soft tone made in the app, with a light tick when haptics are on. It's silent when the
+  phone is on silent or vibrate, and You > Game sounds turns it off. Beeps closer together than
+  120 ms are dropped. A scan of the binaries finds 12 games that ring: Air Traffic Controller,
+  Backgammon, Backgammon Tutor, Canfield, Cribbage, Freesweep, Mille Bornes, Moon Buggy, Robots,
+  Star Traders, Sudoku and Umoria.
+- **Nine Rust games** (Balatro TUI, Blackguard, Inertia, minesweep, 4D Minesweeper, rhex,
+  Sudoku (rs), Tetro TUI, ttyper), built as static PIEs with cargo through the same Zig toolchain
+  and audited the same way: their own controls, terminal sizes that show everything (Balatro TUI
+  112×40, minesweep 50×38, Sudoku (rs) 56×41), the Rust standard library's licence shipped with
+  them.
+
 ## Every game
 
-Text size and buttons are from the round 2 shots: past the title screen where a script gets there.
+Text size and buttons are from the round 2 and 3 shots: past the title screen where a script gets there.
 
-| Game | Orientation | Terminal | Controls | Text (dp) | Buttons under the game (audited screen) | Fixed (rounds 1 and 2) |
+| Game | Orientation | Terminal | Controls | Text (dp) | Buttons under the game (audited screen) | Fixed (rounds 1 to 3) |
 |---|---|---|---|---|---|---|
 | 2048 (cli) | portrait | 80×24 | arrows4 | 30 | - | Every first game began with "Failed to parse highscore file". Fixed. |
 | 2048 | portrait | 40×20 | grid4 | 30 | - |  |
@@ -130,12 +157,14 @@ Text size and buttons are from the round 2 shots: past the title screen where a 
 | ASCII-Chess | portrait | 72×40 | text | 13 | - | Keyboard up at the start. |
 | ASCII Invaders | landscape | 80×24 | shooter | 16 | - |  |
 | ASCII Pacman | landscape | 80×24 | xckm | 15 | - |  |
-| ASCII Snake | portrait | 40×26 | arrows4 | 26 | - |  |
+| ASCII Snake | portrait | 40×26 | arrows4 | 25 | - |  |
 | ASCII-Tetris | portrait | 80×24 | qsd-blocks | 30 | - |  |
 | Air Traffic Controller | landscape | 80×24 | text | 14 | - | Keyboard up at the start. |
-| Backgammon | landscape | 80×24 | text | 17 | 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Dash, Comma, Double, Save, Quit | Landscape: the board needs 80 columns. Digits, dash and comma for moves; Double, Save, Quit; its questions as chips. |
+| Backgammon | landscape | 80×24 | text | 18 | 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Dash, Comma, Double, Save, Quit | Landscape: the board needs 80 columns. Digits, dash and comma for moves; Double, Save, Quit; its questions as chips. |
+| Balatro TUI | landscape | 112×40 | balatro | 10 | - | New (Rust). Runs at 112×40: at 80×24 its cards' values are cut off. Play and Discard buttons. |
 | Battleship | landscape | 80×24 | battleship-nb | 16 | Quit | Quit button; unused buttons gone. |
 | Battlestar | portrait | 48×32 | text | 18 | - | Portrait, 48 columns, word wrap. Keyboard up at the start. |
+| Blackguard | landscape | 80×24 | scoundrel | 16 | - | New (Rust). Its own buttons: Use, Fight, Bare-handed, Avoid. |
 | Boggle | landscape | 80×24 | text | 30 | ? Help | Keyboard up at the start. |
 | Bombardier | landscape | 80×25 | bomber | 16 | - | Its own controls (Bomb, Pause, Quit) instead of an unused pad. |
 | Canfield | landscape | 80×24 | text | 17 | Stock, Talon, Hand, 1, 2, 3, 4, Foundation, c Toggle card, b Present, q Quit | Its command legend as chips. Stock, Talon, Hand, 1-4 and Foundation buttons. |
@@ -143,7 +172,7 @@ Text size and buttons are from the round 2 shots: past the title screen where a 
 | Checkers | landscape | 80×24 | nbsd | 26 | Quit | Enter named for what it does; Quit button. |
 | Chroma | landscape | 80×24 | arrows | 14 | Undo, Redo, Fast, Pause | Menu readable; H/E/D/Q as chips. Undo, Redo, Fast, Pause; Enter reads Swap. |
 | Color Lines | portrait | 37×37 | space-select | 16 | Quit | 40×24: the board fills the screen. 37x37: balls drawn 3x3 instead of one character. |
-| Cribbage | landscape | 80×24 | text | 30 | - | Quit when asked for instructions (no shell for its pager); keyboard up; Long/Short chips. |
+| Cribbage | landscape | 80×24 | text | 15 | - | Quit when asked for instructions (no shell for its pager); keyboard up; Long/Short chips. |
 | csol | landscape | 80×24 | csol | 20 | Undo, Waste, Redeal, Help | Undo, Waste, Redeal and Help buttons. |
 | CTRIS | landscape | 80×24 | blocks | 17 | - | Landscape (it refuses to start below 80×24). |
 | Curse of War | landscape | 82×26 | arrows | 13 | Build, Faster, Slower, Pause, Clear flags, Halve flags, Quit, X Remove all, C Remove, P Pause | 82x26 on a 19x17 map: the map's right side, prices and key legend were cut off. Build, speed and flag buttons. |
@@ -161,20 +190,23 @@ Text size and buttons are from the round 2 shots: past the title screen where a 
 | Hack | landscape | 80×24 | roguelike | 14 | Wield, Wear, Take off, Eat, Quaff, Read, Zap, Throw, Drop, Up, Rest, Look, Save, Help | 14 command buttons (wield, wear, eat, quaff, read...); "Long or short help?" chips. |
 | Hamurabi | portrait | 48×32 | text | 18 | 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 | Portrait, 48 columns, word wrap. Digit buttons. |
 | Hangman | landscape | 80×24 | text | 19 | - | Keyboard up at the start. |
+| Inertia | landscape | 80×24 | arrows | 14 | Box, Sphere, Star, Gravity, Wind, Clear, Zoom in, Zoom out, Help, d Place | New (Rust). Pause and Quit named; spawn keys (Box, Sphere, Star, Gravity, Wind...) as buttons. |
 | Jewels | portrait | 40×24 | jkl-blocks | 24 | - | 40×24 instead of 80×24. |
 | Kio: Lantern Tide | portrait | 34×21 | lantern | 26 | - |  |
 | Memory Blocks | landscape | 80×24 | nbsd | 26 | Quit | Enter named for what it does; Quit button. |
 | Miketron | landscape | 80×24 | nbsd | 14 | Quit | Quit button; unused buttons gone. |
 | Mille Bornes | landscape | 80×24 | text | 18 | Pick, Use, Discard, 1, 2, 3, 4, 5, 6, q Quit, o Order hand, s Save, w Toggle, r Reprint | Its command legend as chips. Pick, Use, Discard and card 1-6 buttons. |
 | Mines | landscape | 80×24 | nbsd | 28 | Quit | Enter reads Reveal, Space reads Flag. |
+| minesweep | portrait | 50×38 | mines | 17 | - | New (Rust). 50×38 so the whole board shows; New and Help, which it doesn't use, left out. |
+| 4D Minesweeper | landscape | 80×24 | mines4d | 15 | - | New (Rust). Its own pad with the Z and W axes, Uncover, Flag and Find. |
 | Monopoly | portrait | 48×32 | text | 26 | - | Portrait, 48 columns, word wrap. Keyboard up at the start. |
-| Moon Buggy | landscape | 80×24 | buggy | 16 | - |  |
-| Umoria | landscape | 80×24 | roguelike | 15 | Wear, Take off, Eat, Quaff, Read, Drop, Cast, Pray, Rest, Up, Look, Map, Open, Close, Character, Help, f Female | m) Male / f) Female as chips. The pad didn't move (original keyset): roguelike keys now; help and screens found; 16 command buttons. |
+| Moon Buggy | landscape | 80×24 | buggy | 18 | - |  |
+| Umoria | landscape | 80×24 | roguelike | 14 | Wear, Take off, Eat, Quaff, Read, Drop, Cast, Pray, Rest, Up, Look, Map, Open, Close, Character, Help | m) Male / f) Female as chips. The pad didn't move (original keyset): roguelike keys now; help and screens found; 16 command buttons. |
 | Morpion Solitaire | portrait | 80×46 | morpion | 12 | - |  |
 | msnake | landscape | 80×24 | snake | 14 | - |  |
 | Muncher | landscape | 80×24 | nbsd | 14 | Quit | Quit button; unused buttons gone. |
 | Netris | landscape | 80×24 | jkl-blocks | 15 | - | Landscape: its title wraps over the board below 77 columns. |
-| netToe | landscape | 80×24 | text | 19 | a1, a2, a3, b1, b2, b3, c1, c2, c3 | Menu entries as chips. Screens were cleared bright red (terminfo colour 9); a1-c3 move buttons; menu chips send Enter. |
+| netToe | landscape | 80×24 | text | 20 | a1, a2, a3, b1, b2, b3, c1, c2, c3 | Menu entries as chips. Screens were cleared bright red (terminfo colour 9); a1-c3 move buttons; menu chips send Enter. |
 | nInvaders | landscape | 80×24 | invaders | 16 | - |  |
 | nSnake | landscape | 80×24 | snake | 14 | - |  |
 | nudoku | landscape | 80×24 | arrows | 18 | 1, 2, 3, 4, 5, 6, 7, 8, 9, Delete, Check, Hint, New, Quit, m Toggle marks, r Redraw, S Solve puzzle | Its commands as chips (moves stay on the pad). Digit buttons, Delete, Check, Hint, New, Quit. |
@@ -187,7 +219,8 @@ Text size and buttons are from the round 2 shots: past the title screen where a 
 | Rabbithole | landscape | 80×24 | nbsd | 15 | Quit | Quit button; unused buttons gone. |
 | Red Square | landscape | 80×24 | nbsd | 15 | Quit | Quit button; unused buttons gone. |
 | Revenge | landscape | 80×26 | vikeys8 | 13 | Pause, Quit | 80x26: the board's bottom was cut off; 8-way pad for its diagonals. |
-| Reversi | landscape | 80×24 | nbsd | 30 | h, C | Enter named for what it does; Quit button. |
+| Reversi | landscape | 80×24 | nbsd | 26 | Quit | Enter named for what it does; Quit button. |
+| rhex | landscape | 80×24 | rhex | 14 | - | New (Rust). Turn, step and wait buttons for its hex grid. |
 | robotfindskitten | landscape | 80×24 | kitten | 13 | - |  |
 | Robots | landscape | 80×24 | robots | 13 | q Quit |  |
 | Sail | landscape | 80×24 | text | 14 | - | Keyboard up at the start. |
@@ -195,23 +228,26 @@ Text size and buttons are from the round 2 shots: past the title screen where a 
 | Square Jump | landscape | 80×24 | nbsd | 14 | Quit | Enter named for what it does; Quit button. |
 | Snake | landscape | 80×24 | arrows | 14 | Warp, Quit | Warp and Quit buttons; unused buttons gone. |
 | Snake Duel | landscape | 80×24 | nbsd | 14 | Yes, No | Quit button; unused buttons gone. |
-| SOS | landscape | 80×24 | sos-nb | 27 | h, C | Quit button; unused buttons gone. |
+| SOS | landscape | 80×24 | sos-nb | 30 | Quit | Quit button; unused buttons gone. |
 | Sudoku | landscape | 80×24 | nbsd | 21 | 1, 2, 3, 4, 5, 6, 7, 8, 9, New, Restart, Quit | Digit buttons, New, Restart, Quit; Space reads Clear. |
+| Sudoku (rs) | portrait | 56×41 | arrows | 13 | 1, 2, 3, 4, 5, 6, 7, 8, 9, Beginner, Easy, Hard, Give up, Quit | New (Rust). 56×41 shows its side panel; 1–9, Clear and the difficulty keys as buttons. |
 | Su-Do-Ku | landscape | 80×24 | arrows | 14 | 1, 2, 3, 4, 5, 6, 7, 8, 9, Clear, Undo, Hint, New, Restart, Quit, c Clear board, d Redraw, f Fix squares, v Solve | Digit buttons, Clear, Undo, Hint, New, Restart, Quit. |
-| Backgammon Tutor | landscape | 80×24 | text | 22 | Continue | Landscape: the board needs 80 columns. Digits, dash and comma for moves; Continue at its "-->" prompt. |
+| Backgammon Tutor | landscape | 80×24 | text | 18 | Continue | Landscape: the board needs 80 columns. Digits, dash and comma for moves; Continue at its "-->" prompt. |
 | Termrex | landscape | 140×28 | dino | 10 | - |  |
 | Tetris (berk76) | landscape | 80×24 | berk-tetris | 14 | - |  |
 | Tetris (BSD) | landscape | 80×24 | jkl-blocks | 15 | - | Landscape: its key line garbles the score below 72 columns. |
+| Tetro TUI | portrait | 80×24 | tetro | 14 | ? See all | New (Rust). Its own controls (drop, turn, hold). |
 | Threes | portrait | 80×24 | wasd4 | 18 | - |  |
-| TINT | portrait | 80×24 | blocks | 27 | 1, 2, 3, 4, 5, 6, 7, 8, 9 |  |
+| TINT | portrait | 80×24 | blocks | 11 | - |  |
 | TinyCols | portrait | 38×16 | columns | 24 | - |  |
 | TinyTetris | portrait | 22×22 | wasd-blocks | 28 | - |  |
 | Tornado | landscape | 80×25 | tornado | 13 | l Lightning, c Current, q Quit, o Highscores | Its weather legend as chips. 80x25: the players' line was cut off. |
-| Star Traders | landscape | 80×24 | text | 18 | C Continue | Dialog text readable (was white on light blue). Keyboard up at the start. |
-| Star Trek | any | 80×24 | text | 24 / 30 | Continue | Keyboard up at the start. |
+| Star Traders | landscape | 80×24 | text | 12 | 1 Display, 3 Save, 2 Declare, C Quit | Dialog text readable (was white on light blue). Keyboard up at the start. |
+| Star Trek | any | 80×24 | text | 18 / 14 | - | Keyboard up at the start. |
 | TROG | landscape | 80×24 | qweasdzxc | 14 | - | "Continue" no longer covers the title. |
-| Treasure Mines | landscape | 80×24 | nbsd | 30 | h, C | Enter named for what it does; Quit button. |
+| Treasure Mines | landscape | 80×24 | nbsd | 17 | Quit | Enter named for what it does; Quit button. |
 | tty-solitaire | landscape | 57×28 | space-select | 12 | More, Fewer, Quit | More, Fewer and Quit buttons. |
+| ttyper | landscape | 80×24 | text | 14 | - | New (Rust). Starts with the keyboard up. |
 | Tug of War | landscape | 80×24 | text | 14 | 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Quit | Digit buttons. |
 | Typespeed | landscape | 80×24 | text | 14 | - | Keyboard up at the start. |
 | Ularn | landscape | 80×24 | roguelike | 14 | Continue | "Continue" no longer covers the text. 10 command buttons. |

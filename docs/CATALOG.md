@@ -70,6 +70,12 @@ Diagnostics in the app runs a self-test on the phone, and its report is the kind
     { "label": "Bomb", "text": "b" },   //   under the game whenever it isn't asking a question
     { "label": "Menu", "key": "ESCAPE" }
   ],
+  "art": {                              // optional: its card picture, rows of its real screen
+    "rows": ["│▓▓ │", "└───┘"],         //   (tools/catalog/capture_art.py writes it)
+    "fg": [".00..", "....."],           //   a colour code per cell: '.' the screen's ink,
+    "bg": [".11..", "....."],           //   else an index into palette ('.' = no background)
+    "palette": ["a9", "#203040"]        //   d, s, i, a0..a15 (theme), x16..x255, #rrggbb
+  },
   "saves": { "paths": [], "notes": "…" },
   "data_files": [ { "asset": "games/x/data.bin", "dest": ".x/data.bin", "sha256": "…" } ],
   "network": "none",                    // none|optional|required

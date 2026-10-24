@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "id": "minesweep-rs",
+  "title": "minesweep",
+  "summary": "Minesweeper with a clean grid: clear the field without touching a mine.",
+  "description": "Move with the pad, Reveal opens a tile and Flag marks a mine.",
+  "category": "puzzle",
+  "tags": [
+    "minesweeper",
+    "logic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Phillip Cloud"
+    ],
+    "license": "Apache-2.0",
+    "source_url": "https://github.com/cpcloud/minesweep-rs",
+    "version": "git 6ca1c255"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "minesweep-rs-6ca1c255.tar",
+    "source_sha256": "0fc23ac372867ea132f21c962e3f4791a3d6bb7ae7c6907305b75bf71c695a13"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_minesweep_rs",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        50,
+        38
+      ],
+      "preferred": [
+        50,
+        38
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "mines.v1",
+  "control_hide": [
+    "new",
+    "help"
+  ],
+  "art": {
+    "rows": [
+      "╯╰───╯╰───╯╰───╯╰───╯╰───╯╰───",
+      "╮╭───╮╭───╮╭───╮╭───╮╭───╮╭───",
+      "││ 1 ││ 1 ││ 1 ││   ││   ││   ",
+      "╯╰───╯╰───╯╰───╯╰───╯╰───╯╰───",
+      "╮╭───╮╭───╮╭───╮╭───╮╭───╮╭───",
+      "││   ││   ││   ││   ││   ││   ",
+      "╯╰───╯╰───╯╰───╯╰───╯╰───╯╰───",
+      "╮╭───╮╭───╮╭───╮╭───╮╭───╮╭───"
+    ],
+    "fg": [
+      "022222222222222222222222222222",
+      "222222222222222222222222222222",
+      "222222222222222221112211122111",
+      "222222222222222222222222222222",
+      "222222222222222222222222222222",
+      "221112211122111221112211122111",
+      "222222222222222222222222222222",
+      "222222222222222222222222222222"
+    ],
+    "bg": [
+      "111111111111111111111111111111",
+      "111111111111111111111111111111",
+      "111111111111111112221122211222",
+      "111111111111111111111111111111",
+      "111111111111111111111111111111",
+      "112221122211222112221122211222",
+      "111111111111111111111111111111",
+      "111111111111111111111111111111"
+    ],
+    "palette": [
+      "a14",
+      "a0",
+      "a15"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: field and key help."
+  }
+}

@@ -127,6 +127,41 @@ class RenderShotsTest {
         return app
     }
 
+    /** Every game's shelf card, as Discover and Library draw it: build/shots/cards-<n>.png. */
+    @Test
+    fun cards() {
+        assumeTrue("pass -Pshots=<ids|all> to render screenshots", wanted.isNotBlank())
+        RuntimeEnvironment.setQualifiers("w411dp-h914dp-port-xxhdpi")
+        val app = setUpApp()
+        val a = Robolectric.buildActivity(MainActivity::class.java).setup().get()
+        idle(100)
+        val out = File(System.getProperty("tuikio.shotsDir", "build/shots")).apply { mkdirs() }
+        val density = app.resources.displayMetrics.density
+        val w = (152 * density).toInt()
+        val cards = app.catalog.games.map { g ->
+            dev.tuikio.app.screens.Cartridge(a, g) {}.apply {
+                measure(View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+                layout(0, 0, measuredWidth, measuredHeight)
+            }
+        }
+        val cols = 4
+        val gap = (12 * density).toInt()
+        val h = cards.maxOf { it.measuredHeight }
+        cards.chunked(cols * 5).forEachIndexed { n, page ->
+            val rows = (page.size + cols - 1) / cols
+            val sheet = Bitmap.createBitmap(cols * (w + gap) + gap, rows * (h + gap) + gap, Bitmap.Config.ARGB_8888)
+            val c = Canvas(sheet)
+            c.drawColor(dev.tuikio.app.ui.Theme.palette.ground)
+            page.forEachIndexed { i, card ->
+                c.save()
+                c.translate((gap + (i % cols) * (w + gap)).toFloat(), (gap + (i / cols) * (h + gap)).toFloat())
+                card.draw(c)
+                c.restore()
+            }
+            File(out, "cards-${n + 1}.png").outputStream().use { sheet.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        }
+    }
+
     @Test
     fun portrait() = shoot("port", "w411dp-h914dp-port-xxhdpi")
 
@@ -205,6 +240,7 @@ class RenderShotsTest {
                 }
             }
             File(out, "$id-$tag.cells").writeText(flags.joinToString("\n"))
+            File(out, "$id-$tag.screen.json").writeText(screenCells(emu).write())
             File(out, "$id-$tag.txt").writeText("view ${term.width}x${term.height} cell ${term.cellW}x${term.cellH} grid ${emu.cols}x${emu.rows}\n" +
                 text.joinToString("\n") { "|$it" } + "\n")
             // For the audit: what the screen offers besides the game, and how big the game is drawn.
@@ -223,6 +259,41 @@ class RenderShotsTest {
         Motion.setUserReduced(app, false)
         contactSheets(out, tag)
         assertTrue("incremental rendering differs from a full repaint: $stale", stale.isEmpty())
+    }
+
+    /**
+     * Every cell's character and colours as drawn (bold basic colours brightened, inverse
+     * applied): tools/catalog/capture_art.py picks each game's card picture from these.
+     * Colours: "d" (default), "a0".."a15", "x16".."x255" or "#rrggbb".
+     */
+    private fun screenCells(emu: dev.tuikio.terminal.TerminalEmulator): Json = synchronized(emu.lock) {
+        fun code(c: Int): String = when {
+            c == dev.tuikio.terminal.TermColor.DEFAULT -> "d"
+            dev.tuikio.terminal.TermColor.isRgb(c) -> "#%06x".format(dev.tuikio.terminal.TermColor.rgbValue(c))
+            c < 16 -> "a$c"
+            else -> "x$c"
+        }
+        val rows = (0 until emu.rows).map { r ->
+            val line = emu.screen[r]
+            (0 until emu.cols).map { c ->
+                val st = line.styles[c]
+                val bgIndex = dev.tuikio.terminal.CellStyle.bg(st)
+                var fg = dev.tuikio.terminal.CellStyle.fg(st).let {
+                    if (it < 8 && dev.tuikio.terminal.CellStyle.has(st, dev.tuikio.terminal.CellStyle.BOLD) && it + 8 != bgIndex) it + 8 else it
+                }
+                var bg = bgIndex
+                if (dev.tuikio.terminal.CellStyle.has(st, dev.tuikio.terminal.CellStyle.INVERSE) xor emu.reverseVideo) {
+                    if (fg == dev.tuikio.terminal.TermColor.DEFAULT && bg == dev.tuikio.terminal.TermColor.DEFAULT) { fg = -1; bg = -2 } else { val t = fg; fg = bg; bg = t }
+                }
+                val tail = dev.tuikio.terminal.CellStyle.has(st, dev.tuikio.terminal.CellStyle.WIDE_TAIL)
+                val ch = if (tail) "" else if (dev.tuikio.terminal.CellStyle.has(st, dev.tuikio.terminal.CellStyle.INVISIBLE) || line.chars[c] == 0) " "
+                    else String(Character.toChars(line.chars[c]))
+                // Inverse of the default colours: the screen's ink as background ("i"), and its
+                // background as ink ("s").
+                listOf(ch, if (fg == -1) "s" else code(fg), if (bg == -2) "i" else code(bg))
+            }
+        }
+        Json.obj("cols" to emu.cols, "rows" to emu.rows, "cells" to rows)
     }
 
     private val stale = ArrayList<String>()

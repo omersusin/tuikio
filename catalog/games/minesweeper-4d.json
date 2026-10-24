@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "id": "minesweeper-4d",
+  "title": "4D Minesweeper",
+  "summary": "Minesweeper in four dimensions: every cell has 80 neighbours.",
+  "description": "The board is a grid of grids: x and y move inside a grid, Z and W move between grids. Delta mode shows how many unflagged mines remain around a cell.",
+  "category": "puzzle",
+  "tags": [
+    "minesweeper",
+    "4d",
+    "logic"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "itabesamesa"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/itabesamesa/minesweeper_4d_rs",
+    "version": "git c9480eec"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "minesweeper-4d-rs-c9480eec.tar",
+    "source_sha256": "5667848c4ea66a007012c07ae8ab4abd674aeb6eb6b32c9c9f28a0cac4ada793"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_minesweeper_4d",
+    "args": [
+      "-c",
+      "config.toml"
+    ],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "mines4d.v1",
+  "art": {
+    "rows": [
+      "   │Mines flagged:    0/20    ",
+      "   │Dimensions:       4 4 4 4 ",
+      "   │Location:         0 0 0 0 ",
+      "   │Started at:       2026-10-",
+      "   │Time elapsed:     1.234   ",
+      "   │Seed:             13997347",
+      "   │Game state:       Game Run",
+      "   └──────────────────────────"
+    ],
+    "fg": [
+      "00.222222222222222222222222222",
+      "...222222222222222222222222222",
+      "00.222222222222222222222222222",
+      "00.222222222222222222222222222",
+      "00.222222222222222222222222222",
+      "00.222222222222222222222222222",
+      "...222222222222222222222222222",
+      "00.222222222222222222222222222"
+    ],
+    "bg": [
+      "11............................",
+      "..............................",
+      "33............................",
+      "11............................",
+      "33............................",
+      "11............................",
+      "..............................",
+      "33............................"
+    ],
+    "palette": [
+      "a0",
+      "#666666",
+      "a15",
+      "#3b3b3b"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [
+    {
+      "asset": "games/minesweeper-4d/config.toml",
+      "dest": "config.toml",
+      "sha256": "9742e5ab225c30b91cadb0693793d8b3cd74e546fb95cedd9e8f4798dfdfc076"
+    }
+  ],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: game info and board."
+  }
+}

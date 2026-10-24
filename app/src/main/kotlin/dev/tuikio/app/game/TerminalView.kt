@@ -667,8 +667,8 @@ class TerminalView(context: Context) : View(context), Choreographer.FrameCallbac
         /** Shrinking by less than this many cells (both sides, both axes) isn't worth a zoom. */
         private const val SHRINK_MIN_CELLS = 4
         /** WCAG's minimum for large text; below it a text color is swapped for a readable one. */
-        private const val MIN_CONTRAST = 3.0
-        private const val DARK_INK = 0xFF14121F.toInt()
+        internal const val MIN_CONTRAST = 3.0
+        internal const val DARK_INK = 0xFF14121F.toInt()
 
         private fun luminance(c: Int): Double {
             fun ch(v: Int): Double = (v / 255.0).let { if (it <= 0.03928) it / 12.92 else Math.pow((it + 0.055) / 1.055, 2.4) }

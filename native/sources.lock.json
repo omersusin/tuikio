@@ -331,6 +331,51 @@
       "git": "https://github.com/joshbressers/ularn",
       "commit": "ef421842add954c55639656c5973042963c9b258",
       "sha256": "c15ada21d3f817924a6f8f91d99b53c8c0e791f929c7a74523df06785ed0b408"
+    },
+    "ttyper-e218bad9.tar": {
+      "git": "https://github.com/max-niederman/ttyper",
+      "commit": "e218bad9d5c546ff31c1b2a141a42c2eebf50d23",
+      "sha256": "1a3f74901ab5fd6e4a174d738682ae6745f8df49df2b78a14b14a67bfce1642e"
+    },
+    "sudoku-rs-c8b6572a.tar": {
+      "git": "https://github.com/MitchelPaulin/sudoku-rs",
+      "commit": "c8b6572aa1fcdcea69dcfa88dd4b8765b04fd97c",
+      "sha256": "e2ad3ac427827fe9004dfec3e2f29283597e1f0670c89c9903a3a3b99c11be63"
+    },
+    "minesweep-rs-6ca1c255.tar": {
+      "git": "https://github.com/cpcloud/minesweep-rs",
+      "commit": "6ca1c255ae1088f811499808499d5b4e18ae7f4f",
+      "sha256": "0fc23ac372867ea132f21c962e3f4791a3d6bb7ae7c6907305b75bf71c695a13"
+    },
+    "tetro-tui-4b6c7cb3.tar": {
+      "git": "https://github.com/Strophox/tetro-tui",
+      "commit": "4b6c7cb354c135fe503ef7a5c20b622a325eccb7",
+      "sha256": "86c1f549d5caac0fcba89727bf7fdc15487952d67a5ee91d4ea56b5b2b7aab9f"
+    },
+    "rhex-dd1b6b66.tar": {
+      "git": "https://github.com/dpc/rhex",
+      "commit": "dd1b6b66b051d8eccc7ff4ba2edd82b165daa133",
+      "sha256": "eca50840408ff4c0884b2f38ec58675d6bf22158f225e676a57c2ccaec45ae02"
+    },
+    "minesweeper-4d-rs-c9480eec.tar": {
+      "git": "https://github.com/itabesamesa/minesweeper_4d_rs",
+      "commit": "c9480eec5aa8af533d66315489bdd148ddafd5c4",
+      "sha256": "5667848c4ea66a007012c07ae8ab4abd674aeb6eb6b32c9c9f28a0cac4ada793"
+    },
+    "balatrotui-01bbb9ac.tar": {
+      "git": "https://github.com/Passeriform/BalatroTUI",
+      "commit": "01bbb9ac1b62f6dba4c9c737329034e82d30c81d",
+      "sha256": "b0561097bd11f510dce6a20c5a7fe33886271e3b35ee4c7e45977f1f4b3af76b"
+    },
+    "inertia-80886289.tar": {
+      "git": "https://github.com/aclfe/inertia",
+      "commit": "80886289ed4165134e4c650aa69c22933b7b28b9",
+      "sha256": "685a5a2398988c5fb6616ee73b5e8696c7ac880fb242fdea64c42a77cdd095f2"
+    },
+    "blackguard-294bfd37.tar": {
+      "git": "https://github.com/ElnurBDa/blackguard",
+      "commit": "294bfd379255cfc0249531c899250e4d1fa9ca45",
+      "sha256": "1bb864df770b588a9266ca6d584b76cf8d0795d50480c37d8dc005de6a5c38b4"
     }
   }
 }

@@ -245,6 +245,11 @@ class Abi:
             "c++": f'exec "{z}" c++ -target {self.triple} "$@"',
             "ar": f'exec "{z}" ar "$@"',
             "ranlib": f'exec "{z}" ranlib "$@"',
+            # Linker for Rust: zig's musl start files and libc, and always a static-PIE: rustc
+            # asks for -no-pie on some musl targets, and zig ignores -static-pie.
+            "rustcc": 'for a; do shift; case "$a" in -no-pie) a=-pie ;; -static-pie) set -- "$@" -static; a=-pie ;; esac; '
+                      'set -- "$@" "$a"; done\n'
+                      f'exec "{z}" cc -target {self.triple} "$@"',
         }
         for tool, body in wrappers.items():
             path = os.path.join(self.bin, tool)
@@ -319,6 +324,35 @@ def check_static_pie(path, abi):
             fh.seek(phoff + i * phentsize)
             if struct.unpack("<I", fh.read(4))[0] == 3:  # PT_INTERP
                 raise BuildError(f"{path}: dynamically linked")
+
+
+RUST_TARGETS = {
+    "arm64-v8a": "aarch64-unknown-linux-musl",
+    "armeabi-v7a": "armv7-unknown-linux-musleabihf",
+    "x86_64": "x86_64-unknown-linux-musl",
+}
+CARGO_HOME = os.path.join(CACHE, "cargo")
+
+
+def cargo(abi, src, binary, args=""):
+    """Builds a Rust program as a static-PIE for the ABI and returns the executable's path.
+    Crates come from crates.io, pinned and checksummed by the tree's Cargo.lock (--locked);
+    crates with C code compile it with the ABI's zig cc."""
+    triple = RUST_TARGETS[abi.name]
+    t = triple.replace("-", "_")
+    env = dict(os.environ)
+    env.update({
+        f"CARGO_TARGET_{t.upper()}_LINKER": os.path.join(abi.bin, "rustcc"),
+        f"CC_{t}": abi.cc, f"CXX_{t}": abi.cxx, f"AR_{t}": abi.ar, f"CFLAGS_{t}": CFLAGS,
+        "CARGO_HOME": CARGO_HOME,
+        "CARGO_TARGET_DIR": os.path.join(src, "target"),
+        "RUSTFLAGS": f"-C target-feature=+crt-static -C link-self-contained=no -C relocation-model=pic "
+                     f"-C strip=symbols --remap-path-prefix={ROOT}=. --remap-path-prefix={CARGO_HOME}=cargo",
+    })
+    if not shutil.which("cargo"):
+        raise BuildError("cargo not found: install Rust with the musl targets (see docs/BUILD.md)")
+    run(f"cargo build --release --locked --target {triple} {args}", src, env)
+    return os.path.join(src, "target", triple, "release", binary)
 
 
 def cc(abi, srcs, out, extra="", libs="", cxx=False, cwd=None):
@@ -406,6 +440,11 @@ plain file)."""
 GAME_LICENSE = {}
 """game id -> license file name; games from one source tree share one text."""
 NEEDS_CURSES = set()
+
+
+# Extra license text per LICENSES/ component, appended after its own license: the notices of
+# libraries linked into a game (Rust crates, Go modules). Filled in by recipes while they build.
+EXTRA_NOTICES = {}
 
 
 def game(name, curses=True, notice=None, license_name=None):

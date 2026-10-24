@@ -43,7 +43,7 @@ class DiscoverScreen : Screen() {
         if (recent != null && app.catalog.isPlayable(recent)) {
             addView(ctx.card(gapDp = 0) {
                 addView(ctx.hstack(14) {
-                    addView(MiniScreen(ctx, app.catalog.art(recent), artInk(recent)), LinearLayout.LayoutParams(ctx.dp(112), ctx.dp(96)))
+                    addView(MiniScreen(ctx, app.catalog.art(recent), artInk(recent), cells = recent.art), LinearLayout.LayoutParams(ctx.dp(112), ctx.dp(96)))
                     addView(ctx.vstack(6) {
                         addView(T.label(ctx, "Continue"))
                         addView(T.title(ctx, recent.title, 20f).apply { maxLines = 1; ellipsize = TextUtils.TruncateAt.END })

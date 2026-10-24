@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "id": "inertia",
+  "title": "Inertia",
+  "summary": "A physics sandbox: rigid bodies, gravity, cloth, fluid and heat, drawn in the terminal.",
+  "description": "Pick a demo with the pad and Select (or 1 to 6), or start empty and spawn boxes, spheres and stars with the buttons under it; tap to place. ? lists every key.",
+  "category": "simulation",
+  "tags": [
+    "physics",
+    "sandbox",
+    "toy"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Kairav Mittal"
+    ],
+    "license": "MIT OR Apache-2.0",
+    "source_url": "https://github.com/aclfe/inertia",
+    "version": "git 80886289"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "inertia-80886289.tar",
+    "source_sha256": "685a5a2398988c5fb6616ee73b5e8696c7ac880fb242fdea64c42a77cdd095f2"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_inertia",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "arrows.v1",
+  "control_labels": {
+    "space": "Pause",
+    "back": "Quit"
+  },
+  "keys": [
+    {
+      "label": "Box",
+      "text": "b"
+    },
+    {
+      "label": "Sphere",
+      "text": "s"
+    },
+    {
+      "label": "Star",
+      "text": "n"
+    },
+    {
+      "label": "Gravity",
+      "text": "g"
+    },
+    {
+      "label": "Wind",
+      "text": "w"
+    },
+    {
+      "label": "Clear",
+      "text": "X"
+    },
+    {
+      "label": "Zoom in",
+      "text": "+"
+    },
+    {
+      "label": "Zoom out",
+      "text": "-"
+    },
+    {
+      "label": "Help",
+      "text": "?"
+    }
+  ],
+  "art": {
+    "rows": [
+      "      ⣀⡠⢤⣒⣋⠿⠴⢏⡹⠦⠾⣉⣒⡢⠤⣀⡀       ",
+      "⣀⡠⠤⠲⢎⡩⠵⠲⢎⡩⠵⠒⠭⣁⣈⠭⠒⠮⢍⡱⠖⠮⢍⡩⠖⠢⢄⣀  ",
+      "⡨⠕⠲⣉⡡⠬⠓⠫⢅⢈⡱⠶⢖⡉⢉⡱⠶⢎⡁⡨⠝⠚⠥⢌⣉⠖⠪⢅⣉⡱",
+      "⠦⣒⠉⠁⢉⣢⢤⡒⠉⠉⣒⠤⣔⠊⠑⣢⠤⣒⠉⠉⢒⡤⣔⡉⠈⠉⣒⠴⢎⡉",
+      "⣀⠤⠕⠮⡁ ⣀⠬⠒⠭⡀⢀⡠⠕⠪⢄⡀⢀⠭⠒⠥⣀ ⢈⠵⠪⠤⣀ ⢈",
+      "⡀⢀⣀⠤⠚⠙⢄⡀⣀⠔⠊⠑⠢⣀⣀⠔⠊⠑⠢⣀⢀⡠⠋⠓⠤⣀⡀⢀⠝⠓",
+      "⠊⠑⢄ ⣀⠤⠒⠉⠒⢄ ⡠⠔⠉⠉⠢⢄ ⡠⠒⠉⠒⠤⣀ ⡠⠊⠑⠢⢄",
+      "⢀⡠⠔⠋⠢⡀ ⢀⡠⠒⠉⠢⢄  ⡠⠔⠉⠒⢄⡀ ⢀⠔⠙⠢⢄⡀ ⢀"
+    ],
+    "fg": [
+      "......00000000000000000.......",
+      "0000000000000000000000000000..",
+      "000000000000000000000000000000",
+      "000000000000000000000000000000",
+      "00000.0000000000000000.00000.0",
+      "000000000000000000000000000000",
+      "000.000000.000000.000000.00000",
+      "000000.000000..000000.000000.0"
+    ],
+    "bg": [
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      ".............................."
+    ],
+    "palette": [
+      "a8"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: scene menu."
+  }
+}

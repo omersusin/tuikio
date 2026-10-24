@@ -64,7 +64,7 @@ class DetailsScreen(private val gameId: String) : Screen() {
             addView(FrameLayout(ctx).apply {
                 background = StickerDrawable(ctx, fill = p.screen, outline = p.screenEdge, shadowDp = 0f)
                 setPadding(ctx.dp(10), ctx.dp(10), ctx.dp(10), ctx.dp(10))
-                addView(MiniScreen(ctx, app.catalog.art(game), artInk(game)), FrameLayout.LayoutParams(MATCH, ctx.dp(150)))
+                addView(MiniScreen(ctx, app.catalog.art(game), artInk(game), cells = game.art), FrameLayout.LayoutParams(MATCH, ctx.dp(150)))
             })
             addView(ctx.vstack(8) {
                 addView(T.title(ctx, game.title, 28f))

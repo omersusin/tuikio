@@ -47,6 +47,18 @@
     "input": "typing"
   },
   "controls": "text.v1",
+  "art": {
+    "rows": [
+      "W e l c o m e   t o   P h a n t a s i a"
+    ],
+    "fg": [
+      "......................................."
+    ],
+    "bg": [
+      "......................................."
+    ],
+    "palette": []
+  },
   "saves": {
     "paths": [
       "phantasia/characs",

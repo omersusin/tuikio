@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "profile_id": "mines4d.v1",
+  "title": "4D Minesweeper",
+  "help": "The pad moves along x and y; Z and W move through the other two dimensions. Uncover opens a cell, Flag marks a mine, Find jumps to a free cell.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "up",
+      "label": "Up",
+      "icon": "arrow_up",
+      "output": {
+        "key": "UP"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "icon": "arrow_down",
+      "output": {
+        "key": "DOWN"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      },
+      "repeat": {
+        "delay_ms": 300,
+        "interval_ms": 110
+      }
+    },
+    {
+      "id": "zminus",
+      "label": "Z-",
+      "output": {
+        "text": "a"
+      }
+    },
+    {
+      "id": "zplus",
+      "label": "Z+",
+      "output": {
+        "text": "d"
+      }
+    },
+    {
+      "id": "wminus",
+      "label": "W-",
+      "output": {
+        "text": "s"
+      }
+    },
+    {
+      "id": "wplus",
+      "label": "W+",
+      "output": {
+        "text": "w"
+      }
+    },
+    {
+      "id": "uncover",
+      "label": "Uncover",
+      "icon": "search",
+      "output": {
+        "text": " "
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "flag",
+      "label": "Flag",
+      "icon": "flag",
+      "output": {
+        "text": "m"
+      }
+    },
+    {
+      "id": "find",
+      "label": "Find",
+      "output": {
+        "text": "f"
+      }
+    },
+    {
+      "id": "pause",
+      "label": "Pause",
+      "icon": "pause",
+      "output": {
+        "text": "p"
+      },
+      "states": [
+        {
+          "when": "(?i)\\bpaused?\\b",
+          "label": "Resume",
+          "icon": "play"
+        }
+      ]
+    },
+    {
+      "id": "new",
+      "label": "New",
+      "icon": "refresh",
+      "output": {
+        "text": "n"
+      }
+    },
+    {
+      "id": "quit",
+      "label": "Quit",
+      "icon": "close",
+      "output": {
+        "text": "q"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 168,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 84,
+        "bind": {
+          "press": "uncover"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "offset": [
+          0,
+          -96
+        ],
+        "size": 60,
+        "bind": {
+          "press": "flag"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          0,
+          -40
+        ],
+        "size": 48,
+        "bind": {
+          "press": "zminus"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_start",
+        "offset": [
+          60,
+          -40
+        ],
+        "size": 48,
+        "bind": {
+          "press": "zplus"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "offset": [
+          -60,
+          -40
+        ],
+        "size": 48,
+        "bind": {
+          "press": "wminus"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "offset": [
+          0,
+          -40
+        ],
+        "size": 48,
+        "bind": {
+          "press": "wplus"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 48,
+        "bind": {
+          "press": "new"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 48,
+        "bind": {
+          "press": "pause"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 160,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 80,
+        "bind": {
+          "press": "uncover"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "flag"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 48,
+        "bind": {
+          "press": "zminus"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 48,
+        "bind": {
+          "press": "zplus"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 48,
+        "bind": {
+          "press": "wplus"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "offset": [
+          0,
+          -76
+        ],
+        "size": 48,
+        "bind": {
+          "press": "wminus"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

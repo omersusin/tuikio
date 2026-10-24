@@ -62,6 +62,32 @@ class CatalogTest {
         bad("\"network\": \"none\"", "\"network\": \"none\", \"autorun\": true")
     }
 
+    /** The per-game additions: keys, labels and the card picture round-trip and validate. */
+    @Test
+    fun gameKeysLabelsAndArt() {
+        val good = manifest.replace("\"controls\": \"blocks.v1\",", """
+            "controls": "blocks.v1",
+            "control_labels": {"drop": "Slam"},
+            "control_hide": ["back"],
+            "keys": [{"label": "Hold", "text": "c"}, {"label": "Menu", "key": "ESCAPE"}],
+            "art": {"rows": ["│▓▓ │", "└───┘"], "fg": [".00..", "....."], "bg": [".11..", "....."], "palette": ["a9", "#203040"]},
+        """.trimIndent())
+        val m = GameManifest.parse(good)
+        assertEquals(mapOf("drop" to "Slam"), m.controlLabels)
+        assertEquals(setOf("back"), m.controlHide)
+        assertEquals(listOf(GameKey("Hold", text = "c"), GameKey("Menu", key = "ESCAPE")), m.keys)
+        assertEquals(5, m.art!!.cols)
+        assertEquals(m, GameManifest.parse(m.toJson().write(pretty = true)))
+        fun bad(from: String, to: String) =
+            assertFailsWith<JsonReader.InvalidException>("$from -> $to") { GameManifest.parse(good.replace(from, to)) }
+        bad("\"text\": \"c\"", "\"text\": \"c\", \"key\": \"TAB\"")
+        bad("\"key\": \"ESCAPE\"", "\"key\": \"PRINT_SCREEN\"")
+        bad("\"label\": \"Hold\"", "\"label\": \"Hold the piece for later\"")
+        bad("[\".00..\", \".....\"]", "[\".00.\", \".....\"]") // a row narrower than its text
+        bad("[\".11..\", \".....\"]", "[\".12..\", \".....\"]") // a colour not in the palette
+        bad("\"#203040\"", "\"red\"")
+    }
+
     @Test
     fun androidTestedNeedsEvidence() {
         val ok = manifest.replace("\"PORTABLE\"", "\"ANDROID_TESTED\"").replace("\"android_tested\": null", "\"android_tested\": \"2026-10-22 Pixel 8\"")

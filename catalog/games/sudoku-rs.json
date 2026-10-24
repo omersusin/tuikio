@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "id": "sudoku-rs",
+  "title": "Sudoku (rs)",
+  "summary": "Sudoku with big, clear cells and three difficulties.",
+  "description": "Move with the pad and tap a digit under the board; Clear empties a square. Beginner, Easy and Hard start a new puzzle.",
+  "category": "puzzle",
+  "tags": [
+    "sudoku",
+    "logic",
+    "numbers"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Mitchel Paulin"
+    ],
+    "license": "GPL-3.0-only",
+    "source_url": "https://github.com/MitchelPaulin/sudoku-rs",
+    "version": "git c8b6572a"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "sudoku-rs-c8b6572a.tar",
+    "source_sha256": "e2ad3ac427827fe9004dfec3e2f29283597e1f0670c89c9903a3a3b99c11be63"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_sudoku_rs",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        56,
+        41
+      ],
+      "preferred": [
+        56,
+        41
+      ]
+    },
+    "orientation": "portrait"
+  },
+  "controls": "arrows.v1",
+  "control_labels": {
+    "space": "Clear"
+  },
+  "control_hide": [
+    "select",
+    "back"
+  ],
+  "keys": [
+    {
+      "label": "1",
+      "text": "1"
+    },
+    {
+      "label": "2",
+      "text": "2"
+    },
+    {
+      "label": "3",
+      "text": "3"
+    },
+    {
+      "label": "4",
+      "text": "4"
+    },
+    {
+      "label": "5",
+      "text": "5"
+    },
+    {
+      "label": "6",
+      "text": "6"
+    },
+    {
+      "label": "7",
+      "text": "7"
+    },
+    {
+      "label": "8",
+      "text": "8"
+    },
+    {
+      "label": "9",
+      "text": "9"
+    },
+    {
+      "label": "Beginner",
+      "text": "z"
+    },
+    {
+      "label": "Easy",
+      "text": "x"
+    },
+    {
+      "label": "Hard",
+      "text": "c"
+    },
+    {
+      "label": "Give up",
+      "text": "g"
+    },
+    {
+      "label": "Quit",
+      "text": "q"
+    }
+  ],
+  "art": {
+    "rows": [
+      "└────┘└────┘└────┘└────┘└────┘",
+      "┌────┐┌────┐┌────┐┌────┐┌────┐",
+      "│    ││    ││    ││    ││ 1  │",
+      "└────┘└────┘└────┘└────┘└────┘",
+      "┌────┐┌────┐┌────┐┌────┐┌────┐",
+      "│    ││ 2  ││    ││ 4  ││    │",
+      "└────┘└────┘└────┘└────┘└────┘",
+      "┌────┐┌────┐┌────┐┌────┐┌────┐"
+    ],
+    "fg": [
+      "000000222222222222000000000000",
+      "222222222222000000000000222222",
+      "233332233332033330033330233332",
+      "222222222222000000000000222222",
+      "222222000000000000222222000000",
+      "233332033330033330233332033330",
+      "222222000000000000222222000000",
+      "000000000000222222222222000000"
+    ],
+    "bg": [
+      "111111222222000000000000000000",
+      "222222222222000000000000000000",
+      "222222222222000000000000000000",
+      "222222222222000000000000000000",
+      "222222222222000000000000000000",
+      "222222222222000000000000000000",
+      "222222222222000000000000000000",
+      "000000000000222222222222222222"
+    ],
+    "palette": [
+      "a7",
+      "#b8ffb8",
+      "a15",
+      "a8"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: puzzle with its info panel at 56x41 (at 29 rows only the board shows)."
+  }
+}

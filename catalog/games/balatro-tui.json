@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "balatro-tui",
+  "title": "Balatro TUI",
+  "summary": "A Balatro-style poker roguelike: play hands to beat each blind's score.",
+  "description": "Pick cards from your hand with the pad, then Play them as a poker hand or Discard them for new ones. Beat the blind's target score to move on.",
+  "category": "cards",
+  "tags": [
+    "poker",
+    "roguelike",
+    "deckbuilder"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Utkarsh Bhardwaj (Passeriform)"
+    ],
+    "license": "GPL-3.0-only",
+    "source_url": "https://github.com/Passeriform/BalatroTUI",
+    "version": "git 01bbb9ac"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "balatrotui-01bbb9ac.tar",
+    "source_sha256": "b0561097bd11f510dce6a20c5a7fe33886271e3b35ee4c7e45977f1f4b3af76b"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_balatro_tui",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        112,
+        40
+      ],
+      "preferred": [
+        112,
+        40
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "balatro.v1",
+  "art": {
+    "rows": [
+      "││   ⣠⠴⠚⠉⠉⠉⠉⠉⠙⠲⢤⡀   │    │││",
+      "││  ⡞⠁   Small  ⠙⡆  │ at │││",
+      "││  ⡇    Blind   ⡗  │  30│││",
+      "││  ⠳⣄         ⢀⡴⠃  │    │││",
+      "││   ⠈⠙⠲⠤⠤⢤⠤⠤⠴⠚⠉    │ard:│││",
+      "││                  ╰────╯││",
+      "│╰────────────────────────╯│",
+      "│╭────────────────────────╮│"
+    ],
+    "fg": [
+      ".....000000000000...........",
+      "....00...11111..00..........",
+      "....0....11111...0..........",
+      "....00.........000..........",
+      ".....00000000000............",
+      "............................",
+      "............................",
+      "............................"
+    ],
+    "bg": [
+      "............................",
+      "............................",
+      "............................",
+      "............................",
+      "............................",
+      "............................",
+      "............................",
+      "............................"
+    ],
+    "palette": [
+      "a4",
+      "a3"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: round drawn."
+  }
+}

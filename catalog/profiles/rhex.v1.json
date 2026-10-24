@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "profile_id": "rhex.v1",
+  "title": "Hex explorer",
+  "help": "Left and right turn, up walks forward and down steps back. Wait passes a turn, Use interacts with what's in front of you, Items opens the inventory.",
+  "orientation": "landscape",
+  "actions": [
+    {
+      "id": "up",
+      "label": "Forward",
+      "icon": "arrow_up",
+      "output": {
+        "key": "UP"
+      }
+    },
+    {
+      "id": "down",
+      "label": "Back",
+      "icon": "arrow_down",
+      "output": {
+        "key": "DOWN"
+      }
+    },
+    {
+      "id": "left",
+      "label": "Turn left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      }
+    },
+    {
+      "id": "right",
+      "label": "Turn right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      }
+    },
+    {
+      "id": "wait",
+      "label": "Wait",
+      "output": {
+        "text": "."
+      }
+    },
+    {
+      "id": "use",
+      "label": "Use",
+      "icon": "check",
+      "output": {
+        "text": ","
+      }
+    },
+    {
+      "id": "items",
+      "label": "Items",
+      "icon": "bag",
+      "output": {
+        "text": "I"
+      }
+    },
+    {
+      "id": "help",
+      "label": "Help",
+      "icon": "info",
+      "output": {
+        "text": "?"
+      }
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 184,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 84,
+        "bind": {
+          "press": "use"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 60,
+        "bind": {
+          "press": "wait"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "items"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 52,
+        "bind": {
+          "press": "help"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 176,
+        "bind": {
+          "up": "up",
+          "down": "down",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 80,
+        "bind": {
+          "press": "use"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "wait"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "items"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 52,
+        "bind": {
+          "press": "help"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": true
+}

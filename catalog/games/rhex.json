@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "id": "rhex",
+  "title": "rhex",
+  "summary": "An early, atmospheric roguelike on a hexagonal map, where what you see depends on where you face.",
+  "description": "Press any key, choose a race (a for human), then explore. Turn with left and right, walk with up. ? shows the full help.",
+  "category": "roguelike",
+  "tags": [
+    "roguelike",
+    "hex",
+    "exploration"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Dawid Ciężarkiewicz"
+    ],
+    "license": "MPL-2.0",
+    "source_url": "https://github.com/dpc/rhex",
+    "version": "git dd1b6b66"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "rhex-dd1b6b66.tar",
+    "source_sha256": "eca50840408ff4c0884b2f38ec58675d6bf22158f225e676a57c2ccaec45ae02"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_rhex",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape"
+  },
+  "controls": "rhex.v1",
+  "art": {
+    "rows": [
+      "            γ         ",
+      "           ,γ         ",
+      "          ,           ",
+      "   ###γγγ,            ",
+      "  # • • •             ",
+      " γ • • @              "
+    ],
+    "fg": [
+      "0000000000001000000000",
+      "0000000000331000000000",
+      "0000000005550000000000",
+      "000779aabcc00000000000",
+      "007efeghih000000000000",
+      "0befeihgk0000000000000"
+    ],
+    "bg": [
+      "0000000000002000000000",
+      "0000000000442000000000",
+      "0000000006660000000000",
+      "000881118dd00000000000",
+      "0088881111000000000000",
+      "0888811jj0000000000000"
+    ],
+    "palette": [
+      "x16",
+      "x28",
+      "x234",
+      "x243",
+      "x17",
+      "x102",
+      "x23",
+      "x137",
+      "x22",
+      "x138",
+      "x77",
+      "x71",
+      "x246",
+      "x24",
+      "x65",
+      "x245",
+      "x21",
+      "x107",
+      "x248",
+      "x34",
+      "x149"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: introduction screen."
+  }
+}

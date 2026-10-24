@@ -83,6 +83,7 @@ class YouScreen : Screen() {
         sectionHeader("Controls")
         val prefs = app.prefs
         addView(switchRow(ctx, "Haptics", "A light tick on every control press.", prefs.haptics) { prefs.haptics = it })
+        addView(switchRow(ctx, "Game sounds", "The beep games make (a wrong move, a hit, an alarm). Silent when the phone is.", prefs.gameSounds) { prefs.gameSounds = it })
         addView(switchRow(ctx, "Left-handed layout", "Mirror on-screen controls.", prefs.leftHanded) { prefs.leftHanded = it })
         addView(choiceRow(ctx, "Control size", listOf("Small" to 0.85f, "Medium" to 1f, "Large" to 1.2f), prefs.controlScale) { prefs.controlScale = it })
         addView(choiceRow(ctx, "Game text size", listOf("Small" to 0.8f, "Medium" to 1f, "Large" to 1.3f), prefs.terminalTextScale) { prefs.terminalTextScale = it })

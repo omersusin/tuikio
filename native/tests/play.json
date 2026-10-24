@@ -429,6 +429,53 @@
     "xonitix": [
       "expect:arrows move, space fires",
       "expect:Level 1"
+    ],
+    "ttyper": [
+      "expect:Prompt",
+      "type:the",
+      "wait:300"
+    ],
+    "sudoku-rs": [
+      "expect:Controls",
+      "key:RIGHT",
+      "type:5",
+      "wait:300"
+    ],
+    "minesweep-rs": [
+      "expect:expose tile",
+      "key:RIGHT",
+      "type: ",
+      "wait:300"
+    ],
+    "tetro-tui": [
+      "expect:New Game",
+      "key:ENTER",
+      "wait:800"
+    ],
+    "rhex": [
+      "expect:Press anything",
+      "type: ",
+      "wait:800"
+    ],
+    "minesweeper-4d": [
+      "expect:Game Info",
+      "type: ",
+      "wait:300"
+    ],
+    "balatro-tui": [
+      "expect:Hands",
+      "key:RIGHT",
+      "wait:300"
+    ],
+    "inertia": [
+      "expect:INERTIA",
+      "key:ENTER",
+      "wait:800"
+    ],
+    "blackguard": [
+      "expect:SCOUNDREL",
+      "key:RIGHT",
+      "wait:300"
     ]
   }
 }

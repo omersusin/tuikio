@@ -53,6 +53,7 @@ import dev.tuikio.runtime.LaunchSpec
 import dev.tuikio.runtime.PtyFrames
 import dev.tuikio.terminal.KeyMods
 import dev.tuikio.terminal.TermKey
+import dev.tuikio.terminal.TerminalEmulator
 
 object GameLauncher {
     const val EXTRA_GAME = "game"
@@ -161,6 +162,14 @@ class GameActivity : Activity() {
         terminal.onText = { text -> s.send(s.keys.text(text, extraKeys.takeMods())) }
         terminal.onKey = { e -> handleKey(e) }
         dispatcher.stateOf = { controls.stateOf(it) }
+        // The terminal bell: a short sound (and tick), as the player set them in You.
+        bell.sound = TuikioApp.instance.prefs.gameSounds
+        bell.haptics = TuikioApp.instance.prefs.haptics
+        s.terminal.listener = object : TerminalEmulator.Listener {
+            override fun onBell() {
+                uiHandler.post { if (!isFinishing) bell.ring(terminal) }
+            }
+        }
         s.listener = object : GameSession.Listener {
             override fun onOutput() {
                 terminal.onOutput()
@@ -186,6 +195,8 @@ class GameActivity : Activity() {
     // The controls follow what the game shows: buttons with states change their look (Pause
     // becomes Resume once the game says it's paused), and when the game asks a question at its
     // cursor, the answers appear as chips ("Yes"/"No", the letters of "[TSFKCW]", "Continue").
+
+    private val bell by lazy { GameBell(this) }
 
     /** The game's own keys (manifest "keys"), for the strip under the game. */
     private val gameKeys by lazy {
@@ -438,6 +449,7 @@ class GameActivity : Activity() {
 
     override fun onDestroy() {
         uiHandler.removeCallbacksAndMessages(null)
+        bell.release()
         val s = session
         if (s != null) {
             s.resume() // a frozen game can't react to the hang-up that stop() sends

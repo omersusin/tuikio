@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "profile_id": "tetro.v1",
+  "title": "Tetro",
+  "help": "Left and right slide, Down drops softly, Up drops hard. Turn rotates either way, Hold keeps a piece for later. Menu pauses and opens the menus; Select picks in them.",
+  "orientation": "portrait",
+  "actions": [
+    {
+      "id": "left",
+      "label": "Left",
+      "icon": "arrow_left",
+      "output": {
+        "key": "LEFT"
+      },
+      "repeat": {
+        "delay_ms": 90,
+        "interval_ms": 40
+      }
+    },
+    {
+      "id": "right",
+      "label": "Right",
+      "icon": "arrow_right",
+      "output": {
+        "key": "RIGHT"
+      },
+      "repeat": {
+        "delay_ms": 90,
+        "interval_ms": 40
+      }
+    },
+    {
+      "id": "hard",
+      "label": "Drop",
+      "icon": "drop",
+      "output": {
+        "key": "UP"
+      },
+      "haptic": "click"
+    },
+    {
+      "id": "soft",
+      "label": "Down",
+      "icon": "arrow_down",
+      "output": {
+        "key": "DOWN"
+      },
+      "repeat": {
+        "delay_ms": 90,
+        "interval_ms": 40
+      }
+    },
+    {
+      "id": "ccw",
+      "label": "Turn left",
+      "icon": "rotate",
+      "output": {
+        "text": "a"
+      }
+    },
+    {
+      "id": "cw",
+      "label": "Turn",
+      "icon": "rotate",
+      "output": {
+        "text": "d"
+      }
+    },
+    {
+      "id": "hold",
+      "label": "Hold",
+      "output": {
+        "text": " "
+      }
+    },
+    {
+      "id": "menu",
+      "label": "Menu",
+      "icon": "pause",
+      "output": {
+        "key": "ESCAPE"
+      }
+    },
+    {
+      "id": "select",
+      "label": "Select",
+      "icon": "check",
+      "output": {
+        "key": "ENTER"
+      }
+    }
+  ],
+  "layout": {
+    "portrait": [
+      {
+        "type": "dpad4",
+        "anchor": "bottom_start",
+        "size": 184,
+        "bind": {
+          "up": "hard",
+          "down": "soft",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 96,
+        "bind": {
+          "press": "cw"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "offset": [
+          0,
+          -108
+        ],
+        "size": 64,
+        "bind": {
+          "press": "ccw"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "offset": [
+          0,
+          -40
+        ],
+        "size": 56,
+        "bind": {
+          "press": "hold"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "menu"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_start",
+        "size": 52,
+        "bind": {
+          "press": "select"
+        }
+      }
+    ],
+    "landscape": [
+      {
+        "type": "dpad4",
+        "anchor": "center_start",
+        "size": 176,
+        "bind": {
+          "up": "hard",
+          "down": "soft",
+          "left": "left",
+          "right": "right"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "center_end",
+        "size": 92,
+        "bind": {
+          "press": "cw"
+        },
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_end",
+        "size": 56,
+        "bind": {
+          "press": "ccw"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "top_end",
+        "size": 52,
+        "bind": {
+          "press": "menu"
+        }
+      },
+      {
+        "type": "button",
+        "anchor": "bottom_start",
+        "size": 52,
+        "bind": {
+          "press": "select"
+        }
+      }
+    ]
+  },
+  "pointer": "none",
+  "keyboard": false
+}

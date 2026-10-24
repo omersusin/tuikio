@@ -11,6 +11,7 @@ ProGuard (release), d8 (or dx), zipalign and apksigner. Everything else is plain
 | JDK | 17+ (CI uses 21) | Gradle, Kotlin, tests |
 | Python | 3.10+ | `native/build.py`, catalog import, perf tools |
 | Zig | 0.17.0 (`pip install ziglang==0.17.0`) | Cross-compiling games and the PTY helper (static musl) |
+| Rust | 1.97.0 with the targets `aarch64-unknown-linux-musl`, `armv7-unknown-linux-musleabihf`, `x86_64-unknown-linux-musl` | The Rust games (cargo links them with Zig's `cc`) |
 | Android SDK | platform `android-36`, build-tools 36.x | aapt2, d8, zipalign, apksigner, `android.jar` |
 | gcc, make, flex, bison, ncurses headers | any | Host tools that generate game data during the build (bsd-games) |
 | qemu-user-static | optional | Running the arm smoke tests on an x86_64 host |
@@ -48,6 +49,11 @@ with `@game(...)`; `native/compat/` is linked into every game (Android fixes: ui
 the app sandbox forbids, a missing `/etc/passwd`, stdout buffering; plus `<sys/cdefs.h>` for BSD
 code, and `<gettext.h>` and `<termio.h>` for code that expects glibc or System V). A failing
 recipe doesn't stop the others; the build reports every failure at the end.
+
+Rust games are built by `cargo build --release --locked` against their `Cargo.lock` (crates from
+crates.io, checksummed; a game without one carries it in `native/ports/<game>/`), with Zig's `cc`
+as the linker and for any C code in their crates, into the same checked static PIEs. The Rust
+standard library's licence ships with them (`LICENSES/rust-std.txt`).
 
 Games are compiled with `-Os -UNDEBUG`: Zig's `cc` defines `NDEBUG` whenever it optimizes, which
 other compilers don't, and code that calls functions inside `assert()` would lose those calls.

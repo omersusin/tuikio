@@ -64,7 +64,7 @@ class LibraryScreen : Screen() {
                     isFocusable = true
                     contentDescription = "${g.title}. Opens details."
                     setOnClickListener { nav.push(DetailsScreen(g.id)) }
-                    addView(MiniScreen(ctx, app.catalog.art(g), artInk(g), 12f), LinearLayout.LayoutParams(ctx.dp(64), ctx.dp(56)))
+                    addView(MiniScreen(ctx, app.catalog.art(g), artInk(g), 12f, cells = g.art), LinearLayout.LayoutParams(ctx.dp(64), ctx.dp(56)))
                     addView(ctx.vstack(2) {
                         addView(T.body(ctx, g.title, 16f, p.ink, 800).apply { maxLines = 1; ellipsize = TextUtils.TruncateAt.END })
                         val sub = when {

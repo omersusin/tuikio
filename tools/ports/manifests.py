@@ -114,6 +114,8 @@ def manifest(fam, g, lock):
         **({"control_labels": d["labels"]} if d.get("labels") else {}),
         **({"control_hide": d["hide"]} if d.get("hide") else {}),
         **({"keys": game_keys(d["keys"])} if d.get("keys") else {}),
+        # Captured by tools/catalog/capture_art.py; kept when the manifest is rewritten.
+        **({"art": old["art"]} if old.get("art") else {}),
         "saves": {"paths": saves, "notes": save_notes},
         "data_files": data_files(d["id"], old.get("data_files", [])),
         "network": d.get("network", "none"),

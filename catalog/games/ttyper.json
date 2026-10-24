@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "id": "ttyper",
+  "title": "ttyper",
+  "summary": "A typing test: type the words as they scroll by and see your speed and accuracy.",
+  "description": "Type the prompt with the keyboard. At the end you get words per minute, accuracy and your slowest keys; r starts again.",
+  "category": "words",
+  "tags": [
+    "typing",
+    "practice"
+  ],
+  "players": "1",
+  "origin": "verified_port",
+  "upstream": {
+    "authors": [
+      "Max Niederman"
+    ],
+    "license": "MIT",
+    "source_url": "https://github.com/max-niederman/ttyper",
+    "version": "git e218bad9"
+  },
+  "port": {
+    "maintainer": "Tuikio ports team",
+    "recipe": "native/recipes/rust.py",
+    "source_archive": "ttyper-e218bad9.tar",
+    "source_sha256": "1a3f74901ab5fd6e4a174d738682ae6745f8df49df2b78a14b14a67bfce1642e"
+  },
+  "runtime": {
+    "backend": "native_pty",
+    "executable": "game_ttyper",
+    "args": [],
+    "env": {},
+    "terminal": {
+      "min": [
+        80,
+        24
+      ],
+      "preferred": [
+        80,
+        24
+      ]
+    },
+    "orientation": "landscape",
+    "input": "typing"
+  },
+  "controls": "text.v1",
+  "art": {
+    "rows": [
+      "╭Input────────────────────────",
+      "│the                          ",
+      "╰─────────────────────────────",
+      "╭Prompt───────────────────────",
+      "│mail policy news not name de ",
+      "│full site any one she day wha",
+      "│life review if need re the un",
+      "│this each very item reviews  "
+    ],
+    "fg": [
+      "011111000000000000000000000000",
+      "0.............................",
+      "000000000000000000000000000000",
+      "211111122222222222222222222222",
+      "233345555555555555555555555555",
+      "255555555555555555555555555555",
+      "255555555555555555555555555555",
+      "25555555555555555555555555555."
+    ],
+    "bg": [
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      "..............................",
+      ".............................."
+    ],
+    "palette": [
+      "a6",
+      "a15",
+      "a2",
+      "a9",
+      "a12",
+      "a7"
+    ]
+  },
+  "saves": {
+    "paths": [],
+    "notes": "No saves."
+  },
+  "data_files": [],
+  "network": "none",
+  "status": "PORTABLE",
+  "verification": {
+    "host_tested": "2026-10-23",
+    "android_tested": null,
+    "notes": "Host test: prompt shown, typing counts."
+  }
+}

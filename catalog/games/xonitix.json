@@ -43,6 +43,18 @@
     "orientation": "landscape"
   },
   "controls": "xonitix.v1",
+  "art": {
+    "rows": [
+      "_      | Level 1 Score 0"
+    ],
+    "fg": [
+      "........................"
+    ],
+    "bg": [
+      "........................"
+    ],
+    "palette": []
+  },
   "saves": {
     "paths": [],
     "notes": "No saves."

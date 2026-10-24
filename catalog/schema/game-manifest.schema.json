@@ -247,6 +247,18 @@
       "description": "Control profile actions this game doesn't use; their buttons are left out",
       "items": {"type": "string"}
     },
+    "art": {
+      "type": "object",
+      "description": "The game's card picture: a few rows of its real screen (tools/catalog/capture_art.py)",
+      "additionalProperties": false,
+      "required": ["rows", "fg", "bg", "palette"],
+      "properties": {
+        "rows": {"type": "array", "minItems": 1, "maxItems": 16, "items": {"type": "string"}},
+        "fg": {"type": "array", "items": {"type": "string"}, "description": "a colour code per cell: '.' the screen's ink, else an index into palette"},
+        "bg": {"type": "array", "items": {"type": "string"}, "description": "a colour code per cell: '.' none, else an index into palette"},
+        "palette": {"type": "array", "maxItems": 62, "items": {"type": "string", "pattern": "^(d|s|i|a(1[0-5]|[0-9])|x[0-9]{2,3}|#[0-9a-f]{6})$"}}
+      }
+    },
     "keys": {
       "type": "array",
       "description": "The game's own keys its control profile has no button for, shown as labelled buttons on the game screen",

@@ -51,6 +51,30 @@
     "input": "typing"
   },
   "controls": "text.v1",
+  "art": {
+    "rows": [
+      "You are standing at th",
+      "small brick building. ",
+      "Around you is a forest",
+      "out of the building an",
+      "down a gully.         "
+    ],
+    "fg": [
+      "......................",
+      "......................",
+      "......................",
+      "......................",
+      "......................"
+    ],
+    "bg": [
+      "......................",
+      "......................",
+      "......................",
+      "......................",
+      "......................"
+    ],
+    "palette": []
+  },
   "saves": {
     "paths": [],
     "notes": "\"save\" writes a file in the game's folder; restart with it to continue."

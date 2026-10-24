@@ -45,6 +45,11 @@ jobs:
           pip install ziglang==0.17.0
           echo "ZIG=$(python -c 'import ziglang, os; print(os.path.join(os.path.dirname(ziglang.__file__), "zig"))')" >> "$GITHUB_ENV"
           sudo apt-get update && sudo apt-get install -y qemu-user-static flex bison libncurses-dev
+      - name: Rust (pinned, with the musl targets of the three ABIs)
+        run: |
+          rustup toolchain install 1.97.0 --profile minimal \
+            --target aarch64-unknown-linux-musl,armv7-unknown-linux-musleabihf,x86_64-unknown-linux-musl
+          rustup default 1.97.0
       - uses: actions/cache@v4
         with:
           path: native/.cache
