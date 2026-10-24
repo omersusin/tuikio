@@ -32,8 +32,15 @@ holds the app signing key, and a lost upload key can be reset.
 ```sh
 python3 native/build.py
 cp ~/tuikio-signing/signing.properties .         # or: export TUIKIO_KEYSTORE=… TUIKIO_KEY_ALIAS=… TUIKIO_KEYSTORE_PASSWORD_FILE=…
-./gradlew :app:assembleReleaseApk
+./gradlew :app:assembleReleaseApk                 # one APK for every ABI
+./gradlew :app:assembleReleaseSplitApks           # and one per ABI: tuikio-release-<abi>.apk
 ```
+
+A phone installs only its own ABI's executables, so the per-ABI APKs are about a third of the
+universal one (arm64-v8a for almost every current phone, armeabi-v7a for old 32-bit ones,
+x86_64 for emulators and Chromebooks). They carry the same code, resources and version; only
+`lib/` differs. The app checks the installed executables against the ABI it actually got,
+not the phone's first ABI, so a 32-bit APK on a 64-bit phone works too.
 
 The release build:
 1. compiles;
@@ -54,6 +61,7 @@ The build fails if v2 verification fails. The verify report is written next to t
 
 ```sh
 python3 tools/release/check_apk.py app/build/outputs/apk/release/tuikio-release.apk
+for a in arm64-v8a armeabi-v7a x86_64; do python3 tools/release/check_apk.py app/build/outputs/apk/release/tuikio-release-$a.apk; done
 zipalign -c -p 4 app/build/outputs/apk/release/tuikio-release.apk
 apksigner verify --verbose --print-certs app/build/outputs/apk/release/tuikio-release.apk
 sha256sum app/build/outputs/apk/release/tuikio-release.apk

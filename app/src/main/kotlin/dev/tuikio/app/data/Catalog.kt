@@ -28,8 +28,11 @@ class CatalogRepo(private val context: Context) {
     private val profiles = HashMap<String, ControlProfile>()
     private val cacheDir = File(context.filesDir, "catalog")
 
-    /** Executable name -> sha256 for this device's ABI, from native/build.py's manifest. */
-    val executableHashes: Map<String, String> by lazy { loadNativeHashes() }
+    /** Executable name -> sha256 for the installed ABI, from native/build.py's manifest. */
+    val executableHashes: Map<String, String> by lazy { loadNativeHashes().second }
+
+    /** The ABI of the executables this install carries, e.g. "arm64-v8a". */
+    val nativeAbi: String by lazy { loadNativeHashes().first ?: Build.SUPPORTED_ABIS.firstOrNull().orEmpty() }
 
     init {
         // A previously synced, signature-checked snapshot wins over the bundled one if newer.
@@ -74,14 +77,37 @@ class CatalogRepo(private val context: Context) {
 
     fun art(game: GameManifest): String = ART[game.id] ?: DEFAULT_ART
 
-    private fun loadNativeHashes(): Map<String, String> = try {
-        val text = context.assets.open("native/manifest.json").use { it.readBytes().toString(Charsets.UTF_8) }
-        val root = JsonReader.parse(text)
-        val abi = Build.SUPPORTED_ABIS.firstOrNull { root.has(it) } ?: return emptyMap()
-        val entries = root.obj(abi)
-        entries.keys().associate { name -> name to entries.obj(name).string("sha256") }
-    } catch (e: Exception) {
-        emptyMap()
+    private val nativeManifest: Pair<String?, Map<String, String>> by lazy {
+        try {
+            val text = context.assets.open("native/manifest.json").use { it.readBytes().toString(Charsets.UTF_8) }
+            val root = JsonReader.parse(text)
+            val abi = installedAbi(root)
+            if (abi == null) {
+                null to emptyMap()
+            } else {
+                val entries = root.obj(abi)
+                abi to entries.keys().associate { name -> name to entries.obj(name).string("sha256") }
+            }
+        } catch (e: Exception) {
+            null to emptyMap()
+        }
+    }
+
+    private fun loadNativeHashes() = nativeManifest
+
+    /**
+     * The ABI whose executables were installed. The manifest lists every ABI built, but a
+     * per-ABI APK carries one: an armeabi-v7a APK on a phone that also runs arm64-v8a installs
+     * the 32-bit files. The installed files' sizes tell which.
+     */
+    private fun installedAbi(root: JsonReader): String? {
+        val dir = File(context.applicationInfo.nativeLibraryDir)
+        val candidates = Build.SUPPORTED_ABIS.filter { root.has(it) }
+        return candidates.firstOrNull { abi ->
+            val entries = root.obj(abi)
+            val present = entries.keys().filter { File(dir, it).isFile }
+            present.isNotEmpty() && present.all { File(dir, it).length() == entries.obj(it).int("bytes").toLong() }
+        } ?: candidates.firstOrNull()
     }
 
     sealed class SyncResult {

@@ -15,6 +15,7 @@ import dev.tuikio.app.game.TerminalView
 import dev.tuikio.app.nav.Tab
 import java.io.File
 import java.util.concurrent.TimeUnit
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Before
@@ -115,6 +116,20 @@ class AppUiTest {
     private fun drawOnce(v: View) {
         if (v.width == 0 || v.height == 0) v.layout(0, 0, 1080, 1600)
         v.draw(Canvas(Bitmap.createBitmap(v.width.coerceAtLeast(1), v.height.coerceAtLeast(1), Bitmap.Config.ARGB_8888)))
+    }
+
+    /**
+     * A per-ABI APK installs one ABI's executables even on a phone that runs several: the
+     * checksums must be that ABI's, not those of the phone's first ABI.
+     */
+    @Test
+    fun checksumsAreThoseOfTheInstalledAbi() {
+        ShadowBuild.setSupportedAbis(arrayOf("arm64-v8a", "armeabi-v7a", "x86_64"))
+        val catalog = dev.tuikio.app.data.CatalogRepo(app)
+        assertEquals("x86_64", catalog.nativeAbi)
+        val exe = File(nativeDir, "libgame_2048.so")
+        val sha = java.security.MessageDigest.getInstance("SHA-256").digest(exe.readBytes()).joinToString("") { "%02x".format(it) }
+        assertEquals(sha, catalog.executableHashes["libgame_2048.so"])
     }
 
     @Test

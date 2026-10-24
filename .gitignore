@@ -33,3 +33,6 @@ native/.cache/
 .env.*
 !.env.example
 __pycache__/
+
+# Subagent worktrees (Claude Code)
+/.claude/worktrees/

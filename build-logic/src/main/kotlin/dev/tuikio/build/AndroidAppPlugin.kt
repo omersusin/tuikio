@@ -195,6 +195,42 @@ class AndroidAppPlugin : Plugin<Project> {
                 t.description = "Builds the signed $variant APK."
                 t.dependsOn(sign)
             }
+
+            // One APK per ABI as well: a phone installs one ABI's executables, so a split APK is
+            // about a third of the universal one. Same code and resources; only lib/ differs.
+            if (release) project.afterEvaluate {
+                val splits = ext.abis.get().map { abi ->
+                    val suffix = abi.split('-', '_').joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
+                    val splitPkg = project.tasks.register("package$cap$suffix", PackageApkTask::class.java) {
+                        val t = this
+                        t.group = "android"
+                        t.resources.set(linkRes.flatMap { it.output })
+                        t.dexDir.set(dex.flatMap { it.output })
+                        t.nativeLibs.set(ext.nativeLibsDir)
+                        t.abis.set(listOf(abi))
+                        t.output.set(build.file("intermediates/apk/$variant/unaligned-$abi.apk"))
+                    }
+                    project.tasks.register("sign$cap$suffix", SignApkTask::class.java) {
+                        val t = this
+                        t.group = "android"
+                        t.description = "Aligns and signs the $variant APK for $abi, then verifies the signature."
+                        t.unsigned.set(splitPkg.flatMap { it.output })
+                        t.zipalign.set(sdk.zipalign)
+                        t.apksigner.set(sdk.apksigner)
+                        t.minSdk.set(ext.minSdk)
+                        t.variant.set(variant)
+                        t.signingProperties.set(project.rootProject.file("signing.properties"))
+                        t.debugKeystore.set(project.rootProject.layout.buildDirectory.file("debug-signing/debug.keystore"))
+                        t.output.set(build.file("outputs/apk/$variant/tuikio-$variant-$abi.apk"))
+                    }
+                }
+                project.tasks.register("assemble${cap}SplitApks") {
+                    val t = this
+                    t.group = "android"
+                    t.description = "Builds one signed $variant APK per ABI (tuikio-$variant-<abi>.apk)."
+                    t.dependsOn(splits)
+                }
+            }
         }
     }
 }

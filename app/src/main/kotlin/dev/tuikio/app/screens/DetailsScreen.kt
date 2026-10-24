@@ -12,6 +12,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import dev.tuikio.app.MainActivity
+import dev.tuikio.app.TuikioApp
 import dev.tuikio.app.data.Installer
 import dev.tuikio.app.game.GameLauncher
 import dev.tuikio.app.nav.Screen
@@ -86,7 +87,7 @@ class DetailsScreen(private val gameId: String) : Screen() {
             addView(controlsCard(ctx, game))
 
             addView(ctx.vstack(8) {
-                val abi = Build.SUPPORTED_ABIS.firstOrNull().orEmpty()
+                val abi = TuikioApp.instance.catalog.nativeAbi
                 val rows = listOf(
                     "Runtime" to "Native port · $abi",
                     "Saves" to game.saveNotes.ifBlank { "Stays on this phone" },
